@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 80" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldHGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Mini Shield Icon on Left -->
+  <g transform="translate(5, 5) scale(0.14)">
+    <path d="M 250 20 L 440 80 C 440 280 370 420 250 480 C 130 420 60 280 60 80 Z" 
+          fill="#0F172A" stroke="#F59E0B" stroke-width="18" stroke-linejoin="round" />
+    <!-- Crossed bats -->
+    <path d="M 120 340 L 360 170 C 368 164 376 172 370 180 L 138 358 Z" fill="#F59E0B" />
+    <path d="M 380 340 L 140 170 C 132 164 124 172 130 180 L 362 358 Z" fill="#D97706" />
+    <!-- Ball -->
+    <circle cx="250" cy="260" r="75" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" />
+    <path d="M 205 210 C 225 240 225 280 205 310" fill="none" stroke="#DC2626" stroke-width="6" />
+    <path d="M 295 210 C 275 240 275 280 295 310" fill="none" stroke="#DC2626" stroke-width="6" />
+    <text x="250" y="278" font-family="'Montserrat', sans-serif" font-size="44" font-weight="900" fill="#0F172A" text-anchor="middle">NSA</text>
+  </g>
+
+  <!-- Typography -->
+  <text x="80" y="38" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="26" font-weight="900" fill="#FFFFFF" letter-spacing="2">
+    NATOMAS
+  </text>
+  <text x="80" y="60" font-family="'Montserrat', sans-serif" font-size="14" font-weight="800" fill="url(#goldHGrad)" letter-spacing="3.5">
+    SPORTS ASSOCIATION
+  </text>
+</svg>

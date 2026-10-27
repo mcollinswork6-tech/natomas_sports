@@ -1,0 +1,203 @@
+/* Custom styles for Natomas Sports Association - Neon Cyber Athletic Theme */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --neon-green: #39ff14;
+  --neon-cyan: #00e5ff;
+  --neon-pink: #ff007f;
+  --dark-bg: #060709;
+  --card-bg: #0d0f14;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--dark-bg);
+  color: #f1f5f9;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Dark athletic mesh background with neon specks */
+.bg-neon-mesh {
+  background-color: #060709;
+  background-image: 
+    radial-gradient(rgba(57, 255, 20, 0.08) 1.2px, transparent 1.2px), 
+    radial-gradient(rgba(0, 229, 255, 0.08) 1.2px, #060709 1.2px);
+  background-size: 36px 36px;
+  background-position: 0 0, 18px 18px;
+}
+
+/* Neon Glow Utilities */
+.glow-green {
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6), 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.6), 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.glow-pink {
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.6), 0 0 20px rgba(255, 0, 127, 0.3);
+}
+
+.box-glow-green {
+  box-shadow: 0 0 20px -3px rgba(57, 255, 20, 0.35);
+}
+
+.box-glow-cyan {
+  box-shadow: 0 0 20px -3px rgba(0, 229, 255, 0.35);
+}
+
+.box-glow-pink {
+  box-shadow: 0 0 20px -3px rgba(255, 0, 127, 0.35);
+}
+
+/* Neon Card Hover Effects */
+.neon-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.neon-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(57, 255, 20, 0.5);
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(57, 255, 20, 0.25);
+}
+
+.neon-card-cyan:hover {
+  border-color: rgba(0, 229, 255, 0.6);
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(0, 229, 255, 0.25);
+}
+
+.neon-card-pink:hover {
+  border-color: rgba(255, 0, 127, 0.6);
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(255, 0, 127, 0.25);
+}
+
+/* Neon Gradient Buttons */
+.btn-neon-green {
+  background: linear-gradient(135deg, #39ff14 0%, #10b981 100%);
+  color: #060709;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+}
+
+.btn-neon-green:hover {
+  background: linear-gradient(135deg, #4ade80 0%, #39ff14 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.55);
+}
+
+.btn-neon-pink {
+  background: linear-gradient(135deg, #ff007f 0%, #be185d 100%);
+  color: #ffffff;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+}
+
+.btn-neon-pink:hover {
+  background: linear-gradient(135deg, #ff3399 0%, #ff007f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.55);
+}
+
+.btn-neon-cyan {
+  background: linear-gradient(135deg, #00e5ff 0%, #0284c7 100%);
+  color: #060709;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+.btn-neon-cyan:hover {
+  background: linear-gradient(135deg, #38bdf8 0%, #00e5ff 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.55);
+}
+
+/* Hero Section Neon Splatter Gradient */
+.hero-neon-overlay {
+  background: radial-gradient(circle at 75% 40%, rgba(0, 229, 255, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 25% 60%, rgba(255, 0, 127, 0.1) 0%, transparent 40%),
+              radial-gradient(circle at 50% 20%, rgba(57, 255, 20, 0.08) 0%, transparent 50%),
+              linear-gradient(180deg, rgba(6, 7, 9, 0.7) 0%, rgba(6, 7, 9, 0.98) 100%);
+}
+
+/* Custom scrollbar in Neon Green */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #060709;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2430;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #39ff14;
+}
+
+/* Full Diagonal Banner Across the Middle - Site Under Construction */
+.construction-ribbon-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 99999;
+  overflow: hidden;
+  background: rgba(6, 7, 9, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.construction-ribbon {
+  width: 250vw;
+  transform: rotate(-16deg);
+  background: linear-gradient(90deg, #ff007f 0%, #00e5ff 25%, #39ff14 50%, #00e5ff 75%, #ff007f 100%);
+  background-size: 200% 100%;
+  color: #060709;
+  font-family: 'Montserrat', -apple-system, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px 0;
+  box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(57, 255, 20, 0.55);
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  animation: construction-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes construction-pulse {
+  0% {
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(57, 255, 20, 0.4);
+  }
+  100% {
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 229, 255, 0.7);
+  }
+}
+
+@media (max-width: 768px) {
+  .construction-ribbon {
+    font-size: 0.82rem;
+    padding: 10px 0;
+    transform: rotate(-22deg);
+    gap: 1.25rem;
+  }
+}
+
+

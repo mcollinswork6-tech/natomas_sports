@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="royalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <filter id="badgeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Outer Shield Shadow & Base -->
+  <g filter="url(#badgeShadow)">
+    <path d="M 250 20 L 440 80 C 440 280 370 420 250 480 C 130 420 60 280 60 80 Z" 
+          fill="url(#blueGrad)" stroke="url(#goldGrad)" stroke-width="10" stroke-linejoin="round" />
+  </g>
+
+  <!-- Inner Inset Shield -->
+  <path d="M 250 36 L 424 92 C 424 270 360 398 250 456 C 140 398 76 270 76 92 Z" 
+        fill="none" stroke="#FCD34D" stroke-width="2" stroke-dasharray="6,4" opacity="0.6" />
+
+  <!-- Decorative Top Star Cluster -->
+  <g fill="#F59E0B">
+    <polygon points="250,58 254,70 266,70 257,78 260,90 250,82 240,90 243,78 234,70 246,70" transform="scale(0.8) translate(62,10)" />
+    <polygon points="210,65 213,74 223,74 215,80 218,89 210,83 202,89 205,80 197,74 207,74" transform="scale(0.6) translate(140,40)" opacity="0.7" />
+    <polygon points="290,65 293,74 303,74 295,80 298,89 290,83 282,89 285,80 277,74 287,74" transform="scale(0.6) translate(195,40)" opacity="0.7" />
+  </g>
+
+  <!-- Arched NATOMAS Header -->
+  <path id="archTextPath" d="M 100 160 Q 250 110 400 160" fill="none" />
+  <text font-family="'Montserrat', 'Arial Black', sans-serif" font-size="44" font-weight="900" fill="#FFFFFF" letter-spacing="6">
+    <textPath href="#archTextPath" startOffset="50%" text-anchor="middle">NATOMAS</textPath>
+  </text>
+
+  <!-- Crossed Baseball Bats -->
+  <g stroke="#92400E" stroke-width="2">
+    <!-- Left to Right Bat -->
+    <path d="M 120 340 L 360 170 C 368 164 376 172 370 180 L 138 358 C 130 364 116 352 120 340 Z" fill="#D97706" />
+    <!-- Right to Left Bat -->
+    <path d="M 380 340 L 140 170 C 132 164 124 172 130 180 L 362 358 C 370 364 384 352 380 340 Z" fill="#B45309" />
+  </g>
+
+  <!-- Center Ball Emblem: Baseball with Multi-Sport Energy Waves -->
+  <circle cx="250" cy="260" r="75" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" />
+  <!-- Baseball Red Seams -->
+  <path d="M 205 210 C 225 240 225 280 205 310" fill="none" stroke="#DC2626" stroke-width="4" stroke-linecap="round" />
+  <path d="M 295 210 C 275 240 275 280 295 310" fill="none" stroke="#DC2626" stroke-width="4" stroke-linecap="round" />
+  <!-- Stitches Left -->
+  <path d="M 206 220 L 214 225 M 213 238 L 222 242 M 216 260 L 226 260 M 213 282 L 222 278 M 206 300 L 214 295" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" />
+  <!-- Stitches Right -->
+  <path d="M 294 220 L 286 225 M 287 238 L 278 242 M 284 260 L 274 260 M 287 282 L 278 278 M 294 300 L 286 295" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" />
+
+  <!-- Monogram NSA inside ball -->
+  <text x="250" y="272" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="34" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="1">NSA</text>
+
+  <!-- Center Golden Banner Ribbon for SPORTS ASSOCIATION -->
+  <g>
+    <!-- Ribbon ends -->
+    <polygon points="50,380 90,355 90,405" fill="#B45309" />
+    <polygon points="450,380 410,355 410,405" fill="#B45309" />
+    <!-- Ribbon body -->
+    <rect x="75" y="355" width="350" height="50" rx="8" fill="url(#goldGrad)" stroke="#B45309" stroke-width="2" />
+    <text x="250" y="390" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="21" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="3">
+      SPORTS ASSOCIATION
+    </text>
+  </g>
+
+  <!-- Bottom Location / Est -->
+  <text x="250" y="440" font-family="'Montserrat', sans-serif" font-size="14" font-weight="700" fill="#93C5FD" text-anchor="middle" letter-spacing="4">
+    SACRAMENTO, CA • EST. 2024
+  </text>
+</svg>

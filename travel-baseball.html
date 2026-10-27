@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Baseball Program | Natomas Sports Association | Sacramento, CA</title>
+  <meta name="description" content="Natomas Sports Association competitive travel baseball program for 9U to 14U youth athletes in Sacramento. Professional instruction, competitive tournaments, and elite player development.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: {
+              green: '#39ff14',
+              lime: '#4ade80',
+              cyan: '#00e5ff',
+              sky: '#38bdf8',
+              pink: '#ff007f',
+              magenta: '#ec4899',
+            },
+            dark: {
+              950: '#060709',
+              900: '#0d0f14',
+              800: '#141820',
+              700: '#1e2430',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
+
+  <!-- DIAGONAL SITE UNDER CONSTRUCTION BANNER ACROSS THE MIDDLE -->
+  <div class="construction-ribbon-wrapper" aria-hidden="true">
+    <div class="construction-ribbon">
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+      <span>•</span>
+      <span>NATOMAS SPORTS ASSOCIATION</span>
+      <span>•</span>
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+      <span>•</span>
+      <span>NATOMAS SPORTS ASSOCIATION</span>
+      <span>•</span>
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+    </div>
+  </div>
+
+  <!-- TOP ALERT BANNER -->
+  <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide">
+    <div class="max-w-7xl mx-auto flex items-center justify-center space-x-2">
+      <span class="inline-block px-2.5 py-0.5 bg-black text-[#39ff14] rounded-full text-xs font-black uppercase tracking-wider">Tryouts</span>
+      <span class="font-extrabold text-black">Travel Baseball Roster Spots Available for 2025–2026 Season!</span>
+      <a href="tryouts.html" class="underline font-black hover:text-white ml-2">Register Now &rarr;</a>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <header id="main-nav" class="sticky top-0 z-50 bg-[#060709] border-b border-slate-800/80 transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center space-x-3 group">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#39ff14] group-hover:border-[#00e5ff] transition-all duration-300 shadow-[0_0_12px_rgba(57,255,20,0.4)] flex-shrink-0">
+            <img src="assets/images/logo.jpg" alt="Natomas Sports Association Logo" class="w-full h-full object-cover">
+          </div>
+          <div class="flex flex-col">
+            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#39ff14] transition-colors">
+              Natomas
+            </span>
+            <span class="text-xs font-extrabold tracking-widest text-[#00e5ff] uppercase mt-0.5">
+              Sports Association
+            </span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
+          <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Home</a>
+          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">Travel Baseball</a>
+          <a href="programs.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Sports & Programs</a>
+          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
+          <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">About Us</a>
+          <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Contact</a>
+        </nav>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="tryouts.html" class="btn-neon-green px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black">
+            Join a Team
+          </a>
+        </div>
+
+        <div class="flex md:hidden">
+          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#39ff14] focus:outline-none p-2 rounded-lg bg-[#141820]" aria-label="Toggle Navigation">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
+      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Home</a>
+      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">Travel Baseball</a>
+      <a href="programs.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Sports & Programs</a>
+      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
+      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">About Us</a>
+      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Contact</a>
+      <div class="pt-3">
+        <a href="tryouts.html" class="block text-center btn-neon-green py-3 rounded-xl text-xs uppercase tracking-wider font-black">
+          Register for Tryouts
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative bg-neon-mesh py-16 lg:py-20 border-b border-slate-800/80">
+    <div class="absolute inset-0 hero-neon-overlay pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+      <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-2 border-[#39ff14] shadow-[0_0_25px_rgba(57,255,20,0.35)]">
+        <img src="assets/images/logo-baseball.jpg" alt="Natomas Travel Baseball Emblem" class="w-full h-full object-cover">
+      </div>
+      <span class="inline-block px-3.5 py-1.5 bg-[#141820] text-[#39ff14] border border-[#39ff14]/40 rounded-full text-xs font-black uppercase tracking-wider mb-4 shadow-[0_0_12px_rgba(57,255,20,0.2)]">
+        Flagship Competitive Program
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+        Natomas Travel Baseball
+      </h1>
+      <p class="text-lg text-slate-300 leading-relaxed mb-8">
+        A structured, disciplined competitive baseball experience designed to develop athletes through high-repetition training, situational mastery, and tournament competition.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="tryouts.html" class="btn-neon-green px-8 py-3.5 rounded-xl font-black uppercase tracking-wider text-xs">
+          Register for Tryouts
+        </a>
+        <a href="#divisions" class="px-8 py-3.5 rounded-xl font-black text-slate-200 bg-[#141820] border border-slate-700 hover:border-[#00e5ff] transition text-xs shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+          View Age Divisions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM PHILOSOPHY & PILLARS -->
+  <section class="py-16 bg-[#060709] border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <p class="text-[#39ff14] font-black uppercase tracking-widest text-xs">Coaching Philosophy</p>
+          <h2 class="font-heading text-3xl font-black text-white">
+            Teaching The Fundamentals Of Winning Baseball
+          </h2>
+          <p class="text-slate-300 leading-relaxed text-sm">
+            Travel baseball shouldn't just be about collecting weekend plastic trophies. At Natomas Sports Association, our priority is preparing athletes to excel as they advance towards high school and collegiate ball.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <span class="text-[#39ff14] font-black text-lg">01</span>
+              <div>
+                <h4 class="text-white font-bold text-base">Arm Care & Science-Backed Pitch Counts</h4>
+                <p class="text-slate-400 text-sm">Strict adherence to youth pitching rest thresholds and throwing regimens to safeguard young arms.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-[#00e5ff] font-black text-lg">02</span>
+              <div>
+                <h4 class="text-white font-bold text-base">Situational IQ & Decision Making</h4>
+                <p class="text-slate-400 text-sm">Teaching players to anticipate plays before the pitch, understand pitch counts, and execute aggressive baserunning.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-[#ff007f] font-black text-lg">03</span>
+              <div>
+                <h4 class="text-white font-bold text-base">Small Roster Philosophy</h4>
+                <p class="text-slate-400 text-sm">We cap our rosters at 11-12 players per team so every athlete earns meaningful defensive innings and plate appearances.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#0d0f14] border border-[#39ff14]/30 rounded-3xl p-8 space-y-6 shadow-[0_0_25px_rgba(57,255,20,0.1)]">
+          <h3 class="font-heading text-xl font-bold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+            <span>What's Included In Our Program</span>
+            <span class="text-xs text-[#39ff14] font-mono font-bold">All-Inclusive</span>
+          </h3>
+          <ul class="space-y-3 text-sm text-slate-300">
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Custom Home & Away Game Jerseys with player name & number</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Official NSA Fitted Game Cap & Training Gear</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Entry fees for scheduled NorCal USSSA / Triple Crown tournaments</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Twice-weekly dedicated field practices at Natomas park fields</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Indoor batting cage & bullpen sessions during winter prep</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-[#39ff14] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Full team insurance and certified coach background checks</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGE DIVISIONS BREAKDOWN -->
+  <section id="divisions" class="py-20 bg-[#0d0f14] border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <p class="text-[#00e5ff] font-extrabold uppercase tracking-widest text-xs">Rosters & Brackets</p>
+        <h2 class="font-heading text-3xl font-black text-white">
+          Competitive Age Divisions
+        </h2>
+        <p class="text-slate-400 text-sm">
+          Teams are organized by player birth year / USSSA age classification.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- 9U / 10U Division -->
+        <div class="bg-[#060709] border border-slate-800 hover:border-[#39ff14] p-6 rounded-3xl flex flex-col justify-between transition">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-black text-[#39ff14]">9U / 10U</span>
+              <span class="px-2.5 py-1 bg-[#39ff14]/15 text-[#39ff14] border border-[#39ff14]/30 text-xs font-black rounded-full">Developmental</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Junior Minors Division</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Transition to kid-pitch with 46/60 field dimensions. Focus on throwing mechanics, tracking fly balls, plate discipline, and catching technique.
+            </p>
+            <div class="bg-[#141820] p-3 rounded-xl text-xs space-y-1 text-slate-300 border border-slate-800">
+              <p><strong>Base Paths:</strong> 60 ft | <strong>Mound:</strong> 46 ft</p>
+              <p><strong>Commitment:</strong> 2x practices/wk + 1-2 weekend tourneys/mo</p>
+            </div>
+          </div>
+          <div class="pt-6">
+            <a href="tryouts.html" class="block w-full py-2.5 text-center bg-[#141820] hover:bg-[#1e2430] text-[#39ff14] font-black text-xs uppercase tracking-wider rounded-xl border border-slate-700 hover:border-[#39ff14] transition">
+              Register for 9U/10U Tryout
+            </a>
+          </div>
+        </div>
+
+        <!-- 11U / 12U Division -->
+        <div class="bg-[#060709] border-2 border-[#00e5ff] p-6 rounded-3xl flex flex-col justify-between relative shadow-[0_0_25px_rgba(0,229,255,0.2)]">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00e5ff] text-black px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
+            Most Popular
+          </div>
+          <div class="space-y-4 pt-2">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-black text-[#00e5ff]">11U / 12U</span>
+              <span class="px-2.5 py-1 bg-[#00e5ff]/20 text-[#00e5ff] border border-[#00e5ff]/30 text-xs font-black rounded-full">Majors</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Intermediate Majors</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Expanded 50/70 dimensions introducing open bases, lead-offs, balks, and pickoffs. Players refine secondary pitches (changeups) and situational defense.
+            </p>
+            <div class="bg-[#141820] p-3 rounded-xl text-xs space-y-1 text-slate-300 border border-slate-800">
+              <p><strong>Base Paths:</strong> 70 ft | <strong>Mound:</strong> 50 ft</p>
+              <p><strong>Commitment:</strong> 2x practices/wk + 2 weekend tourneys/mo</p>
+            </div>
+          </div>
+          <div class="pt-6">
+            <a href="tryouts.html" class="block w-full py-2.5 text-center btn-neon-cyan text-xs uppercase tracking-wider rounded-xl font-black">
+              Register for 11U/12U Tryout
+            </a>
+          </div>
+        </div>
+
+        <!-- 13U / 14U Division -->
+        <div class="bg-[#060709] border border-slate-800 hover:border-[#ff007f] p-6 rounded-3xl flex flex-col justify-between transition">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-black text-[#ff007f]">13U / 14U</span>
+              <span class="px-2.5 py-1 bg-[#ff007f]/20 text-[#ff007f] border border-[#ff007f]/30 text-xs font-black rounded-full">High School Prep</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Full Diamond Prep</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Full regulation 60/90 diamond play preparing players for high school varsity rosters. Strength, speed, and advanced scouting.
+            </p>
+            <div class="bg-[#141820] p-3 rounded-xl text-xs space-y-1 text-slate-300 border border-slate-800">
+              <p><strong>Base Paths:</strong> 90 ft | <strong>Mound:</strong> 60 ft 6 in</p>
+              <p><strong>Commitment:</strong> 2-3x practices/wk + 2 tourneys/mo</p>
+            </div>
+          </div>
+          <div class="pt-6">
+            <a href="tryouts.html" class="block w-full py-2.5 text-center bg-[#141820] hover:bg-[#1e2430] text-[#ff007f] font-black text-xs uppercase tracking-wider rounded-xl border border-slate-700 hover:border-[#ff007f] transition">
+              Register for 13U/14U Tryout
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASON CALENDAR -->
+  <section class="py-16 bg-[#060709] border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+        <h2 class="font-heading text-2xl sm:text-3xl font-black text-white">Annual Baseball Calendar</h2>
+        <p class="text-slate-400 text-xs">Balanced schedule allowing athletes to play multiple sports throughout the year.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-left">
+        <div class="p-6 bg-[#0d0f14] rounded-2xl border border-slate-800">
+          <span class="text-xs font-black text-[#00e5ff] uppercase tracking-widest block mb-1">Winter (Jan - Feb)</span>
+          <h4 class="text-white font-bold text-base mb-2">Winter Conditioning</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Indoor batting cage clinics, arm care conditioning, speed & agility, team building.</p>
+        </div>
+        <div class="p-6 bg-[#0d0f14] rounded-2xl border-t-2 border-[#39ff14] border-x border-b border-slate-800">
+          <span class="text-xs font-black text-[#39ff14] uppercase tracking-widest block mb-1">Spring (Mar - May)</span>
+          <h4 class="text-white font-bold text-base mb-2">Spring Tournament Season</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">2 weekend tournaments per month across Sacramento & Bay Area, midweek field practices.</p>
+        </div>
+        <div class="p-6 bg-[#0d0f14] rounded-2xl border border-slate-800">
+          <span class="text-xs font-black text-[#ff007f] uppercase tracking-widest block mb-1">Summer (Jun - Jul)</span>
+          <h4 class="text-white font-bold text-base mb-2">Championship Tournaments</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">USSSA State Championships, Triple Crown invitationals (Tahoe / Reno trips).</p>
+        </div>
+        <div class="p-6 bg-[#0d0f14] rounded-2xl border border-slate-800">
+          <span class="text-xs font-black text-[#00e5ff] uppercase tracking-widest block mb-1">Fall (Sep - Nov)</span>
+          <h4 class="text-white font-bold text-base mb-2">Fall Ball & Tryouts</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Development focus, new division transitions, open evaluations for upcoming campaign.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-gradient-to-r from-[#0d0f14] via-[#141820] to-[#0d0f14] text-center border-b border-slate-800">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-heading text-3xl font-black text-white mb-4">Ready To Ball With Natomas?</h2>
+      <p class="text-slate-300 text-sm mb-6">
+        Reserve your tryout spot today. There are no fees to try out. We evaluate attitude, effort, and athletic aptitude.
+      </p>
+      <a href="tryouts.html" class="btn-neon-green px-8 py-3.5 rounded-xl font-black uppercase tracking-wider text-xs inline-block">
+        Sign Up for Tryouts Online &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#060709] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#39ff14]">
+          <img src="assets/images/logo.jpg" alt="Natomas Sports Association" class="w-full h-full object-cover">
+        </div>
+        <span class="font-heading text-sm font-bold text-white">Natomas Sports Association</span>
+      </div>
+      <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sports Association. Official Domain: natomassportassocition.org</p>
+      <div class="flex space-x-4 text-xs">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="programs.html" class="hover:text-white">All Programs</a>
+        <a href="tryouts.html" class="text-[#39ff14] font-black hover:underline">Tryouts</a>
+        <a href="contact.html" class="hover:text-white">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

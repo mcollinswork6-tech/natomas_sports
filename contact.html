@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & FAQs | Natomas Sports Association | Sacramento, CA</title>
+  <meta name="description" content="Get in touch with Natomas Sports Association. Questions regarding travel baseball rosters, upcoming tryouts, sponsorships, or field locations.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: {
+              green: '#39ff14',
+              lime: '#4ade80',
+              cyan: '#00e5ff',
+              sky: '#38bdf8',
+              pink: '#ff007f',
+              magenta: '#ec4899',
+            },
+            dark: {
+              950: '#060709',
+              900: '#0d0f14',
+              800: '#141820',
+              700: '#1e2430',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
+
+  <!-- DIAGONAL SITE UNDER CONSTRUCTION BANNER ACROSS THE MIDDLE -->
+  <div class="construction-ribbon-wrapper" aria-hidden="true">
+    <div class="construction-ribbon">
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+      <span>•</span>
+      <span>NATOMAS SPORTS ASSOCIATION</span>
+      <span>•</span>
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+      <span>•</span>
+      <span>NATOMAS SPORTS ASSOCIATION</span>
+      <span>•</span>
+      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
+    </div>
+  </div>
+
+  <!-- TOP ALERT BANNER -->
+  <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide">
+    <div class="max-w-7xl mx-auto flex items-center justify-center space-x-2">
+      <span class="inline-block px-2.5 py-0.5 bg-black text-[#39ff14] rounded-full text-xs font-black uppercase tracking-wider">Contact</span>
+      <span class="font-extrabold text-black">Have Questions? We are here to support our Natomas families and players.</span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <header id="main-nav" class="sticky top-0 z-50 bg-[#060709] border-b border-slate-800/80 transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center space-x-3 group">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#39ff14] group-hover:border-[#00e5ff] transition-all duration-300 shadow-[0_0_12px_rgba(57,255,20,0.4)] flex-shrink-0">
+            <img src="assets/images/logo.jpg" alt="Natomas Sports Association Logo" class="w-full h-full object-cover">
+          </div>
+          <div class="flex flex-col">
+            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#39ff14] transition-colors">
+              Natomas
+            </span>
+            <span class="text-xs font-extrabold tracking-widest text-[#00e5ff] uppercase mt-0.5">
+              Sports Association
+            </span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
+          <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Home</a>
+          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Travel Baseball</a>
+          <a href="programs.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Sports & Programs</a>
+          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
+          <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">About Us</a>
+          <a href="contact.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">Contact</a>
+        </nav>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="tryouts.html" class="btn-neon-green px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black">
+            Join a Team
+          </a>
+        </div>
+
+        <div class="flex md:hidden">
+          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#39ff14] focus:outline-none p-2 rounded-lg bg-[#141820]" aria-label="Toggle Navigation">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
+      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Home</a>
+      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Travel Baseball</a>
+      <a href="programs.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Sports & Programs</a>
+      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
+      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">About Us</a>
+      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">Contact</a>
+      <div class="pt-3">
+        <a href="tryouts.html" class="block text-center btn-neon-green py-3 rounded-xl text-xs uppercase tracking-wider font-black">
+          Register for Tryouts
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative bg-neon-mesh py-16 lg:py-20 border-b border-slate-800/80">
+    <div class="absolute inset-0 hero-neon-overlay pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+      <span class="inline-block px-3.5 py-1.5 bg-[#141820] text-[#00e5ff] border border-[#00e5ff]/40 rounded-full text-xs font-black uppercase tracking-wider mb-4 shadow-[0_0_12px_rgba(0,229,255,0.2)]">
+        Get In Touch
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+        Contact & Community Info
+      </h1>
+      <p class="text-lg text-slate-300 leading-relaxed">
+        Reach out with any questions regarding teams, tryouts, schedules, or volunteer opportunities.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM & FIELD LOCATIONS -->
+  <section class="py-20 bg-[#060709] border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Contact Form (Left) -->
+        <div class="lg:col-span-7 bg-[#0d0f14] border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl">
+          <div class="space-y-2 mb-6">
+            <h2 class="font-heading text-2xl font-black text-white">Send Us a Message</h2>
+            <p class="text-slate-400 text-xs">We typically respond within 24–48 hours.</p>
+          </div>
+
+          <form data-ajax-notify class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Your Name *</label>
+                <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Email Address *</label>
+                <input type="email" required placeholder="name@email.com" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Phone Number</label>
+                <input type="tel" placeholder="(916) 555-0199" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Inquiry Subject *</label>
+                <select required class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+                  <option value="baseball-tryouts">Travel Baseball Tryouts</option>
+                  <option value="private-eval">Request Private Evaluation</option>
+                  <option value="sponsorship">Business Sponsorship / Donation</option>
+                  <option value="coaching">Coaching / Volunteer Inquiries</option>
+                  <option value="expansion">Multi-Sport Expansion</option>
+                  <option value="general">General Inquiries</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Message *</label>
+              <textarea required rows="4" placeholder="How can we help you?" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]"></textarea>
+            </div>
+
+            <button type="submit" class="btn-neon-green w-full py-3.5 rounded-xl font-black uppercase tracking-wider text-xs">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Info & Fields (Right) -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="bg-[#0d0f14] border border-[#39ff14]/30 rounded-3xl p-8 space-y-6 shadow-[0_0_20px_rgba(57,255,20,0.1)]">
+            <h3 class="font-heading text-xl font-bold text-white border-b border-slate-800 pb-3">Association Contacts</h3>
+            
+            <div class="space-y-4 text-xs text-slate-300">
+              <div class="flex items-start space-x-3">
+                <span class="text-[#00e5ff] text-lg">🌐</span>
+                <div>
+                  <strong class="text-white block text-sm">Official Domain</strong>
+                  <span class="font-mono text-[#00e5ff]">natomassportassocition.org</span>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3">
+                <span class="text-[#39ff14] text-lg">✉️</span>
+                <div>
+                  <strong class="text-white block text-sm">Direct Email</strong>
+                  <span>info@natomassportassocition.org</span>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3">
+                <span class="text-[#ff007f] text-lg">📍</span>
+                <div>
+                  <strong class="text-white block text-sm">Serving Area</strong>
+                  <span>Natomas, Sacramento, California (95834 / 95835 / 95833)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-[#0d0f14] border border-slate-800 rounded-3xl p-8 space-y-4">
+            <h3 class="font-heading text-lg font-bold text-white border-b border-slate-800 pb-3">Key Athletic Fields</h3>
+            
+            <div class="space-y-3 text-xs">
+              <div class="p-3 bg-[#060709] rounded-2xl border border-slate-800">
+                <strong class="text-white block text-sm">North Natomas Regional Park</strong>
+                <p class="text-slate-400 mt-0.5">2601 New Market Dr, Sacramento, CA 95835</p>
+                <span class="text-[#39ff14] text-xs font-bold block mt-1">Baseball Fields & Diamond Facilities</span>
+              </div>
+
+              <div class="p-3 bg-[#060709] rounded-2xl border border-slate-800">
+                <strong class="text-white block text-sm">Heron Landing Community Park</strong>
+                <p class="text-slate-400 mt-0.5">11750 Justinian Dr, Rancho Cordova & Sacramento Area</p>
+                <span class="text-[#00e5ff] text-xs font-bold block mt-1">Tournament & Clinic Venues</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQS -->
+  <section id="faq" class="py-20 bg-[#0d0f14] border-b border-slate-800/80">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center space-y-3 mb-12">
+        <span class="text-[#ff007f] font-black uppercase tracking-widest text-xs">Common Inquiries</span>
+        <h2 class="font-heading text-3xl font-black text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-4">
+        
+        <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
+          <h3 class="text-white font-bold text-base mb-2">What is the time commitment for travel baseball?</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            NSA teams typically practice twice per week on weekday evenings in Natomas, with 1 to 2 weekend tournaments per month. During tournament weekends, teams play 3 to 5 games across Saturday and Sunday. We structure our calendar to prevent player burnout.
+          </p>
+        </div>
+
+        <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
+          <h3 class="text-white font-bold text-base mb-2">Is there any fee to attend a tryout?</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            No. Tryouts and evaluations are 100% free of charge. We simply ask all players to pre-register online through our <a href="tryouts.html" class="text-[#39ff14] underline">Tryouts page</a> so our coaching staff can plan stations and age groups.
+          </p>
+        </div>
+
+        <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
+          <h3 class="text-white font-bold text-base mb-2">Can my child play Little League alongside NSA?</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Yes, many of our 9U and 10U athletes also participate in local Little League seasons. As players advance to 12U and 14U, travel tournament commitments often take primary focus, but we actively encourage multi-sport balance.
+          </p>
+        </div>
+
+        <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
+          <h3 class="text-white font-bold text-base mb-2">When will basketball and other sports begin?</h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Our multi-sport rollout starts with winter/fall youth basketball clinics and 3v3 leagues, followed by spring soccer and seasonal speed/agility sessions. You can submit your interest on our <a href="programs.html#notify-form" class="text-[#00e5ff] underline">Sports & Programs page</a>.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#060709] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#39ff14]">
+          <img src="assets/images/logo.jpg" alt="Natomas Sports Association" class="w-full h-full object-cover">
+        </div>
+        <span class="font-heading text-sm font-bold text-white">Natomas Sports Association</span>
+      </div>
+      <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sports Association. Official Domain: natomassportassocition.org</p>
+      <div class="flex space-x-4 text-xs">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="travel-baseball.html" class="hover:text-white">Travel Baseball</a>
+        <a href="tryouts.html" class="text-[#39ff14] font-black hover:underline">Tryouts</a>
+        <a href="about.html" class="hover:text-white">About Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
