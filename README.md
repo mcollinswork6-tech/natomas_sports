@@ -4,7 +4,7 @@ Official website repository for **Natomas Sports Association**, a youth sports o
 
 ![Natomas Sports Association](assets/images/logo.jpg)
 
-- **Domain:** [natomassportassocition.org](https://natomassportassocition.org)
+- **Domain:** [natomassportsassociation.org](https://natomassportsassociation.org)
 - **Repository:** [github.com/mcollinswork6-tech/natomas_sports](https://github.com/mcollinswork6-tech/natomas_sports)
 - **Primary Programs:** Competitive Travel Baseball (9U–14U), Multi-Sport Development (Basketball, Soccer, Speed & Agility clinics)
 - **Tech Stack:** HTML5, Tailwind CSS CDN, Vanilla JavaScript, Custom SVG/Raster Vector Branding
@@ -50,11 +50,11 @@ This repository is pre-configured for GitHub Pages:
 1. In this repository, navigate to **Settings** > **Pages**.
 2. Under **Build and deployment** > **Source**, choose **Deploy from a branch**.
 3. Select **`main`** branch and root **`/ (root)`** folder, then click **Save**.
-4. In the **Custom domain** section, enter: `natomassportassocition.org`.
+4. In the **Custom domain** section, enter: `natomassportsassociation.org`.
 5. Ensure **Enforce HTTPS** is checked.
 
 ### GoDaddy DNS Configuration
-To link your GoDaddy domain (`natomassportassocition.org`) to GitHub Pages:
+To link your GoDaddy domain (`natomassportsassociation.org`) to GitHub Pages:
 * **A Records** (Name: `@`):
   * `185.199.108.153`
   * `185.199.109.153`

@@ -1,6 +1,6 @@
 # Natomas Sports Association — Domain & Free Hosting Deployment Guide
 
-This guide provides step-by-step instructions to host your static website for **free** with automatic SSL (https://), and connect your GoDaddy domain: **`natomassportassocition.org`**.
+This guide provides step-by-step instructions to host your static website for **free** with automatic SSL (https://), and connect your GoDaddy domain: **`natomassportsassociation.org`**.
 
 ---
 
@@ -32,7 +32,7 @@ All three options below are 100% free, provide lightning-fast global CDN speeds,
 3. Name your project `natomas-sports` and drag-and-drop the files from `/Users/matthewcollins/Documents/Natomas Sports` directly into the web browser!
 4. Click **Deploy Site**. Your site will be live immediately on a temporary `*.pages.dev` URL.
 5. In your project settings, click **Custom domains** > **Set up a custom domain**.
-6. Enter `natomassportassocition.org` and `www.natomassportassocition.org`. Cloudflare will provide the exact DNS records to paste into GoDaddy.
+6. Enter `natomassportsassociation.org` and `www.natomassportsassociation.org`. Cloudflare will provide the exact DNS records to paste into GoDaddy.
 
 ---
 
@@ -41,7 +41,7 @@ All three options below are 100% free, provide lightning-fast global CDN speeds,
 2. In your dashboard, click **Add new site** > **Deploy manually**.
 3. Drag the entire `Natomas Sports` folder into the upload box.
 4. Go to **Site Configuration** > **Domain management** > **Add a domain**.
-5. Enter `natomassportassocition.org`.
+5. Enter `natomassportsassociation.org`.
 6. Netlify will display the DNS instructions to copy into GoDaddy.
 
 ---
@@ -58,7 +58,7 @@ All three options below are 100% free, provide lightning-fast global CDN speeds,
    git push -u origin main
    ```
 3. In GitHub: go to **Settings** > **Pages** > Source: `Deploy from branch main / root`.
-4. Enter Custom Domain: `natomassportassocition.org`.
+4. Enter Custom Domain: `natomassportsassociation.org`.
 
 ---
 
@@ -67,7 +67,7 @@ All three options below are 100% free, provide lightning-fast global CDN speeds,
 Once your site is uploaded to your chosen host, configure your GoDaddy DNS:
 
 1. Log into your **GoDaddy Account** and go to **My Products** > **Domains**.
-2. Click on **`natomassportassocition.org`** and select **Manage DNS** (or **DNS Records**).
+2. Click on **`natomassportsassociation.org`** and select **Manage DNS** (or **DNS Records**).
 3. If there are default parking records, edit or replace them with the records provided by your host:
 
 ### For Cloudflare Pages or Netlify:
