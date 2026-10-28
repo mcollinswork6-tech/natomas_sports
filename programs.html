@@ -7,6 +7,16 @@
   <meta name="description" content="Explore current and upcoming youth sports programs at Natomas Sports Association: Travel Baseball, Basketball, Soccer, and Athletic Clinics in Sacramento, CA.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
+  <!-- Temporarily hidden page: redirecting to home while preserving all page structure & content -->
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    // Page hidden temporarily
+    window.location.replace("index.html");
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=index.html">
+  </noscript>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -36,20 +46,6 @@
 </head>
 <body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
 
-  <!-- DIAGONAL SITE UNDER CONSTRUCTION BANNER ACROSS THE MIDDLE -->
-  <div class="construction-ribbon-wrapper" aria-hidden="true">
-    <div class="construction-ribbon">
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-    </div>
-  </div>
 
   <!-- TOP ALERT BANNER -->
   <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide">
@@ -65,15 +61,13 @@
       <div class="flex items-center justify-between h-20">
         
         <a href="index.html" class="flex items-center space-x-3 group">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#39ff14] group-hover:border-[#00e5ff] transition-all duration-300 shadow-[0_0_12px_rgba(57,255,20,0.4)] flex-shrink-0">
-            <img src="assets/images/logo.jpg" alt="Natomas Sports Association Logo" class="w-full h-full object-cover">
-          </div>
+          <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo" class="h-11 sm:h-12 w-auto rounded-xl border border-[#67DDF2]/50 group-hover:border-[#B7F52A] transition-all duration-300 shadow-[0_0_12px_rgba(103,221,242,0.25)] flex-shrink-0 block">
           <div class="flex flex-col">
-            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#39ff14] transition-colors">
+            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#67DDF2] transition-colors">
               Natomas
             </span>
-            <span class="text-xs font-extrabold tracking-widest text-[#00e5ff] uppercase mt-0.5">
-              Sports Association
+            <span class="text-xs font-extrabold tracking-widest text-[#67DDF2] uppercase mt-0.5">
+              Sport Association
             </span>
           </div>
         </a>
@@ -81,7 +75,8 @@
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
           <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Home</a>
           <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Travel Baseball</a>
-          <a href="programs.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">Sports & Programs</a>
+          <!-- Hidden temporarily: Sports & Programs -->
+          <a href="programs.html" class="hidden px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
           <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
           <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">About Us</a>
           <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Contact</a>
@@ -108,7 +103,8 @@
     <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
       <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Home</a>
       <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Travel Baseball</a>
-      <a href="programs.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">Sports & Programs</a>
+      <!-- Hidden temporarily: Sports & Programs -->
+      <a href="programs.html" class="hidden block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
       <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
       <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">About Us</a>
       <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Contact</a>
@@ -149,13 +145,11 @@
               <span class="text-[#00e5ff] text-xs font-bold uppercase tracking-widest">Enrolling Now</span>
             </div>
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-full overflow-hidden border border-[#39ff14] flex-shrink-0">
-                <img src="assets/images/logo-baseball.jpg" alt="NSA Travel Baseball" class="w-full h-full object-cover">
-              </div>
-              <h2 class="font-heading text-2xl sm:text-3xl font-black text-white">Natomas Travel Baseball (NSA)</h2>
+              <img src="assets/images/bad-hops-badge.png" alt="Bad Hops 11U Travel Baseball" class="w-14 h-14 object-contain drop-shadow-[0_0_15px_rgba(240,42,168,0.4)] flex-shrink-0">
+              <h2 class="font-heading text-2xl sm:text-3xl font-black text-white">Bad Hops 11U Travel Baseball</h2>
             </div>
             <p class="text-slate-300 text-sm leading-relaxed">
-              Our flagship program. Competitive tournament baseball for 9U to 14U players focusing on elite fundamentals, IQ, and tournament travel across Northern California and Nevada.
+              Our flagship competitive program under Natomas Sport Association. Dedicated exclusively to the 11U division with 50/70 field play, situational mastery, and tournament competition across Northern California.
             </p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
               <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
@@ -163,8 +157,8 @@
                 <span class="text-sm font-bold text-white">Spring & Fall</span>
               </div>
               <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
-                <span class="text-xs text-slate-400 block">Divisions</span>
-                <span class="text-sm font-bold text-white">9U – 14U</span>
+                <span class="text-xs text-slate-400 block">Focus</span>
+                <span class="text-sm font-bold text-[#F02AA8]">11U (50/70)</span>
               </div>
               <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
                 <span class="text-xs text-slate-400 block">Practices</span>
@@ -319,9 +313,7 @@
   <footer class="bg-[#060709] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#39ff14]">
-          <img src="assets/images/logo.jpg" alt="Natomas Sports Association" class="w-full h-full object-cover">
-        </div>
+        <img src="assets/images/logo-dark.png" alt="Natomas Sport Association" class="h-8 w-auto rounded-lg border border-[#67DDF2]/40 flex-shrink-0 block">
         <span class="font-heading text-sm font-bold text-white">Natomas Sports Association</span>
       </div>
       <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sports Association. Official Domain: natomassportsassociation.org</p>

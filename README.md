@@ -1,6 +1,6 @@
-# Natomas Sports Association (NSA)
+# Natomas Sport Association
 
-Official website repository for **Natomas Sports Association**, a youth sports organization serving Natomas and Greater Sacramento, California.
+Official website repository for **Natomas Sport Association**, a California nonprofit public benefit corporation serving as an umbrella organization for youth sports teams across Greater Sacramento, California.
 
 ![Natomas Sports Association](assets/images/logo.jpg)
 

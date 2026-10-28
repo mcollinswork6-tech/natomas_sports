@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Natomas Sports Association | Elite Youth Athletics & Travel Baseball | Sacramento, CA</title>
-  <meta name="description" content="Natomas Sports Association (NSA) provides competitive youth sports development in Sacramento, CA. Featuring premier Travel Baseball teams with multi-sport expansion.">
+  <title>Natomas Sport Association | Official Organization Site | Sacramento, CA</title>
+  <meta name="description" content="Natomas Sport Association is a California nonprofit public benefit corporation serving as an umbrella organization for youth sports teams. Developing Athletes. Building Character. Creating Opportunity.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- Tailwind CSS CDN -->
@@ -14,19 +14,39 @@
       theme: {
         extend: {
           colors: {
-            neon: {
-              green: '#39ff14',
-              lime: '#4ade80',
-              cyan: '#00e5ff',
-              sky: '#38bdf8',
-              pink: '#ff007f',
-              magenta: '#ec4899',
+            navy: {
+              DEFAULT: '#17243B',
+              50: '#f0f5fa',
+              100: '#dce6f2',
+              200: '#bccfe5',
+              300: '#94b2d4',
+              400: '#648fbe',
+              500: '#4372a7',
+              600: '#32598b',
+              700: '#274670',
+              800: '#17243B', // Brand Midnight Navy
+              900: '#111b2c',
+              950: '#0b111c',
             },
-            dark: {
-              950: '#060709',
-              900: '#0d0f14',
-              800: '#141820',
-              700: '#1e2430',
+            charcoal: {
+              DEFAULT: '#111317',
+              700: '#232730',
+              800: '#1a1d24',
+              850: '#15171d',
+              900: '#111317', // Brand Charcoal
+              950: '#0b0c0e',
+            },
+            ice: {
+              DEFAULT: '#67DDF2', // Primary Brand Accent
+              light: '#bbf2fc',
+              hover: '#52d0e7',
+              dark: '#23a8c2',
+            },
+            lime: {
+              DEFAULT: '#B7F52A', // Secondary Brand Accent
+              light: '#d2f96e',
+              hover: '#a6e81e',
+              dark: '#85be0b',
             }
           }
         }
@@ -37,74 +57,61 @@
   <!-- Google Fonts & Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
+<body class="bg-[#111317] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#B7F52A] selection:text-[#111317] relative">
 
-  <!-- DIAGONAL SITE UNDER CONSTRUCTION BANNER ACROSS THE MIDDLE -->
-  <div class="construction-ribbon-wrapper" aria-hidden="true">
-    <div class="construction-ribbon">
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-    </div>
-  </div>
 
-  <!-- TOP ALERT BANNER (Neon Gradient) -->
-  <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide shadow-[0_0_20px_rgba(57,255,20,0.3)]">
-    <div class="max-w-7xl mx-auto flex items-center justify-center space-x-2">
-      <span class="inline-block px-2.5 py-0.5 bg-black text-[#39ff14] rounded-full text-xs font-black uppercase tracking-wider">Tryouts</span>
-      <span class="font-extrabold text-black">2025–2026 Natomas Travel Baseball Evaluations Now Open!</span>
-      <a href="tryouts.html" class="underline font-black hover:text-white ml-2 inline-flex items-center">
+  <!-- TOP ALERT BANNER (Midnight Navy with Ice Blue & Lime Accents) -->
+  <div class="bg-[#17243B] border-b border-[#67DDF2]/30 text-slate-100 text-xs md:text-sm py-2 px-4 text-center tracking-wide">
+    <div class="max-w-7xl mx-auto flex items-center justify-center flex-wrap gap-2">
+      <span class="inline-block px-2.5 py-0.5 bg-[#B7F52A] text-[#111317] rounded-full text-xs font-black uppercase tracking-wider">Tryouts</span>
+      <span class="font-bold text-white">2025–2026 Natomas Travel Baseball Evaluations Now Open!</span>
+      <a href="tryouts.html" class="text-[#67DDF2] hover:text-[#B7F52A] underline font-black inline-flex items-center ml-1 transition-colors">
         Register Today &rarr;
       </a>
     </div>
   </div>
 
   <!-- NAVIGATION BAR -->
-  <header id="main-nav" class="sticky top-0 z-50 bg-[#060709] border-b border-slate-800/80 transition-all duration-200">
+  <header id="main-nav" class="sticky top-0 z-50 bg-[#111317] border-b border-slate-800/80 transition-all duration-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
         <!-- Logo Brand -->
         <a href="index.html" class="flex items-center space-x-3 group">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#39ff14] group-hover:border-[#00e5ff] transition-all duration-300 shadow-[0_0_12px_rgba(57,255,20,0.4)] flex-shrink-0">
-            <img src="assets/images/logo.jpg" alt="Natomas Sports Association Logo" class="w-full h-full object-cover">
-          </div>
+          <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo" class="h-11 sm:h-12 w-auto rounded-xl border border-[#67DDF2]/50 group-hover:border-[#B7F52A] transition-all duration-300 shadow-[0_0_12px_rgba(103,221,242,0.25)] flex-shrink-0 block">
           <div class="flex flex-col">
-            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#39ff14] transition-colors">
+            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#67DDF2] transition-colors">
               Natomas
             </span>
-            <span class="text-xs font-extrabold tracking-widest text-[#00e5ff] uppercase mt-0.5">
-              Sports Association
+            <span class="text-xs font-extrabold tracking-widest text-[#67DDF2] uppercase mt-0.5">
+              Sport Association
             </span>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
-          <a href="index.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">Home</a>
-          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Travel Baseball</a>
-          <a href="programs.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Sports & Programs</a>
-          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
-          <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">About Us</a>
-          <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Contact</a>
+          <a href="index.html" class="px-3 py-2 text-sm font-bold text-[#B7F52A] border-b-2 border-[#B7F52A]">Home</a>
+          <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">About Us</a>
+          <a href="#values" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Values</a>
+          <a href="#culture" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Culture Standard</a>
+          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Travel Baseball</a>
+          <!-- Hidden temporarily: Sports & Programs -->
+          <a href="programs.html" class="hidden px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
+          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Tryouts</a>
+          <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Contact</a>
         </nav>
 
         <!-- CTA Button -->
         <div class="hidden md:flex items-center space-x-4">
-          <a href="tryouts.html" class="btn-neon-green px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black">
+          <a href="tryouts.html" class="btn-brand-lime px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black">
             Join a Team
           </a>
         </div>
 
         <!-- Mobile Menu Button -->
         <div class="flex md:hidden">
-          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#39ff14] focus:outline-none p-2 rounded-lg bg-[#141820]" aria-label="Toggle Navigation">
+          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#B7F52A] focus:outline-none p-2 rounded-lg bg-[#17243B] border border-slate-700" aria-label="Toggle Navigation">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
@@ -115,15 +122,18 @@
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
-      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">Home</a>
-      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Travel Baseball</a>
-      <a href="programs.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Sports & Programs</a>
-      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
-      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">About Us</a>
-      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Contact</a>
+    <div id="mobile-menu" class="hidden md:hidden bg-[#111317] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
+      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#B7F52A] bg-[#17243B]">Home</a>
+      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">About Us</a>
+      <a href="#values" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Values</a>
+      <a href="#culture" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Culture Standard</a>
+      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Travel Baseball</a>
+      <!-- Hidden temporarily: Sports & Programs -->
+      <a href="programs.html" class="hidden block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
+      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Tryouts</a>
+      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Contact</a>
       <div class="pt-3">
-        <a href="tryouts.html" class="block text-center btn-neon-green py-3 rounded-xl text-xs uppercase tracking-wider font-black">
+        <a href="tryouts.html" class="block text-center btn-brand-lime py-3 rounded-xl text-xs uppercase tracking-wider font-black">
           Register for Tryouts
         </a>
       </div>
@@ -131,70 +141,100 @@
   </header>
 
   <!-- HERO SECTION -->
-  <section class="relative bg-neon-mesh overflow-hidden border-b border-slate-800/80 py-20 lg:py-28">
-    <div class="absolute inset-0 hero-neon-overlay pointer-events-none"></div>
+  <section class="relative bg-brand-mesh overflow-hidden border-b border-slate-800/80 py-20 lg:py-28">
+    <div class="absolute inset-0 hero-brand-overlay pointer-events-none"></div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
         <!-- Hero Text -->
         <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#141820] border border-[#39ff14]/30 text-[#39ff14] text-xs font-bold tracking-wide">
-            <span class="w-2 h-2 rounded-full bg-[#39ff14] animate-ping"></span>
-            <span>Natomas & Greater Sacramento Athletics</span>
+          
+          <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#17243B] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold tracking-wide shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#B7F52A] animate-ping"></span>
+            <span>California Nonprofit Youth Sports Umbrella • Sacramento, CA</span>
           </div>
           
           <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
-            Relentless Energy. <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#39ff14] via-[#00e5ff] to-[#ff007f]">
-              Championship DNA.
-            </span>
+            Developing Athletes. <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#67DDF2] via-[#ffffff] to-[#B7F52A]">
+              Building Character.
+            </span> <br>
+            Creating Opportunity.
           </h1>
           
           <p class="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-            Natomas Sports Association is built for young athletes who play with grit, speed, and attitude. Spearheaded by competitive <strong class="text-[#39ff14]">Travel Baseball</strong>, expanding into a premier multi-sport organization.
+            <strong class="text-white">Natomas Sport Association</strong> is dedicated to serving as an umbrella organization for youth sports teams—providing shared leadership, accountability, and resources while creating a positive environment where young athletes thrive on and off the field.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-            <a href="tryouts.html" class="w-full sm:w-auto btn-neon-green px-8 py-4 rounded-xl text-sm font-black uppercase tracking-wider flex items-center justify-center space-x-2">
-              <span>Register for Tryouts</span>
-              <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <!-- Campaign Tagline & Brand Principle Pill -->
+          <div class="p-4 rounded-2xl bg-[#17243B]/70 border border-[#67DDF2]/20 backdrop-blur-sm max-w-2xl mx-auto lg:mx-0">
+            <div class="flex items-center space-x-3">
+              <span class="px-2.5 py-1 bg-[#B7F52A] text-[#111317] rounded-lg text-xs font-black uppercase tracking-wider">Campaign</span>
+              <span class="text-sm font-extrabold text-white">Built for More.</span>
+              <span class="text-slate-400 text-xs hidden sm:inline">•</span>
+              <span class="text-xs text-slate-300 italic hidden sm:inline">The association is bigger than any single team, coach, season, or sport.</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="tryouts.html" class="w-full sm:w-auto btn-brand-lime px-8 py-4 rounded-xl text-sm font-black uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg">
+              <span>Explore Tryouts & Rosters</span>
+              <svg class="w-5 h-5 text-[#111317]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </a>
-            <a href="travel-baseball.html" class="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold text-white bg-[#141820] hover:bg-[#1e2430] border border-[#00e5ff]/50 hover:border-[#00e5ff] transition flex items-center justify-center space-x-2 shadow-[0_0_15px_rgba(0,229,255,0.15)]">
-              <span>Travel Baseball Program</span>
+            <a href="#culture" class="w-full sm:w-auto btn-brand-navy px-8 py-4 rounded-xl text-sm font-bold flex items-center justify-center space-x-2">
+              <span>Our Culture Standard</span>
+            </a>
+            <a href="travel-baseball.html" class="w-full sm:w-auto px-6 py-4 rounded-xl text-sm font-bold text-[#67DDF2] hover:text-white bg-[#17243B]/60 hover:bg-[#17243B] border border-[#67DDF2]/30 hover:border-[#67DDF2] transition flex items-center justify-center">
+              <span>Travel Baseball</span>
             </a>
           </div>
 
-          <!-- Feature Bullets -->
+          <!-- Feature Metric Pillars -->
           <div class="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-slate-800 text-left">
             <div>
-              <p class="text-2xl font-black text-[#39ff14]">9U – 14U</p>
-              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Baseball Age Divisions</p>
+              <p class="text-2xl font-black text-[#B7F52A]">Youth First</p>
+              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Player Welfare & Safety</p>
             </div>
             <div>
-              <p class="text-2xl font-black text-[#00e5ff]">NorCal & USSSA</p>
-              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Tournament Circuit</p>
+              <p class="text-2xl font-black text-[#67DDF2]">6 Core Values</p>
+              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Integrity & Accountability</p>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <p class="text-2xl font-black text-[#ff007f]">Multi-Sport</p>
-              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Expanding Platform</p>
+              <p class="text-2xl font-black text-[#F02AA8]">11U Team</p>
+              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Bad Hops Baseball</p>
             </div>
           </div>
         </div>
 
         <!-- Hero Crest Display -->
         <div class="lg:col-span-5 flex justify-center">
-          <div class="relative w-72 sm:w-88 md:w-96 rounded-3xl p-3 bg-gradient-to-tr from-[#39ff14] via-[#22c55e] to-[#00e5ff] shadow-[0_0_40px_rgba(57,255,20,0.35)]">
-            <div class="bg-[#060709] rounded-[22px] p-6 text-center space-y-4">
-              <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
-                <img src="assets/images/logo.jpg" alt="Natomas Sports Association Official Organization Logo" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500">
-              </div>
+          <div class="relative w-full max-w-md rounded-3xl p-4 bg-gradient-to-tr from-[#17243B] via-[#67DDF2]/20 to-[#B7F52A]/20 border border-[#67DDF2]/30 shadow-[0_0_40px_rgba(103,221,242,0.2)]">
+            <div class="bg-[#111317] rounded-[22px] p-6 text-center space-y-5">
+              
+              <!-- Official Brand Logo -->
+              <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Official Logo" class="w-full h-auto rounded-2xl border border-[#67DDF2]/40 shadow-2xl block transform hover:scale-102 transition-transform duration-500">
+
+              <!-- Brand Identity Tagline -->
               <div class="space-y-1">
-                <h3 class="font-heading text-lg font-black text-white tracking-wider uppercase">Natomas Sports Association</h3>
-                <p class="text-xs font-bold text-[#39ff14]">Sacramento, CA • Youth Multi-Sport Organization</p>
+                <h3 class="font-heading text-lg font-black text-white tracking-wider uppercase">
+                  Natomas Sport Association
+                </h3>
+                <p class="text-xs font-bold text-[#67DDF2]">
+                  Parent Organization Identity • Shared Standards • Future-Ready Culture
+                </p>
               </div>
-              <div class="pt-2">
-                <a href="tryouts.html" class="btn-neon-green w-full py-2.5 rounded-xl text-xs uppercase tracking-wider font-black block">
-                  Join The Association &rarr;
+
+              <!-- Brand Promise Box -->
+              <div class="p-3.5 rounded-xl bg-[#17243B] border border-[#67DDF2]/30 text-left">
+                <p class="text-xs font-black text-[#B7F52A] uppercase tracking-wider mb-1">Our Brand Promise</p>
+                <p class="text-xs text-slate-200 leading-relaxed">
+                  "We build the foundation that helps youth teams compete, develop, and belong."
+                </p>
+              </div>
+
+              <div class="pt-1">
+                <a href="about.html" class="btn-brand-ice w-full py-3 rounded-xl text-xs uppercase tracking-wider font-black block">
+                  Learn About the Association &rarr;
                 </a>
               </div>
             </div>
@@ -207,124 +247,530 @@
 
   <!-- TRYOUT ANNOUNCEMENT STRIP -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-    <div class="bg-gradient-to-r from-[#0d0f14] via-[#141820] to-[#0d0f14] p-6 md:p-8 rounded-3xl border-2 border-[#39ff14]/60 shadow-[0_0_30px_rgba(57,255,20,0.2)] flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="bg-gradient-to-r from-[#17243B] via-[#111317] to-[#17243B] p-6 md:p-8 rounded-3xl border-2 border-[#67DDF2]/50 shadow-[0_0_30px_rgba(103,221,242,0.15)] flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="space-y-2 text-center md:text-left">
-        <span class="inline-block px-3 py-1 bg-[#39ff14]/15 text-[#39ff14] border border-[#39ff14]/40 rounded-full text-xs font-black uppercase tracking-wider">
-          Player Evaluations
+        <span class="inline-block px-3 py-1 bg-[#B7F52A]/15 text-[#B7F52A] border border-[#B7F52A]/40 rounded-full text-xs font-black uppercase tracking-wider">
+          Competitive Travel Baseball
         </span>
         <h2 class="text-xl md:text-2xl font-black text-white">
-          Spring & Summer Competitive Travel Baseball Tryouts
+          Bad Hops 11U Travel Baseball Evaluations Now Open
         </h2>
         <p class="text-slate-300 text-sm max-w-2xl">
-          Roster openings across 9U, 10U, 11U, 12U, 13U, and 14U teams. NorCal tournaments, elite arm care mechanics, and disciplined development right here in Natomas.
+          Roster openings for our Bad Hops 11U travel team. NorCal USSSA / Triple Crown tournament competition, certified arm care mechanics, disciplined fundamentals, and transparent team administration.
         </p>
       </div>
       <div class="flex-shrink-0">
-        <a href="tryouts.html" class="btn-neon-green px-7 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider inline-flex items-center space-x-2">
+        <a href="tryouts.html" class="btn-brand-lime px-7 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider inline-flex items-center space-x-2">
           <span>View Tryout Dates</span>
-          <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+          <svg class="w-4 h-4 text-[#111317]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- PILLARS OF EXCELLENCE -->
-  <section class="py-20 bg-[#060709] border-b border-slate-800/80">
+  <!-- PARENT-FACING WELCOME & MISSION STATEMENT (Section 06 & 01) -->
+  <section class="py-20 bg-[#111317] border-b border-slate-800/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-br from-[#17243B] to-[#111317] rounded-3xl p-8 md:p-12 border border-[#67DDF2]/20 relative overflow-hidden shadow-2xl">
+        <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[#67DDF2]/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-[#B7F52A]/10 blur-3xl pointer-events-none"></div>
+        
+        <div class="relative space-y-6 text-center">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#111317] border border-[#B7F52A]/40 text-[#B7F52A] text-xs font-black uppercase tracking-widest">
+            <span>A Welcome to Our Families & Athletes</span>
+          </div>
+
+          <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
+            "We believe youth sports should challenge athletes and help them grow."
+          </h2>
+
+          <p class="text-slate-200 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+            At <strong>Natomas Sport Association</strong>, we aim to support teams with clear expectations, responsible leadership, and a culture built on respect, accountability, and community. We want families to feel informed, athletes to feel supported, and coaches to have the structure needed to develop strong teams.
+          </p>
+
+          <div class="pt-2 flex flex-wrap justify-center items-center gap-3 text-xs font-bold text-slate-300">
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-[#67DDF2]">Athletic</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-[#B7F52A]">Modern</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-white">Trustworthy</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-[#67DDF2]">Inclusive</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-[#B7F52A]">Confident</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#111317]/80 border border-slate-700 text-white">Community-Minded</span>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 text-xs font-semibold text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span><strong>Positioning:</strong> Balancing competitive ambition with player development, integrity, and a healthy team environment.</span>
+            <a href="about.html" class="text-[#67DDF2] hover:text-[#B7F52A] underline font-bold transition-colors">Read Full Association Vision &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 02: ORGANIZATION VALUES -->
+  <section id="values" class="py-20 bg-[#111317] border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-        <p class="text-[#00e5ff] font-extrabold uppercase tracking-widest text-xs">The Natomas Standard</p>
+        <p class="text-[#67DDF2] font-black uppercase tracking-widest text-xs">Section 02  •  Core Principles</p>
         <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">
-          Built For High-Level Athletic Growth
+          Our 6 Organization Values
         </h2>
-        <p class="text-slate-400 text-base">
-          We combine old-school baseball fundamentals with modern athleticism, speed training, and intense competitive drive.
+        <p class="text-slate-300 text-base">
+          Our values are not abstract ideas. They guide everyday decisions for every team, coach, athlete, board member, and volunteer within the Natomas Sport Association.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <!-- Pillar 1 -->
-        <div class="neon-card p-8 rounded-3xl relative">
-          <div class="w-14 h-14 rounded-2xl bg-[#39ff14]/15 border border-[#39ff14]/40 flex items-center justify-center text-[#39ff14] mb-6 shadow-[0_0_15px_rgba(57,255,20,0.25)]">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
+        <!-- Value 1: Youth First -->
+        <div class="brand-card p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#B7F52A]/15 border border-[#B7F52A]/40 flex items-center justify-center text-[#B7F52A] mb-5 shadow-[0_0_15px_rgba(183,245,42,0.25)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#B7F52A] block mb-1">Value 01</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Youth First</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Protect player welfare, safety, enjoyment, and age-appropriate development in all athletic activities, training programs, and competition formats.
+            </p>
           </div>
-          <h3 class="font-heading text-xl font-black text-white mb-3">Player-First Development</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Strict focus on proper throwing mechanics, rotational hitting power, situational baseball IQ, arm longevity, and explosive speed on the basepaths.
-          </p>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Player welfare always takes precedence over winning.
+          </div>
         </div>
 
-        <!-- Pillar 2 -->
-        <div class="neon-card neon-card-cyan p-8 rounded-3xl relative">
-          <div class="w-14 h-14 rounded-2xl bg-[#00e5ff]/15 border border-[#00e5ff]/40 flex items-center justify-center text-[#00e5ff] mb-6 shadow-[0_0_15px_rgba(0,229,255,0.25)]">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-            </svg>
+        <!-- Value 2: Development -->
+        <div class="brand-card brand-card-ice p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#67DDF2]/15 border border-[#67DDF2]/40 flex items-center justify-center text-[#67DDF2] mb-5 shadow-[0_0_15px_rgba(103,221,242,0.25)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block mb-1">Value 02</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Development</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Value continuous learning, skill progression, mental resilience, and thoughtful competition where young athletes learn to overcome challenges.
+            </p>
           </div>
-          <h3 class="font-heading text-xl font-black text-white mb-3">Grit & Accountability</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Players learn to hold themselves and their teammates to high standards. We teach composure in pressure situations and pride in representing Natomas.
-          </p>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Progressive skill development and physical longevity.
+          </div>
         </div>
 
-        <!-- Pillar 3 -->
-        <div class="neon-card neon-card-pink p-8 rounded-3xl relative">
-          <div class="w-14 h-14 rounded-2xl bg-[#ff007f]/15 border border-[#ff007f]/40 flex items-center justify-center text-[#ff007f] mb-6 shadow-[0_0_15px_rgba(255,0,127,0.25)]">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
+        <!-- Value 3: Integrity -->
+        <div class="brand-card p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-5 shadow-[0_0_15px_rgba(255,255,255,0.15)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-white block mb-1">Value 03</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Integrity</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Act honestly, follow rules, manage resources responsibly, and make every decision to advance the organization’s charitable and developmental purpose.
+            </p>
           </div>
-          <h3 class="font-heading text-xl font-black text-white mb-3">Multi-Sport Pipeline</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Year-round athletic development designed to allow athletes to play complementary sports (basketball, soccer, agility clinics) without burnout.
-          </p>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Ethical leadership and transparent stewardship.
+          </div>
+        </div>
+
+        <!-- Value 4: Respect -->
+        <div class="brand-card brand-card-ice p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#67DDF2]/15 border border-[#67DDF2]/40 flex items-center justify-center text-[#67DDF2] mb-5 shadow-[0_0_15px_rgba(103,221,242,0.25)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2m-7 0H4a2 2 0 00-2 2v7a2 2 0 002 2h3"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block mb-1">Value 04</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Respect</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Treat players, families, game officials, tournament opponents, volunteers, and coaches with dignity at all times—win or lose.
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Sportsmanship and composure under pressure.
+          </div>
+        </div>
+
+        <!-- Value 5: Accountability -->
+        <div class="brand-card p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#B7F52A]/15 border border-[#B7F52A]/40 flex items-center justify-center text-[#B7F52A] mb-5 shadow-[0_0_15px_rgba(183,245,42,0.25)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#B7F52A] block mb-1">Value 05</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Accountability</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Set clear expectations across teams, accept feedback constructively, communicate transparently about dues and schedules, and address concerns fairly.
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Defined standards and documented escalation paths.
+          </div>
+        </div>
+
+        <!-- Value 6: Community -->
+        <div class="brand-card brand-card-ice p-8 rounded-3xl relative flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#67DDF2]/15 border border-[#67DDF2]/40 flex items-center justify-center text-[#67DDF2] mb-5 shadow-[0_0_15px_rgba(103,221,242,0.25)]">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block mb-1">Value 06</span>
+            <h3 class="font-heading text-xl font-black text-white mb-2">Community</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Create a welcoming sense of belonging for families, connect with local partners, and offer meaningful opportunities for community members to contribute.
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-800/80 text-xs font-bold text-slate-400">
+            Rooted in Natomas & Greater Sacramento families.
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
+  <!-- SECTION 03: THE ASSOCIATION CULTURE STANDARD & ADULT-FIRST COMMITMENT -->
+  <section id="culture" class="py-20 bg-[#17243B]/40 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-16 space-y-4">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#17243B] border border-[#B7F52A]/40 text-[#B7F52A] text-xs font-black uppercase tracking-wider">
+          <span>Section 03  •  Culture Standards</span>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">
+          The Association Culture Standard
+        </h2>
+        <p class="text-lg text-slate-300 italic">
+          "Culture is not a slogan. It is what leaders, coaches, and families consistently do, especially when there is disagreement, pressure to win, or an unexpected problem."
+        </p>
+      </div>
+
+      <!-- Adult-First Commitment Grid -->
+      <div class="space-y-6 mb-12">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="font-heading text-xl font-black text-white flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-[#B7F52A]"></span>
+            <span>The Adult-First Commitment</span>
+          </h3>
+          <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Shared Standards</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Board & Leaders -->
+          <div class="p-6 rounded-2xl bg-[#111317] border border-slate-800 hover:border-[#67DDF2] transition">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#67DDF2]/15 text-[#67DDF2] font-black text-xs flex items-center justify-center">01</span>
+              <h4 class="font-heading text-base font-black text-white">Board & Leaders</h4>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Model ethical decisions, follow bylaws and approved policies, manage conflicts of interest, oversee finances, and respond to concerns without favoritism.
+            </p>
+          </div>
+
+          <!-- Coaches -->
+          <div class="p-6 rounded-2xl bg-[#111317] border border-slate-800 hover:border-[#B7F52A] transition">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#B7F52A]/15 text-[#B7F52A] font-black text-xs flex items-center justify-center">02</span>
+              <h4 class="font-heading text-base font-black text-white">Coaches</h4>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Teach and challenge without humiliation; communicate expectations clearly; model sportsmanship and composure; prioritize player welfare and development.
+            </p>
+          </div>
+
+          <!-- Parents & Guardians -->
+          <div class="p-6 rounded-2xl bg-[#111317] border border-slate-800 hover:border-[#67DDF2] transition">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#67DDF2]/15 text-[#67DDF2] font-black text-xs flex items-center justify-center">03</span>
+              <h4 class="font-heading text-base font-black text-white">Parents & Guardians</h4>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Support all athletes, respect officials, raise concerns through established channels, and avoid gossip, public confrontations, and involving children in adult disputes.
+            </p>
+          </div>
+
+          <!-- Volunteers -->
+          <div class="p-6 rounded-2xl bg-[#111317] border border-slate-800 hover:border-slate-600 transition">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-white/10 text-white font-black text-xs flex items-center justify-center">04</span>
+              <h4 class="font-heading text-base font-black text-white">Volunteers</h4>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Follow assigned roles, safety procedures, confidentiality expectations, and the organization’s conduct standards to ensure fair and organized operations.
+            </p>
+          </div>
+
+          <!-- Athletes -->
+          <div class="p-6 rounded-2xl bg-[#111317] border border-slate-800 hover:border-[#B7F52A] transition md:col-span-2 lg:col-span-2">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-[#B7F52A]/15 text-[#B7F52A] font-black text-xs flex items-center justify-center">05</span>
+              <h4 class="font-heading text-base font-black text-white">Athletes</h4>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Be coachable, compete fairly, support teammates through victories and setbacks, and tell a trusted adult when something feels unsafe, inappropriate, or wrong.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Non-Negotiables & How Disagreements are Handled -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Left: Non-Negotiables -->
+        <div class="lg:col-span-7 bg-[#111317] rounded-3xl p-8 border border-slate-800 space-y-4">
+          <div class="flex items-center space-x-2 text-[#B7F52A] text-xs font-black uppercase tracking-wider">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <span>Non-Negotiable Culture Commitments</span>
+          </div>
+          <h3 class="font-heading text-xl font-black text-white">
+            Zero Tolerance for Misconduct & Retaliation
+          </h3>
+          <ul class="space-y-3 text-sm text-slate-300">
+            <li class="flex items-start space-x-3">
+              <span class="text-[#B7F52A] font-black">•</span>
+              <span><strong>No bullying, hazing, harassment, retaliation, or public humiliation</strong> of any player, parent, coach, or official.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-[#B7F52A] font-black">•</span>
+              <span><strong>No recruiting children into adult conflicts</strong> or using youth athletes to relay grievances.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-[#B7F52A] font-black">•</span>
+              <span><strong>No disparaging other organizations</strong> as a recruiting strategy.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-[#B7F52A] font-black">•</span>
+              <span><strong>Clear, respectful communication</strong> about expectations, team fees, schedules, and decisions.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-[#B7F52A] font-black">•</span>
+              <span><strong>Player safety allegations require prompt handling</strong> through documented reporting without delay.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right: What Success Means & Handling Disagreements -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-[#17243B] to-[#111317] rounded-3xl p-8 border border-[#67DDF2]/30 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="flex items-center space-x-2 text-[#67DDF2] text-xs font-black uppercase tracking-wider">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Our Definition of Success</span>
+            </div>
+            <h3 class="font-heading text-xl font-black text-white">
+              More Than Just the Scoreboard
+            </h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              "Competitive results matter, but Natomas Sport Association also measures success through <strong>player growth</strong>, <strong>retention</strong>, <strong>sportsmanship</strong>, <strong>positive family experiences</strong>, and the <strong>trust</strong> it earns through consistent behavior."
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-slate-700/60 space-y-2">
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block">Constructive Conflict Resolution:</span>
+            <p class="text-xs text-slate-300">
+              Listen first. Identify specific concerns. Move sensitive conversations to private settings. Avoid heated postgame confrontations. Follow a documented escalation path.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 04: PARENT ORGANIZATION & TEAM MODEL -->
+  <section class="py-20 bg-[#111317] border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-16 space-y-3">
+        <p class="text-[#B7F52A] font-black uppercase tracking-widest text-xs">Section 04  •  Organization Structure</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">
+          One Association. Distinct Teams.
+        </h2>
+        <p class="text-slate-300 text-base">
+          Natomas Sport Association sets organization-wide standards. Teams bring those standards to life through their own coaching, schedules, uniforms, names, and identities.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Association Scope -->
+        <div class="bg-[#17243B] p-6 rounded-3xl border border-[#67DDF2]/30 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block mb-2">Association Level</span>
+            <h3 class="font-heading text-xl font-black text-white mb-3">Association Scope</h3>
+            <ul class="space-y-2 text-xs text-slate-200">
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#67DDF2]"></span>
+                <span>Mission & Vision Alignment</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#67DDF2]"></span>
+                <span>Governance & Bylaws</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#67DDF2]"></span>
+                <span>Organization Policies</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#67DDF2]"></span>
+                <span>Financial Oversight & Transparency</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#67DDF2]"></span>
+                <span>Safeguarding & Safety Standards</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-3 border-t border-slate-700 text-xs font-bold text-[#67DDF2]">
+            Shared Foundation & Accountability
+          </div>
+        </div>
+
+        <!-- Teams Own -->
+        <div class="bg-[#17243B] p-6 rounded-3xl border border-[#B7F52A]/30 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#B7F52A] block mb-2">Team Level</span>
+            <h3 class="font-heading text-xl font-black text-white mb-3">Teams Own</h3>
+            <ul class="space-y-2 text-xs text-slate-200">
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B7F52A]"></span>
+                <span>Approved Team Branding</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B7F52A]"></span>
+                <span>Age-Group Training Plans</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B7F52A]"></span>
+                <span>Coaching Delivery & Drills</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B7F52A]"></span>
+                <span>Player Development Activities</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#B7F52A]"></span>
+                <span>Day-to-Day Team Communications</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-3 border-t border-slate-700 text-xs font-bold text-[#B7F52A]">
+            On-Field Autonomy & Team Identity
+          </div>
+        </div>
+
+        <!-- Shared Expectations -->
+        <div class="bg-[#111317] p-6 rounded-3xl border border-slate-700 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider text-white block mb-2">Core Standard</span>
+            <h3 class="font-heading text-xl font-black text-white mb-3">Shared Standards</h3>
+            <ul class="space-y-2 text-xs text-slate-300">
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>Athlete Safety & Protection</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>High Standards of Conduct</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>Accountability for Adults</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>Transparent Fees & Costs</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>Fair Processes & Respect</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-3 border-t border-slate-800 text-xs font-bold text-slate-400">
+            Non-Negotiable Culture
+          </div>
+        </div>
+
+        <!-- Future Teams -->
+        <div class="bg-[#111317] p-6 rounded-3xl border border-slate-700 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider text-[#67DDF2] block mb-2">Expansion</span>
+            <h3 class="font-heading text-xl font-black text-white mb-3">Future Teams</h3>
+            <p class="text-slate-300 text-xs leading-relaxed mb-4">
+              Future affiliated teams may have different names, sports, colors, and personalities. They are not required to adopt the colors of existing teams.
+            </p>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              We welcome new youth coaches, team managers, and programs who share our commitment to youth-first development.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-slate-800">
+            <a href="contact.html" class="text-xs font-black text-[#67DDF2] hover:text-[#B7F52A] uppercase tracking-wider transition-colors">
+              Affiliate With the Association &rarr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- FEATURED PROGRAM: TRAVEL BASEBALL -->
-  <section class="py-20 bg-[#0d0f14] border-b border-slate-800/80">
+  <section class="py-20 bg-[#17243B]/30 border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <!-- Left Image -->
+        <!-- Left Image Card -->
         <div class="lg:col-span-5 order-2 lg:order-1">
-          <div class="rounded-3xl bg-[#060709] p-8 border border-[#39ff14]/30 relative shadow-[0_0_30px_rgba(57,255,20,0.15)]">
+          <div class="rounded-3xl bg-[#111317] p-8 border border-[#67DDF2]/30 relative shadow-[0_0_30px_rgba(103,221,242,0.15)]">
             <div class="text-center space-y-4">
-              <div class="w-36 h-36 mx-auto rounded-full overflow-hidden border-2 border-[#ff007f] shadow-[0_0_20px_rgba(255,0,127,0.4)]">
-                <img src="assets/images/logo-baseball.jpg" alt="Natomas Travel Baseball Emblem" class="w-full h-full object-cover">
+              <!-- Bad Hops 11U Emblem (NO rectangular outline) -->
+              <img src="assets/images/bad-hops-badge.png" alt="Bad Hops 11U Travel Baseball Badge" class="w-36 h-36 mx-auto object-contain drop-shadow-[0_0_25px_rgba(240,42,168,0.4)] block hover:scale-105 transition-transform duration-300">
+              
+              <div class="space-y-1">
+                <span class="text-[11px] font-black uppercase tracking-wider text-[#F02AA8]">Flagship Competitive Team</span>
+                <h3 class="font-heading text-2xl font-black text-white">Bad Hops 11U Baseball</h3>
               </div>
-              <h3 class="font-heading text-2xl font-black text-white">Travel Baseball Program</h3>
-              <p class="text-sm text-slate-300">
-                Tournament competition across Sacramento, Roseville, Elk Grove, Bay Area, and Reno.
+              <p class="text-sm text-slate-300 leading-relaxed">
+                Independent 11U travel team under Natomas Sport Association. Built Bolder: tough on the field, grounded off the field, better together.
               </p>
               
               <div class="pt-4 grid grid-cols-2 gap-3 text-left">
-                <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
-                  <span class="text-xs text-[#39ff14] font-black block uppercase">Tournaments</span>
+                <div class="p-3 bg-[#17243B] rounded-xl border border-slate-800">
+                  <span class="text-xs text-[#B7F52A] font-black block uppercase">Tournaments</span>
                   <span class="text-sm font-bold text-white">USSSA & Triple Crown</span>
                 </div>
-                <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
-                  <span class="text-xs text-[#00e5ff] font-black block uppercase">Training</span>
+                <div class="p-3 bg-[#17243B] rounded-xl border border-slate-800">
+                  <span class="text-xs text-[#67DDF2] font-black block uppercase">Training</span>
                   <span class="text-sm font-bold text-white">High Reps & Speed</span>
                 </div>
-                <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
-                  <span class="text-xs text-[#ff007f] font-black block uppercase">Home Turf</span>
+                <div class="p-3 bg-[#17243B] rounded-xl border border-slate-800">
+                  <span class="text-xs text-white font-black block uppercase">Home Turf</span>
                   <span class="text-sm font-bold text-white">North Natomas Parks</span>
                 </div>
-                <div class="p-3 bg-[#141820] rounded-xl border border-slate-800">
-                  <span class="text-xs text-[#39ff14] font-black block uppercase">Divisions</span>
-                  <span class="text-sm font-bold text-white">9U, 10U, 11U, 12U, 14U</span>
+                <div class="p-3 bg-[#17243B] rounded-xl border border-slate-800">
+                  <span class="text-xs text-[#F02AA8] font-black block uppercase">Target Age</span>
+                  <span class="text-sm font-bold text-white">11U Focus (50/70)</span>
                 </div>
               </div>
 
               <div class="pt-4">
-                <a href="travel-baseball.html" class="btn-neon-green w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-wider block text-center">
-                  Full Baseball Program Details &rarr;
+                <a href="travel-baseball.html" class="btn-brand-pink w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-wider block text-center shadow-lg">
+                  Bad Hops 11U Playbook & Details &rarr;
                 </a>
               </div>
             </div>
@@ -333,55 +779,55 @@
 
         <!-- Right Content -->
         <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
-          <div class="inline-flex items-center space-x-2 text-[#39ff14] text-xs font-black uppercase tracking-widest">
+          <div class="inline-flex items-center space-x-2 text-[#67DDF2] text-xs font-black uppercase tracking-widest">
             <span>Flagship Athletic Program</span>
           </div>
           
           <h2 class="font-heading text-3xl sm:text-4xl font-black text-white leading-tight">
-            Competitive Travel Baseball Built for Domination
+            Bad Hops 11U: Built Bolder for Development & Confidence
           </h2>
           
           <p class="text-slate-300 text-base leading-relaxed">
-            Our Travel Baseball teams are structured to elevate young athletes into confident, disciplined tournament players. We keep rosters tight to guarantee every player gets reps in game situations.
+            Bad Hops is our flagship independent 11U travel baseball program—bringing intensity to the field, humility to the game, and an uncompromising commitment to helping every player improve. We keep our 11U roster tight to guarantee every athlete receives quality repetitions, situational reps, and meaningful tournament play.
           </p>
 
           <div class="space-y-4">
             <div class="flex items-start space-x-3">
-              <div class="mt-1 w-5 h-5 rounded-full bg-[#39ff14]/20 text-[#39ff14] flex items-center justify-center flex-shrink-0">
+              <div class="mt-1 w-5 h-5 rounded-full bg-[#B7F52A]/20 text-[#B7F52A] flex items-center justify-center flex-shrink-0">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
               </div>
               <div>
-                <strong class="text-white text-base">Elite Skill Instruction:</strong>
-                <p class="text-slate-400 text-sm">Consistent batting cage work, defensive footwork, cutoffs, and arm-saving pitch count tracking.</p>
+                <strong class="text-white text-base">Sound Skill Instruction:</strong>
+                <p class="text-slate-400 text-sm">Consistent batting cage work, defensive footwork, cutoffs, rotational mechanics, and arm-saving pitch count tracking.</p>
               </div>
             </div>
 
             <div class="flex items-start space-x-3">
-              <div class="mt-1 w-5 h-5 rounded-full bg-[#00e5ff]/20 text-[#00e5ff] flex items-center justify-center flex-shrink-0">
+              <div class="mt-1 w-5 h-5 rounded-full bg-[#67DDF2]/20 text-[#67DDF2] flex items-center justify-center flex-shrink-0">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
               </div>
               <div>
                 <strong class="text-white text-base">Transparent Roster Management:</strong>
-                <p class="text-slate-400 text-sm">Clear expectations, fair playing time earned in practice, and straightforward tournament schedules.</p>
+                <p class="text-slate-400 text-sm">Clear expectations, playing time earned through practice and effort, and straightforward tournament communications.</p>
               </div>
             </div>
 
             <div class="flex items-start space-x-3">
-              <div class="mt-1 w-5 h-5 rounded-full bg-[#ff007f]/20 text-[#ff007f] flex items-center justify-center flex-shrink-0">
+              <div class="mt-1 w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center flex-shrink-0">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
               </div>
               <div>
-                <strong class="text-white text-base">Electrifying Dugout Culture:</strong>
-                <p class="text-slate-400 text-sm">High energy, relentless encouragement, and brotherhood that builds lasting friendships.</p>
+                <strong class="text-white text-base">Supportive Dugout Culture:</strong>
+                <p class="text-slate-400 text-sm">High energy, respectful sportsmanship, relentless encouragement, and team camaraderie that builds lasting friendships.</p>
               </div>
             </div>
           </div>
 
           <div class="pt-4 flex flex-wrap gap-4">
-            <a href="tryouts.html" class="btn-neon-green px-7 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider">
+            <a href="tryouts.html" class="btn-brand-lime px-7 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider">
               Register for Evaluation
             </a>
-            <a href="travel-baseball.html" class="px-7 py-3.5 rounded-xl text-xs font-black text-slate-300 hover:text-white bg-[#141820] border border-slate-700 hover:border-[#00e5ff] transition">
+            <a href="travel-baseball.html" class="px-7 py-3.5 rounded-xl text-xs font-black text-slate-300 hover:text-white bg-[#17243B] border border-slate-700 hover:border-[#67DDF2] transition">
               Explore Age Divisions
             </a>
           </div>
@@ -392,20 +838,21 @@
   </section>
 
   <!-- EXPANDING HORIZONS: MULTI-SPORT ROADMAP -->
-  <section class="py-20 bg-[#060709] border-b border-slate-800/80">
+  <section class="py-20 bg-[#111317] border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div class="space-y-3">
-          <p class="text-[#ff007f] font-extrabold uppercase tracking-widest text-xs">Future Horizons</p>
+          <p class="text-[#67DDF2] font-black uppercase tracking-widest text-xs">Future Horizons</p>
           <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">
             Expanding Natomas Multi-Sport Programs
           </h2>
-          <p class="text-slate-400 text-base max-w-xl">
-            Building a complete athletic association for Natomas families with multiple sports under one roof.
+          <p class="text-slate-300 text-base max-w-xl">
+            Building a complete athletic association for Natomas families with multiple sports under one trusted standard.
           </p>
         </div>
         <div class="mt-4 md:mt-0">
-          <a href="programs.html" class="text-[#39ff14] hover:text-[#4ade80] font-black text-xs uppercase tracking-wider inline-flex items-center">
+          <!-- Hidden temporarily: View All Program Timelines -->
+          <a href="programs.html" class="hidden text-[#B7F52A] hover:text-[#67DDF2] font-black text-xs uppercase tracking-wider inline-flex items-center transition-colors" style="display: none !important;" aria-hidden="true">
             View All Program Timelines &rarr;
           </a>
         </div>
@@ -414,69 +861,69 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Baseball (Active) -->
-        <div class="bg-[#0d0f14] rounded-3xl border-2 border-[#39ff14] p-6 flex flex-col justify-between relative shadow-[0_0_20px_rgba(57,255,20,0.2)]">
+        <div class="bg-[#17243B] rounded-3xl border-2 border-[#B7F52A] p-6 flex flex-col justify-between relative shadow-[0_0_20px_rgba(183,245,42,0.2)]">
           <div class="absolute top-4 right-4">
-            <span class="px-2.5 py-1 bg-[#39ff14] text-black text-xs font-black uppercase rounded-full">Active</span>
+            <span class="px-2.5 py-1 bg-[#B7F52A] text-[#111317] text-xs font-black uppercase rounded-full">Active</span>
           </div>
           <div>
             <div class="text-4xl mb-4">⚾</div>
-            <h3 class="font-heading text-xl font-black text-white mb-2">Travel Baseball</h3>
-            <p class="text-slate-400 text-xs leading-relaxed mb-4">
-              9U through 14U competitive travel teams competing in NorCal tournaments and invitationals.
+            <h3 class="font-heading text-xl font-black text-white mb-2">Bad Hops 11U Baseball</h3>
+            <p class="text-slate-300 text-xs leading-relaxed mb-4">
+              Our flagship 11U competitive travel team competing in NorCal tournaments and invitationals.
             </p>
           </div>
-          <a href="travel-baseball.html" class="text-[#39ff14] text-xs font-black uppercase tracking-wider hover:underline">
+          <a href="travel-baseball.html" class="text-[#B7F52A] text-xs font-black uppercase tracking-wider hover:underline">
             Rosters & Schedules &rarr;
           </a>
         </div>
 
         <!-- Basketball (Upcoming) -->
-        <div class="bg-[#0d0f14] rounded-3xl border border-slate-800 hover:border-[#00e5ff] p-6 flex flex-col justify-between relative transition shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+        <div class="bg-[#17243B] rounded-3xl border border-slate-800 hover:border-[#67DDF2] p-6 flex flex-col justify-between relative transition shadow-[0_0_15px_rgba(0,0,0,0.5)]">
           <div class="absolute top-4 right-4">
-            <span class="px-2.5 py-1 bg-[#00e5ff]/20 text-[#00e5ff] border border-[#00e5ff]/30 text-xs font-black uppercase rounded-full">Phase 2</span>
+            <span class="px-2.5 py-1 bg-[#67DDF2]/20 text-[#67DDF2] border border-[#67DDF2]/30 text-xs font-black uppercase rounded-full">Phase 2</span>
           </div>
           <div>
             <div class="text-4xl mb-4">🏀</div>
             <h3 class="font-heading text-xl font-black text-white mb-2">Youth Basketball</h3>
-            <p class="text-slate-400 text-xs leading-relaxed mb-4">
+            <p class="text-slate-300 text-xs leading-relaxed mb-4">
               Skill clinics, 3v3 leagues, and competitive AAU travel basketball teams for local hoopers.
             </p>
           </div>
-          <a href="programs.html#basketball" class="text-[#00e5ff] text-xs font-black uppercase tracking-wider hover:underline">
+          <a href="programs.html#basketball" class="text-[#67DDF2] text-xs font-black uppercase tracking-wider hover:underline">
             Join Interest List &rarr;
           </a>
         </div>
 
         <!-- Soccer (Planned) -->
-        <div class="bg-[#0d0f14] rounded-3xl border border-slate-800 hover:border-[#ff007f] p-6 flex flex-col justify-between relative transition">
+        <div class="bg-[#17243B] rounded-3xl border border-slate-800 hover:border-[#67DDF2] p-6 flex flex-col justify-between relative transition">
           <div class="absolute top-4 right-4">
-            <span class="px-2.5 py-1 bg-[#ff007f]/20 text-[#ff007f] border border-[#ff007f]/30 text-xs font-black uppercase rounded-full">Phase 3</span>
+            <span class="px-2.5 py-1 bg-white/10 text-white border border-white/20 text-xs font-black uppercase rounded-full">Phase 3</span>
           </div>
           <div>
             <div class="text-4xl mb-4">⚽</div>
             <h3 class="font-heading text-xl font-black text-white mb-2">Soccer & Futsal</h3>
-            <p class="text-slate-400 text-xs leading-relaxed mb-4">
+            <p class="text-slate-300 text-xs leading-relaxed mb-4">
               Technical footwork academies, small-sided futsal leagues, and development squads.
             </p>
           </div>
-          <a href="programs.html#soccer" class="text-[#ff007f] text-xs font-black uppercase tracking-wider hover:underline">
+          <a href="programs.html#soccer" class="text-white text-xs font-black uppercase tracking-wider hover:underline">
             Learn More &rarr;
           </a>
         </div>
 
         <!-- Speed & Agility Clinics -->
-        <div class="bg-[#0d0f14] rounded-3xl border border-slate-800 hover:border-[#39ff14] p-6 flex flex-col justify-between relative transition">
+        <div class="bg-[#17243B] rounded-3xl border border-slate-800 hover:border-[#B7F52A] p-6 flex flex-col justify-between relative transition">
           <div class="absolute top-4 right-4">
-            <span class="px-2.5 py-1 bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/30 text-xs font-black uppercase rounded-full">Year-Round</span>
+            <span class="px-2.5 py-1 bg-[#B7F52A]/20 text-[#B7F52A] border border-[#B7F52A]/30 text-xs font-black uppercase rounded-full">Year-Round</span>
           </div>
           <div>
             <div class="text-4xl mb-4">⚡</div>
             <h3 class="font-heading text-xl font-black text-white mb-2">Speed & Agility</h3>
-            <p class="text-slate-400 text-xs leading-relaxed mb-4">
+            <p class="text-slate-300 text-xs leading-relaxed mb-4">
               Multi-sport athletic conditioning, sprint mechanics, core strength, and injury reduction.
             </p>
           </div>
-          <a href="programs.html#conditioning" class="text-[#39ff14] text-xs font-black uppercase tracking-wider hover:underline">
+          <a href="programs.html#conditioning" class="text-[#B7F52A] text-xs font-black uppercase tracking-wider hover:underline">
             Upcoming Clinics &rarr;
           </a>
         </div>
@@ -485,49 +932,50 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER / STAY CONNECTED -->
-  <section class="py-16 bg-[#0d0f14] border-b border-slate-800/80">
+  <!-- COMMUNITY & SPONSOR INTRODUCTION (Section 06) -->
+  <section class="py-16 bg-[#17243B]/60 border-b border-slate-800/80">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
-      <div class="inline-block p-4 rounded-2xl bg-[#141820] text-[#00e5ff] border border-[#00e5ff]/30 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+      <div class="inline-block p-4 rounded-2xl bg-[#111317] text-[#67DDF2] border border-[#67DDF2]/30 shadow-[0_0_15px_rgba(103,221,242,0.2)]">
         <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
       </div>
 
       <h2 class="font-heading text-3xl font-black text-white">
-        Stay Connected With Natomas Sports
+        Building Together with the Natomas Community
       </h2>
-      <p class="text-slate-300 text-base max-w-xl mx-auto">
-        Be the first to hear about tryouts, clinic dates, coaching opportunities, and new sport launches in Natomas.
+      <p class="text-slate-300 text-base max-w-2xl mx-auto leading-relaxed">
+        Natomas Sport Association is building a foundation for youth sports participation and development. Support from families, volunteers, and community partners helps create opportunities for young athletes to learn, compete, and grow together.
       </p>
 
       <form data-ajax-notify class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-        <input type="email" required placeholder="Enter your email address" class="flex-1 px-4 py-3 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#39ff14] text-sm">
-        <button type="submit" class="btn-neon-green px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider">
-          Subscribe
+        <input type="email" required placeholder="Enter your email address" class="flex-1 px-4 py-3 rounded-xl bg-[#111317] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#67DDF2] text-sm">
+        <button type="submit" class="btn-brand-lime px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider">
+          Stay Connected
         </button>
       </form>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-[#060709] text-slate-400 text-sm pt-16 pb-12 border-t border-slate-800">
+  <footer class="bg-[#111317] text-slate-400 text-sm pt-16 pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800/80">
         
         <!-- Brand Info -->
         <div class="lg:col-span-2 space-y-4">
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden border border-[#39ff14] shadow-[0_0_10px_rgba(57,255,20,0.3)]">
-              <img src="assets/images/logo.jpg" alt="Natomas Sports Association" class="w-full h-full object-cover">
-            </div>
+            <img src="assets/images/logo-dark.png" alt="Natomas Sport Association" class="h-11 sm:h-12 w-auto rounded-xl border border-[#67DDF2]/40 shadow-[0_0_12px_rgba(103,221,242,0.25)] flex-shrink-0 block">
             <div class="flex flex-col">
-              <span class="font-heading text-base font-black text-white tracking-wider uppercase">Natomas Sports Association</span>
-              <span class="text-xs text-[#00e5ff] font-bold tracking-widest uppercase">Sacramento, California</span>
+              <span class="font-heading text-base font-black text-white tracking-wider uppercase">Natomas Sport Association</span>
+              <span class="text-xs text-[#67DDF2] font-bold tracking-widest uppercase">Sacramento, California</span>
             </div>
           </div>
-          <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
-            Empowering youth through sportsmanship, elite coaching, discipline, and community athletic pride. Proudly serving Natomas families.
+          <p class="text-slate-300 text-xs leading-relaxed max-w-sm">
+            A California nonprofit public benefit corporation serving as an umbrella organization for youth sports teams. Developing Athletes. Building Character. Creating Opportunity.
+          </p>
+          <p class="text-xs text-[#B7F52A] font-bold uppercase tracking-wider">
+            One Organization. Strong Teams. A Culture That Puts Youth First.
           </p>
           <p class="text-xs text-slate-500 font-mono">
             Official Domain: natomassportsassociation.org
@@ -538,11 +986,11 @@
         <div class="space-y-3">
           <h4 class="font-heading text-xs font-black uppercase tracking-wider text-white">Programs</h4>
           <ul class="space-y-2 text-xs">
-            <li><a href="travel-baseball.html" class="hover:text-[#39ff14] transition">Travel Baseball</a></li>
-            <li><a href="tryouts.html" class="hover:text-[#39ff14] transition">Player Tryouts</a></li>
-            <li><a href="programs.html#basketball" class="hover:text-[#00e5ff] transition">Basketball (Upcoming)</a></li>
-            <li><a href="programs.html#soccer" class="hover:text-[#ff007f] transition">Soccer (Upcoming)</a></li>
-            <li><a href="programs.html#conditioning" class="hover:text-[#39ff14] transition">Skill Clinics</a></li>
+            <li><a href="travel-baseball.html" class="hover:text-[#B7F52A] transition">Travel Baseball</a></li>
+            <li><a href="tryouts.html" class="hover:text-[#B7F52A] transition">Player Tryouts</a></li>
+            <li><a href="programs.html#basketball" class="hover:text-[#67DDF2] transition">Basketball (Upcoming)</a></li>
+            <li><a href="programs.html#soccer" class="hover:text-white transition">Soccer (Upcoming)</a></li>
+            <li><a href="programs.html#conditioning" class="hover:text-[#B7F52A] transition">Skill Clinics</a></li>
           </ul>
         </div>
 
@@ -550,10 +998,11 @@
         <div class="space-y-3">
           <h4 class="font-heading text-xs font-black uppercase tracking-wider text-white">Organization</h4>
           <ul class="space-y-2 text-xs">
-            <li><a href="about.html" class="hover:text-[#39ff14] transition">About NSA</a></li>
-            <li><a href="about.html#sponsors" class="hover:text-[#39ff14] transition">Sponsors & Donors</a></li>
-            <li><a href="contact.html#faq" class="hover:text-[#00e5ff] transition">Frequently Asked Questions</a></li>
-            <li><a href="contact.html" class="hover:text-[#00e5ff] transition">Contact Us</a></li>
+            <li><a href="about.html" class="hover:text-[#67DDF2] transition">About Us</a></li>
+            <li><a href="#values" class="hover:text-[#67DDF2] transition">Organization Values</a></li>
+            <li><a href="#culture" class="hover:text-[#67DDF2] transition">Culture Standard</a></li>
+            <li><a href="about.html#sponsors" class="hover:text-[#B7F52A] transition">Sponsors & Partners</a></li>
+            <li><a href="contact.html" class="hover:text-[#67DDF2] transition">Contact Us</a></li>
           </ul>
         </div>
 
@@ -561,10 +1010,10 @@
         <div class="space-y-3">
           <h4 class="font-heading text-xs font-black uppercase tracking-wider text-white">Locations</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Practices & games held across North & South Natomas regional parks, Sacramento, CA.
+            Practices & games held across North & South Natomas regional facilities in Sacramento, CA.
           </p>
           <div class="pt-2">
-            <a href="contact.html" class="inline-block px-4 py-2 rounded-xl bg-[#141820] border border-slate-700 text-xs font-black text-[#39ff14] hover:border-[#39ff14] transition">
+            <a href="contact.html" class="inline-block px-4 py-2 rounded-xl bg-[#17243B] border border-slate-700 text-xs font-black text-[#67DDF2] hover:border-[#67DDF2] transition">
               Get in Touch &rarr;
             </a>
           </div>
@@ -574,11 +1023,11 @@
 
       <!-- Bottom Bar -->
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-        <p>&copy; <span class="current-year">2026</span> Natomas Sports Association. All rights reserved.</p>
+        <p>&copy; <span class="current-year">2026</span> Natomas Sport Association. All rights reserved.</p>
         <div class="flex space-x-6">
           <a href="contact.html" class="hover:text-slate-400">Support</a>
-          <a href="about.html" class="hover:text-slate-400">Privacy & Terms</a>
-          <a href="tryouts.html" class="text-[#39ff14] font-black hover:underline">Tryouts Register</a>
+          <a href="about.html" class="hover:text-slate-400">Privacy & Policies</a>
+          <a href="tryouts.html" class="text-[#B7F52A] font-black hover:underline">Tryouts Register</a>
         </div>
       </div>
     </div>

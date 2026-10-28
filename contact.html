@@ -36,20 +36,6 @@
 </head>
 <body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
 
-  <!-- DIAGONAL SITE UNDER CONSTRUCTION BANNER ACROSS THE MIDDLE -->
-  <div class="construction-ribbon-wrapper" aria-hidden="true">
-    <div class="construction-ribbon">
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-      <span>•</span>
-      <span>NATOMAS SPORTS ASSOCIATION</span>
-      <span>•</span>
-      <span>🚧 SITE UNDER CONSTRUCTION • COMING SOON! 🚧</span>
-    </div>
-  </div>
 
   <!-- TOP ALERT BANNER -->
   <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide">
@@ -65,15 +51,13 @@
       <div class="flex items-center justify-between h-20">
         
         <a href="index.html" class="flex items-center space-x-3 group">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#39ff14] group-hover:border-[#00e5ff] transition-all duration-300 shadow-[0_0_12px_rgba(57,255,20,0.4)] flex-shrink-0">
-            <img src="assets/images/logo.jpg" alt="Natomas Sports Association Logo" class="w-full h-full object-cover">
-          </div>
+          <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo" class="h-11 sm:h-12 w-auto rounded-xl border border-[#67DDF2]/50 group-hover:border-[#B7F52A] transition-all duration-300 shadow-[0_0_12px_rgba(103,221,242,0.25)] flex-shrink-0 block">
           <div class="flex flex-col">
-            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#39ff14] transition-colors">
+            <span class="font-heading text-lg md:text-xl font-black tracking-wider text-white uppercase leading-none group-hover:text-[#67DDF2] transition-colors">
               Natomas
             </span>
-            <span class="text-xs font-extrabold tracking-widest text-[#00e5ff] uppercase mt-0.5">
-              Sports Association
+            <span class="text-xs font-extrabold tracking-widest text-[#67DDF2] uppercase mt-0.5">
+              Sport Association
             </span>
           </div>
         </a>
@@ -81,7 +65,8 @@
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
           <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Home</a>
           <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Travel Baseball</a>
-          <a href="programs.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Sports & Programs</a>
+          <!-- Hidden temporarily: Sports & Programs -->
+          <a href="programs.html" class="hidden px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
           <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
           <a href="about.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">About Us</a>
           <a href="contact.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">Contact</a>
@@ -108,7 +93,8 @@
     <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
       <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Home</a>
       <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Travel Baseball</a>
-      <a href="programs.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Sports & Programs</a>
+      <!-- Hidden temporarily: Sports & Programs -->
+      <a href="programs.html" class="hidden block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
       <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
       <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">About Us</a>
       <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">Contact</a>
@@ -260,7 +246,7 @@
         <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
           <h3 class="text-white font-bold text-base mb-2">What is the time commitment for travel baseball?</h3>
           <p class="text-slate-400 text-xs leading-relaxed">
-            NSA teams typically practice twice per week on weekday evenings in Natomas, with 1 to 2 weekend tournaments per month. During tournament weekends, teams play 3 to 5 games across Saturday and Sunday. We structure our calendar to prevent player burnout.
+            Our travel baseball teams typically practice twice per week on weekday evenings in Natomas, with 1 to 2 weekend tournaments per month. During tournament weekends, teams play 3 to 5 games across Saturday and Sunday. We structure our calendar to prevent player burnout.
           </p>
         </div>
 
@@ -272,16 +258,16 @@
         </div>
 
         <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
-          <h3 class="text-white font-bold text-base mb-2">Can my child play Little League alongside NSA?</h3>
+          <h3 class="text-white font-bold text-base mb-2">Can my child play Little League alongside travel baseball?</h3>
           <p class="text-slate-400 text-xs leading-relaxed">
-            Yes, many of our 9U and 10U athletes also participate in local Little League seasons. As players advance to 12U and 14U, travel tournament commitments often take primary focus, but we actively encourage multi-sport balance.
+            Yes, we actively encourage multi-sport balance and local league participation. Bad Hops 11U schedules tournaments and practices with family schedules in mind to support well-rounded athletic development and prevent burnout.
           </p>
         </div>
 
         <div class="bg-[#060709] border border-slate-800 rounded-3xl p-6">
           <h3 class="text-white font-bold text-base mb-2">When will basketball and other sports begin?</h3>
           <p class="text-slate-400 text-xs leading-relaxed">
-            Our multi-sport rollout starts with winter/fall youth basketball clinics and 3v3 leagues, followed by spring soccer and seasonal speed/agility sessions. You can submit your interest on our <a href="programs.html#notify-form" class="text-[#00e5ff] underline">Sports & Programs page</a>.
+            Our multi-sport rollout starts with winter/fall youth basketball clinics and 3v3 leagues, followed by spring soccer and seasonal speed/agility sessions. You can submit your interest using our <a href="#inquiry-form" class="text-[#00e5ff] underline">inquiry form above</a>.
           </p>
         </div>
 
@@ -294,9 +280,7 @@
   <footer class="bg-[#060709] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#39ff14]">
-          <img src="assets/images/logo.jpg" alt="Natomas Sports Association" class="w-full h-full object-cover">
-        </div>
+        <img src="assets/images/logo-dark.png" alt="Natomas Sport Association" class="h-8 w-auto rounded-lg border border-[#67DDF2]/40 flex-shrink-0 block">
         <span class="font-heading text-sm font-bold text-white">Natomas Sports Association</span>
       </div>
       <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sports Association. Official Domain: natomassportsassociation.org</p>

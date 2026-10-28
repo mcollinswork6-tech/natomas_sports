@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navbar) {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 20) {
-        navbar.classList.add('shadow-xl', 'bg-[#060709]/95', 'backdrop-blur-md', 'border-b', 'border-[#39ff14]/30');
-        navbar.classList.remove('bg-[#060709]');
+        navbar.classList.add('shadow-xl', 'bg-[#111317]/95', 'backdrop-blur-md', 'border-b', 'border-[#67DDF2]/30');
+        navbar.classList.remove('bg-[#111317]');
       } else {
-        navbar.classList.remove('shadow-xl', 'bg-[#060709]/95', 'backdrop-blur-md', 'border-[#39ff14]/30');
-        navbar.classList.add('bg-[#060709]');
+        navbar.classList.remove('shadow-xl', 'bg-[#111317]/95', 'backdrop-blur-md', 'border-[#67DDF2]/30');
+        navbar.classList.add('bg-[#111317]');
       }
     });
   }
@@ -67,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Simulate submission
       setTimeout(() => {
         const feedbackContainer = form.querySelector('.form-feedback') || document.createElement('div');
-        feedbackContainer.className = 'form-feedback p-4 mt-4 rounded-xl bg-[#39ff14]/10 border border-[#39ff14]/40 text-[#39ff14] text-sm font-semibold animate-fade-in shadow-[0_0_15px_rgba(57,255,20,0.2)]';
+        feedbackContainer.className = 'form-feedback p-4 mt-4 rounded-xl bg-[#67DDF2]/10 border border-[#67DDF2]/40 text-[#67DDF2] text-sm font-semibold animate-fade-in shadow-[0_0_15px_rgba(103,221,242,0.2)]';
         feedbackContainer.innerHTML = `
           <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5 flex-shrink-0 text-[#39ff14]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 flex-shrink-0 text-[#B7F52A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Thank you! Your information has been received. Natomas Sports Association will contact you shortly!</span>
+            <span class="text-slate-100">Thank you! Your information has been received. <strong class="text-[#B7F52A]">Natomas Sport Association</strong> will contact you shortly!</span>
           </div>
         `;
         

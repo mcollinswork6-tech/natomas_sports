@@ -1,17 +1,32 @@
-/* Custom styles for Natomas Sports Association - Neon Cyber Athletic Theme */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&family=Inter:wght@300;400;500;600;700&display=swap');
+/* ==========================================================================
+   Natomas Sport Association - Brand Style System
+   Brand Guide Specifications:
+   - Midnight Navy: #17243B (Primary - Official identity, headers, structure)
+   - Charcoal:      #111317 (Neutral - Dark backgrounds, text, merchandise)
+   - Ice Blue:      #67DDF2 (Primary Accent - Energy, highlights, digital branding)
+   - Neon Lime:     #B7F52A (Secondary Accent - Selective highlights & athletic accents)
+   - White:         #FFFFFF (Neutral - Negative space, crisp typography, contrast)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --neon-green: #39ff14;
-  --neon-cyan: #00e5ff;
-  --neon-pink: #ff007f;
-  --dark-bg: #060709;
-  --card-bg: #0d0f14;
+  --color-navy: #17243B;
+  --color-charcoal: #111317;
+  --color-ice-blue: #67DDF2;
+  --color-neon-lime: #B7F52A;
+  --color-white: #FFFFFF;
+  
+  /* Legacy mapping */
+  --neon-green: #B7F52A;
+  --neon-cyan: #67DDF2;
+  --dark-bg: #111317;
+  --card-bg: #17243B;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--dark-bg);
+  background-color: var(--color-charcoal);
   color: #f1f5f9;
 }
 
@@ -20,131 +35,152 @@ h1, h2, h3, h4, .font-heading {
   letter-spacing: -0.02em;
 }
 
-/* Dark athletic mesh background with neon specks */
-.bg-neon-mesh {
-  background-color: #060709;
+/* Subtle Athletic Grid / Mesh Background */
+.bg-brand-mesh {
+  background-color: #111317;
   background-image: 
-    radial-gradient(rgba(57, 255, 20, 0.08) 1.2px, transparent 1.2px), 
-    radial-gradient(rgba(0, 229, 255, 0.08) 1.2px, #060709 1.2px);
-  background-size: 36px 36px;
-  background-position: 0 0, 18px 18px;
+    radial-gradient(rgba(103, 221, 242, 0.08) 1.2px, transparent 1.2px), 
+    radial-gradient(rgba(183, 245, 42, 0.05) 1.2px, #111317 1.2px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
 }
 
-/* Neon Glow Utilities */
-.glow-green {
-  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6), 0 0 20px rgba(57, 255, 20, 0.3);
+/* Legacy alias */
+.bg-neon-mesh {
+  background-color: #111317;
+  background-image: 
+    radial-gradient(rgba(103, 221, 242, 0.08) 1.2px, transparent 1.2px), 
+    radial-gradient(rgba(183, 245, 42, 0.05) 1.2px, #111317 1.2px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
 }
 
-.glow-cyan {
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.6), 0 0 20px rgba(0, 229, 255, 0.3);
+/* Brand Glow Effects */
+.glow-ice {
+  text-shadow: 0 0 12px rgba(103, 221, 242, 0.6), 0 0 24px rgba(103, 221, 242, 0.3);
 }
 
-.glow-pink {
-  text-shadow: 0 0 10px rgba(255, 0, 127, 0.6), 0 0 20px rgba(255, 0, 127, 0.3);
+.glow-lime {
+  text-shadow: 0 0 12px rgba(183, 245, 42, 0.6), 0 0 24px rgba(183, 245, 42, 0.3);
 }
 
-.box-glow-green {
-  box-shadow: 0 0 20px -3px rgba(57, 255, 20, 0.35);
+.box-glow-ice {
+  box-shadow: 0 0 25px -4px rgba(103, 221, 242, 0.4);
 }
 
-.box-glow-cyan {
-  box-shadow: 0 0 20px -3px rgba(0, 229, 255, 0.35);
+.box-glow-lime {
+  box-shadow: 0 0 25px -4px rgba(183, 245, 42, 0.4);
 }
 
-.box-glow-pink {
-  box-shadow: 0 0 20px -3px rgba(255, 0, 127, 0.35);
-}
-
-/* Neon Card Hover Effects */
-.neon-card {
+/* Brand Cards */
+.brand-card, .neon-card {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #0d0f14;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #17243B;
+  background: linear-gradient(180deg, rgba(23, 36, 59, 0.85) 0%, rgba(17, 19, 23, 0.95) 100%);
+  border: 1px solid rgba(103, 221, 242, 0.15);
 }
 
-.neon-card:hover {
+.brand-card:hover, .neon-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(57, 255, 20, 0.5);
-  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(57, 255, 20, 0.25);
+  border-color: rgba(183, 245, 42, 0.6);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.75), 0 0 25px -5px rgba(183, 245, 42, 0.25);
 }
 
-.neon-card-cyan:hover {
-  border-color: rgba(0, 229, 255, 0.6);
-  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(0, 229, 255, 0.25);
+.brand-card-ice:hover, .neon-card-cyan:hover {
+  border-color: rgba(103, 221, 242, 0.65);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.75), 0 0 25px -5px rgba(103, 221, 242, 0.3);
 }
 
-.neon-card-pink:hover {
-  border-color: rgba(255, 0, 127, 0.6);
-  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(255, 0, 127, 0.25);
-}
-
-/* Neon Gradient Buttons */
-.btn-neon-green {
-  background: linear-gradient(135deg, #39ff14 0%, #10b981 100%);
-  color: #060709;
+/* Buttons */
+.btn-brand-lime, .btn-neon-green {
+  background: linear-gradient(135deg, #B7F52A 0%, #a4e617 100%);
+  color: #111317;
   font-weight: 800;
   transition: all 0.25s ease;
-  box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 20px rgba(183, 245, 42, 0.3);
 }
 
-.btn-neon-green:hover {
-  background: linear-gradient(135deg, #4ade80 0%, #39ff14 100%);
+.btn-brand-lime:hover, .btn-neon-green:hover {
+  background: linear-gradient(135deg, #c5fa4a 0%, #B7F52A 100%);
   transform: translateY(-1px);
-  box-shadow: 0 0 25px rgba(57, 255, 20, 0.55);
+  box-shadow: 0 0 30px rgba(183, 245, 42, 0.55);
 }
 
-.btn-neon-pink {
-  background: linear-gradient(135deg, #ff007f 0%, #be185d 100%);
+.btn-brand-ice, .btn-neon-cyan {
+  background: linear-gradient(135deg, #67DDF2 0%, #38bdf8 100%);
+  color: #111317;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(103, 221, 242, 0.3);
+}
+
+.btn-brand-ice:hover, .btn-neon-cyan:hover {
+  background: linear-gradient(135deg, #8fe8f7 0%, #67DDF2 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(103, 221, 242, 0.55);
+}
+
+.btn-brand-navy {
+  background: #17243B;
+  color: #ffffff;
+  border: 1px solid rgba(103, 221, 242, 0.4);
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.btn-brand-navy:hover {
+  background: #1f304d;
+  border-color: #67DDF2;
+  box-shadow: 0 0 20px rgba(103, 221, 242, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-brand-pink {
+  background: linear-gradient(135deg, #F02AA8 0%, #d81691 100%);
   color: #ffffff;
   font-weight: 800;
   transition: all 0.25s ease;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+  box-shadow: 0 0 20px rgba(240, 42, 168, 0.35);
 }
 
-.btn-neon-pink:hover {
-  background: linear-gradient(135deg, #ff3399 0%, #ff007f 100%);
+.btn-brand-pink:hover {
+  background: linear-gradient(135deg, #fa45b8 0%, #F02AA8 100%);
   transform: translateY(-1px);
-  box-shadow: 0 0 25px rgba(255, 0, 127, 0.55);
+  box-shadow: 0 0 30px rgba(240, 42, 168, 0.6);
 }
 
-.btn-neon-cyan {
-  background: linear-gradient(135deg, #00e5ff 0%, #0284c7 100%);
-  color: #060709;
-  font-weight: 800;
-  transition: all 0.25s ease;
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+/* Hero Section Overlay */
+.hero-brand-overlay {
+  background: 
+    radial-gradient(circle at 80% 30%, rgba(103, 221, 242, 0.16) 0%, transparent 50%),
+    radial-gradient(circle at 20% 70%, rgba(183, 245, 42, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 50% 10%, rgba(23, 36, 59, 0.6) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(17, 19, 23, 0.4) 0%, rgba(17, 19, 23, 0.98) 100%);
 }
 
-.btn-neon-cyan:hover {
-  background: linear-gradient(135deg, #38bdf8 0%, #00e5ff 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 0 25px rgba(0, 229, 255, 0.55);
-}
-
-/* Hero Section Neon Splatter Gradient */
 .hero-neon-overlay {
-  background: radial-gradient(circle at 75% 40%, rgba(0, 229, 255, 0.12) 0%, transparent 45%),
-              radial-gradient(circle at 25% 60%, rgba(255, 0, 127, 0.1) 0%, transparent 40%),
-              radial-gradient(circle at 50% 20%, rgba(57, 255, 20, 0.08) 0%, transparent 50%),
-              linear-gradient(180deg, rgba(6, 7, 9, 0.7) 0%, rgba(6, 7, 9, 0.98) 100%);
+  background: 
+    radial-gradient(circle at 80% 30%, rgba(103, 221, 242, 0.16) 0%, transparent 50%),
+    radial-gradient(circle at 20% 70%, rgba(183, 245, 42, 0.1) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(17, 19, 23, 0.4) 0%, rgba(17, 19, 23, 0.98) 100%);
 }
 
-/* Custom scrollbar in Neon Green */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #060709;
+  background: #111317;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2430;
+  background: #17243B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #39ff14;
+  background: #67DDF2;
 }
 
-/* Full Diagonal Banner Across the Middle - Site Under Construction */
+/* Diagonal Construction Ribbon */
 .construction-ribbon-wrapper {
   position: fixed;
   inset: 0;
@@ -154,7 +190,7 @@ h1, h2, h3, h4, .font-heading {
   pointer-events: none;
   z-index: 99999;
   overflow: hidden;
-  background: rgba(6, 7, 9, 0.72);
+  background: rgba(17, 19, 23, 0.72);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
@@ -162,18 +198,18 @@ h1, h2, h3, h4, .font-heading {
 .construction-ribbon {
   width: 250vw;
   transform: rotate(-16deg);
-  background: linear-gradient(90deg, #ff007f 0%, #00e5ff 25%, #39ff14 50%, #00e5ff 75%, #ff007f 100%);
+  background: linear-gradient(90deg, #17243B 0%, #67DDF2 25%, #B7F52A 50%, #67DDF2 75%, #17243B 100%);
   background-size: 200% 100%;
-  color: #060709;
+  color: #111317;
   font-family: 'Montserrat', -apple-system, sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 14px 0;
-  box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(57, 255, 20, 0.55);
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
+  padding: 13px 0;
+  box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(103, 221, 242, 0.5);
+  border-top: 3px solid #111317;
+  border-bottom: 3px solid #111317;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -184,20 +220,18 @@ h1, h2, h3, h4, .font-heading {
 
 @keyframes construction-pulse {
   0% {
-    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(57, 255, 20, 0.4);
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(103, 221, 242, 0.4);
   }
   100% {
-    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 229, 255, 0.7);
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9), 0 0 45px rgba(183, 245, 42, 0.6);
   }
 }
 
 @media (max-width: 768px) {
   .construction-ribbon {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     padding: 10px 0;
     transform: rotate(-22deg);
     gap: 1.25rem;
   }
 }
-
-
