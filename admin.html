@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - Tryout Registrations | Natomas Sport Association</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Montserrat', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              charcoal: '#111317',
+              navy: '#17243B',
+              pink: '#F02AA8',
+              ice: '#67DDF2',
+              lime: '#B7F52A',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body class="bg-[#0b0c0e] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#67DDF2] selection:text-[#111317] relative">
+
+  <!-- ========================================== -->
+  <!-- 1. AUTHENTICATION VIEW (Logged Out)       -->
+  <!-- ========================================== -->
+  <div id="auth-view" class="flex-grow flex items-center justify-center p-4 py-12">
+    <div class="w-full max-w-md bg-[#111317] border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+      <div class="text-center space-y-3">
+        <a href="index.html" class="inline-block group">
+          <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo"
+            class="h-16 w-auto mx-auto rounded-xl border border-[#67DDF2]/40 shadow-[0_0_15px_rgba(103,221,242,0.3)] group-hover:scale-105 transition-transform">
+        </a>
+        <div class="space-y-1">
+          <span class="text-xs font-black tracking-widest text-[#67DDF2] uppercase">Coaching & Staff Portal</span>
+          <h1 class="font-heading text-2xl font-black text-white uppercase tracking-wider">Tryout Reviews</h1>
+          <p class="text-xs text-slate-400">Sign in to review player evaluation registrations</p>
+        </div>
+      </div>
+
+      <!-- Auth Error Notification -->
+      <div id="login-error" class="hidden p-3.5 rounded-xl bg-red-950/80 border border-red-500/50 text-red-200 text-xs font-semibold"></div>
+
+      <!-- Email/Password Sign-In Form -->
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="admin-email" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Staff Email</label>
+          <input type="email" id="admin-email" required placeholder="coach@natomassports.org"
+            class="w-full px-4 py-3 rounded-xl bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+        </div>
+        <div>
+          <label for="admin-password" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Password</label>
+          <input type="password" id="admin-password" required placeholder="••••••••••••"
+            class="w-full px-4 py-3 rounded-xl bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+        </div>
+
+        <button type="submit" id="login-btn"
+          class="w-full py-3.5 rounded-xl bg-[#67DDF2] hover:bg-[#52d0e7] text-[#111317] font-black uppercase text-xs tracking-wider transition-colors shadow-[0_0_20px_rgba(103,221,242,0.3)]">
+          Sign In to Portal
+        </button>
+      </form>
+
+      <div class="relative flex items-center justify-center my-4">
+        <div class="border-t border-slate-800 w-full"></div>
+        <span class="bg-[#111317] px-3 text-xs text-slate-500 uppercase tracking-wider font-semibold">or</span>
+      </div>
+
+      <!-- Google Sign In Button -->
+      <button type="button" id="google-login-btn"
+        class="w-full py-3 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center space-x-2 transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+        </svg>
+        <span>Sign in with Google</span>
+      </button>
+
+      <div class="text-center pt-2">
+        <a href="index.html" class="text-xs text-slate-400 hover:text-[#67DDF2] transition-colors">
+          &larr; Back to Public Website
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. ADMIN DASHBOARD VIEW (Logged In)        -->
+  <!-- ========================================== -->
+  <div id="dashboard-view" class="hidden flex-grow flex flex-col">
+
+    <!-- Top Admin Header -->
+    <header class="bg-[#111317] border-b border-slate-800 sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Logo & Organization Title -->
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="flex items-center space-x-3 group">
+            <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo"
+              class="h-11 w-auto rounded-xl border border-[#67DDF2]/40 shadow-[0_0_10px_rgba(103,221,242,0.25)] flex-shrink-0">
+            <div class="hidden sm:flex flex-col">
+              <span class="font-heading text-base font-black tracking-wider text-white uppercase leading-none">Natomas</span>
+              <span class="text-[10px] font-extrabold tracking-widest text-[#67DDF2] uppercase mt-0.5">Sport Association</span>
+            </div>
+          </a>
+          <span class="hidden md:inline-block text-xs font-black uppercase tracking-wider px-2.5 py-1 bg-[#17243B] text-[#B7F52A] rounded-full border border-[#B7F52A]/30">
+            Tryout Portal
+          </span>
+        </div>
+
+        <!-- User Controls -->
+        <div class="flex items-center space-x-3">
+          <div class="hidden sm:flex flex-col text-right">
+            <span class="text-xs font-bold text-white" id="user-display-email">admin@natomassports.org</span>
+            <span class="text-[10px] text-slate-400">Authenticated Coach</span>
+          </div>
+          <button type="button" id="signout-btn"
+            class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors border border-slate-700">
+            Sign Out
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Dashboard Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-6 flex-grow">
+
+      <!-- Metrics KPI Strip -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Metric 1: Total -->
+        <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registrations</div>
+          <div id="stat-total" class="font-heading text-3xl font-black text-white">0</div>
+          <div class="text-[11px] text-[#67DDF2] font-semibold">All submitted athletes</div>
+          <div class="absolute right-3 top-3 w-10 h-10 rounded-full bg-[#67DDF2]/10 flex items-center justify-center text-[#67DDF2]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Metric 2: Bad Hops 11U -->
+        <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Bad Hops 11U</div>
+          <div id="stat-11u" class="font-heading text-3xl font-black text-[#F02AA8]">0</div>
+          <div class="text-[11px] text-slate-400">Featured 11U Travel Ball</div>
+          <div class="absolute right-3 top-3 w-10 h-10 rounded-full bg-[#F02AA8]/10 flex items-center justify-center text-[#F02AA8]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Metric 3: New / Pending -->
+        <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">New Signups</div>
+          <div id="stat-new" class="font-heading text-3xl font-black text-[#B7F52A]">0</div>
+          <div class="text-[11px] text-[#B7F52A]">Awaiting coach review</div>
+          <div class="absolute right-3 top-3 w-10 h-10 rounded-full bg-[#B7F52A]/10 flex items-center justify-center text-[#B7F52A]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Metric 4: Contacted / Confirmed -->
+        <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Confirmed</div>
+          <div id="stat-confirmed" class="font-heading text-3xl font-black text-[#67DDF2]">0</div>
+          <div class="text-[11px] text-slate-400">Attending evaluations</div>
+          <div class="absolute right-3 top-3 w-10 h-10 rounded-full bg-[#67DDF2]/10 flex items-center justify-center text-[#67DDF2]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Toolbar (Search, Filter, Export) -->
+      <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        
+        <!-- Search and Filter Inputs -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-grow max-w-3xl">
+          <!-- Search -->
+          <div class="relative flex-grow">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </span>
+            <input type="text" id="search-input" placeholder="Search by player, parent, email, phone..."
+              class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+          </div>
+
+          <!-- Division Filter -->
+          <select id="filter-division"
+            class="px-3 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+            <option value="all">All Divisions</option>
+            <option value="Bad Hops 11U">Bad Hops 11U</option>
+            <option value="9U-10U">9U / 10U</option>
+            <option value="12U-14U">12U / 14U</option>
+          </select>
+
+          <!-- Status Filter -->
+          <select id="filter-status"
+            class="px-3 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+            <option value="all">All Statuses</option>
+            <option value="new">New (Unreviewed)</option>
+            <option value="contacted">Contacted</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center space-x-2">
+          <button type="button" id="export-csv-btn"
+            class="px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Export CSV Roster</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Registrations Table Container -->
+      <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-[#17243B]/70 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                <th class="p-4 pl-6">Player Name</th>
+                <th class="p-4">Division</th>
+                <th class="p-4">DOB / Age</th>
+                <th class="p-4">Positions & Arms</th>
+                <th class="p-4">Parent Contact</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Submitted</th>
+                <th class="p-4 pr-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="registrations-tbody" class="divide-y divide-slate-800/60">
+              <!-- Loading Skeleton / Placeholder -->
+              <tr>
+                <td colspan="8" class="text-center py-12 text-slate-500">
+                  <div class="inline-flex items-center space-x-2">
+                    <svg class="animate-spin h-5 w-5 text-[#67DDF2]" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    <span>Loading tryout registrations from Firebase...</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Admin Footer -->
+    <footer class="bg-[#0b0c0e] border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+      &copy; <span class="current-year">2026</span> Natomas Sport Association • Bad Hops 11U Travel Baseball Coaching Portal
+    </footer>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 3. PLAYER DETAIL MODAL                    -->
+  <!-- ========================================== -->
+  <div id="player-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#111317] border border-slate-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      
+      <!-- Close Button -->
+      <button type="button" id="modal-close-btn" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="space-y-1 pr-8">
+        <div class="flex items-center space-x-2">
+          <span id="modal-division-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#F02AA8] text-white">Bad Hops 11U</span>
+          <span id="modal-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#67DDF2]/20 text-[#67DDF2] border border-[#67DDF2]/40">New</span>
+        </div>
+        <h2 id="modal-player-name" class="font-heading text-2xl font-black text-white">Player Full Name</h2>
+        <p class="text-xs text-slate-400">Ref ID: <span id="modal-doc-id" class="font-mono text-[#67DDF2]"></span></p>
+      </div>
+
+      <!-- Athlete Specifics -->
+      <div class="bg-[#17243B]/60 p-4 rounded-2xl border border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div>
+          <span class="block text-slate-500 text-[10px] uppercase font-bold">Date of Birth</span>
+          <span id="modal-dob" class="font-bold text-white">--</span>
+        </div>
+        <div>
+          <span class="block text-slate-500 text-[10px] uppercase font-bold">Positions</span>
+          <span id="modal-positions" class="font-bold text-[#B7F52A]">--</span>
+        </div>
+        <div>
+          <span class="block text-slate-500 text-[10px] uppercase font-bold">Bats / Throws</span>
+          <span id="modal-bats-throws" class="font-bold text-white">--</span>
+        </div>
+        <div>
+          <span class="block text-slate-500 text-[10px] uppercase font-bold">Neighborhood</span>
+          <span id="modal-zip" class="font-bold text-white">--</span>
+        </div>
+      </div>
+
+      <!-- Baseball Experience -->
+      <div class="space-y-1">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Baseball Experience</h4>
+        <div id="modal-experience" class="p-3.5 rounded-xl bg-[#0b0c0e] border border-slate-800 text-xs text-slate-300">
+          --
+        </div>
+      </div>
+
+      <!-- Parent & Contact Info -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Parent / Guardian Contact</h4>
+        <div class="bg-[#17243B]/40 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div>
+            <div id="modal-parent-name" class="font-bold text-white text-sm">Parent Name</div>
+            <div id="modal-phone" class="text-slate-300">--</div>
+            <div id="modal-email" class="text-[#67DDF2]">--</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <a id="modal-call-link" href="#" class="px-3.5 py-2 rounded-xl bg-[#B7F52A] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1 hover:bg-[#a6e81e] transition-colors">
+              <span>Call</span>
+            </a>
+            <a id="modal-email-link" href="#" class="px-3.5 py-2 rounded-xl bg-[#67DDF2] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1 hover:bg-[#52d0e7] transition-colors">
+              <span>Email</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical & Special Notes -->
+      <div class="space-y-1">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Notes & Medical Considerations</h4>
+        <div id="modal-notes" class="p-3.5 rounded-xl bg-[#0b0c0e] border border-slate-800 text-xs text-slate-400 italic">
+          None provided
+        </div>
+      </div>
+
+      <!-- Coach / Admin Evaluation Notes (Editable in Firestore!) -->
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <div class="flex items-center justify-between">
+          <label for="modal-admin-notes" class="text-xs font-bold text-[#B7F52A] uppercase tracking-wider">
+            Internal Coach / Evaluation Notes
+          </label>
+          <span id="save-notes-feedback" class="text-[10px] text-[#B7F52A] font-bold hidden">Saved!</span>
+        </div>
+        <textarea id="modal-admin-notes" rows="3" placeholder="Add tryout evaluation remarks, arm speed ratings, contact notes, etc..."
+          class="w-full px-4 py-3 rounded-xl bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-[#B7F52A]"></textarea>
+        
+        <div class="flex justify-between items-center pt-2">
+          <!-- Status Change Dropdown -->
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-slate-400 font-bold uppercase">Status:</span>
+            <select id="modal-status-select"
+              class="px-3 py-1.5 rounded-xl bg-[#141820] border border-slate-700 text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+
+          <button type="button" id="modal-save-notes-btn"
+            class="px-4 py-2 rounded-xl bg-[#B7F52A] hover:bg-[#a6e81e] text-[#111317] font-black uppercase text-xs tracking-wider transition-colors">
+            Save Changes
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="assets/js/admin.js"></script>
+</body>
+
+</html>

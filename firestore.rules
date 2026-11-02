@@ -1,0 +1,244 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: tryout_registrations
+// Document ID: Auto-generated document ID (Firestore addDoc)
+//
+// Core Purpose:
+// Securely capture tryout evaluation registrations for Natomas Sport
+// Association & Bad Hops 11U Travel Baseball while strictly safeguarding
+// youth athletes' Personally Identifiable Information (PII).
+//
+// Fields:
+//   - playerName: string (required, 1-100 chars) - Full name of athlete
+//   - dob: string (required, 4-20 chars) - Date of birth (YYYY-MM-DD)
+//   - division: string (required, 1-50 chars) - Age division (e.g. '11U', '9U-10U')
+//   - positions: string (optional, 0-100 chars) - Primary/secondary positions
+//   - batsThrows: string (optional, 0-20 chars) - Handedness (e.g. 'R/R', 'Switch')
+//   - experience: string (optional, 0-255 chars) - Past baseball background
+//   - parentName: string (required, 1-100 chars) - Parent/guardian name
+//   - phone: string (required, 6-25 chars) - Parent contact phone
+//   - email: string (required, 5-100 chars, valid email format) - Parent contact email
+//   - zipCode: string (optional/required, 1-30 chars) - Residential zip or neighborhood
+//   - notes: string (optional, 0-1000 chars) - Medical alerts or notes
+//   - waiverAccepted: bool (required, must be true) - Athletic liability consent
+//   - status: string (required/optional, max 30 chars, must be 'new' on create) - Review status
+//   - adminNotes: string (optional, max 2000 chars, empty on create) - Staff evaluation notes
+//   - submittedAt: timestamp (required, immutable) - Document creation timestamp
+//
+// Collection: authorized_staff
+// Document ID: Firebase Auth UID or staff email
+// Fields:
+//   - email: string (required) - Authorized staff email address
+//   - name: string (optional) - Coach or staff full name
+//   - role: string (required, 'coach' | 'admin' | 'coordinator') - Staff role
+//   - active: bool (required) - Active access authorization flag
+//   - createdAt: timestamp (required) - Timestamp of staff enrollment
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the request is from an authenticated user
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user is the primary super administrator
+    function isSuperAdmin() {
+      return isAuthenticated() &&
+             'email' in request.auth.token &&
+             request.auth.token.email == 'mcollinswork6@gmail.com';
+    }
+
+    // Check if user is an explicitly authorized coach or administrative personnel
+    // Restricts access ONLY to:
+    // 1. Primary super admin (mcollinswork6@gmail.com)
+    // 2. Custom claims ('admin' == true)
+    // 3. Authorized staff email whitelist
+    // 4. Authorized staff roster document lookup in Firestore (by UID or email)
+    function isAdmin() {
+      return isAuthenticated() && (
+        isSuperAdmin() ||
+        ('admin' in request.auth.token && request.auth.token.admin == true) ||
+        ('email' in request.auth.token && (
+          request.auth.token.email in [
+            'mcollinswork6@gmail.com',
+            'admin@natomassportsassociation.org',
+            'coaches@natomassportsassociation.org',
+            'badhops@natomassportsassociation.org'
+          ]
+        )) ||
+        exists(/databases/$(database)/documents/authorized_staff/$(request.auth.uid)) ||
+        ('email' in request.auth.token && exists(/databases/$(database)/documents/authorized_staff/$(request.auth.token.email)))
+      );
+    }
+
+    // Validate required fields exist in request resource
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Enforce strict schema with no arbitrary / extraneous fields
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Validate string presence, type, and bounded size limits
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+             request.resource.data[field].size() >= minLen &&
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate optional string (if present, must be string within bounds)
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+             (request.resource.data[field] is string &&
+              request.resource.data[field].size() >= minLen &&
+              request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate standard email format
+    function isValidEmail(email) {
+      return email is string &&
+             email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // Validate recent or server timestamp on creation
+    function isValidSubmittedTimestamp(time) {
+      return time is timestamp && (
+        time == request.time ||
+        (time > request.time - duration.value(5, 'm') && time <= request.time + duration.value(1, 'm'))
+      );
+    }
+
+    // Protect immutable fields from tampering during updates
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators (Validator Function Pattern)
+    // ===============================================================
+
+    // List of all allowed keys in tryout_registrations collection
+    function allowedRegistrationKeys() {
+      return [
+        'playerName',
+        'dob',
+        'division',
+        'positions',
+        'batsThrows',
+        'experience',
+        'parentName',
+        'phone',
+        'email',
+        'zipCode',
+        'notes',
+        'waiverAccepted',
+        'status',
+        'adminNotes',
+        'submittedAt'
+      ];
+    }
+
+    // Common schema and data validity for tryout registration documents
+    function isValidRegistrationSchema(data) {
+      return hasOnlyAllowedFields(allowedRegistrationKeys()) &&
+             hasRequiredFields([
+               'playerName',
+               'dob',
+               'division',
+               'parentName',
+               'phone',
+               'email',
+               'waiverAccepted',
+               'submittedAt'
+             ]) &&
+             validStringLength('playerName', 1, 100) &&
+             validStringLength('dob', 4, 20) &&
+             validStringLength('division', 1, 50) &&
+             validStringLength('parentName', 1, 100) &&
+             validStringLength('phone', 6, 25) &&
+             validStringLength('email', 5, 100) &&
+             isValidEmail(data.email) &&
+             data.waiverAccepted == true &&
+             isValidOptionalString('positions', 0, 100) &&
+             isValidOptionalString('batsThrows', 0, 20) &&
+             isValidOptionalString('experience', 0, 255) &&
+             isValidOptionalString('zipCode', 0, 30) &&
+             isValidOptionalString('notes', 0, 1000) &&
+             isValidOptionalString('adminNotes', 0, 2000);
+    }
+
+    // Validator for CREATE: Enforces initial 'new' status and prevents forged admin notes
+    function isValidRegistrationCreate(data) {
+      return isValidRegistrationSchema(data) &&
+             isValidSubmittedTimestamp(data.submittedAt) &&
+             (!('status' in data) || data.status == 'new') &&
+             (!('adminNotes' in data) || data.adminNotes == '');
+    }
+
+    // Validator for UPDATE: Enforces immutable submission metadata and valid admin workflow
+    function isValidRegistrationUpdate(data) {
+      return isValidRegistrationSchema(data) &&
+             areImmutableFieldsUnchanged(['submittedAt', 'waiverAccepted']) &&
+             data.submittedAt == resource.data.submittedAt &&
+             isValidOptionalString('status', 1, 30) &&
+             (!('status' in data) || data.status in ['new', 'reviewed', 'contacted', 'accepted', 'declined', 'waitlist', 'archived']);
+    }
+
+    // ===============================================================
+    // Collection Security Rules
+    // ===============================================================
+
+    // Root Level Default Deny: All access blocked unless explicitly permitted
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Authorized Staff Roster & Directory
+    // Used for dynamic coach enrollment and portal access verification
+    match /authorized_staff/{staffId} {
+      // Staff members can read their own authorization status, or authorized admins can view the roster
+      allow read: if isAuthenticated() && (
+        request.auth.uid == staffId ||
+        ('email' in request.auth.token && request.auth.token.email == staffId) ||
+        isAdmin()
+      );
+      // Only the primary super admin can provision, modify, or revoke authorized staff records
+      allow write: if isSuperAdmin();
+    }
+
+    // Youth Athlete Tryout Registrations
+    match /tryout_registrations/{registrationId} {
+      // 1. Minors' Data Protection & Restricted Coach Portal Access:
+      // Public / unauthenticated users and unlisted authenticated accounts CANNOT read registrations.
+      // Access is strictly restricted to verified authorized personnel (isAdmin).
+      allow read: if isAdmin();
+
+      // 2. Public Submission:
+      // Parents can submit new tryout evaluation signups, strictly validated against
+      // schema types, length constraints, waiver agreement, and initial 'new' status.
+      allow create: if isValidRegistrationCreate(request.resource.data);
+
+      // 3. Administrative Review & Status Updates:
+      // Only authorized personnel can update records (e.g. status, evaluation notes).
+      // Crucial fields (submittedAt, waiverAccepted) remain immutable.
+      allow update: if isAdmin() && isValidRegistrationUpdate(request.resource.data);
+
+      // 4. Record Management:
+      // Only authorized personnel can delete registration entries.
+      allow delete: if isAdmin();
+    }
+  }
+}
