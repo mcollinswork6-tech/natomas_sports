@@ -1,5 +1,15 @@
 // Natomas Sports Association Interactive Scripts - Neon Cyber Athletic Theme
 document.addEventListener('DOMContentLoaded', () => {
+  // Check if page was redirected after successful form submission
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('submitted') === 'true') {
+    const successBanner = document.getElementById('form-success-banner');
+    if (successBanner) {
+      successBanner.classList.remove('hidden');
+      successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   // 1. Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');

@@ -134,7 +134,19 @@
             <p class="text-slate-400 text-xs">We typically respond within 24–48 hours.</p>
           </div>
 
-          <form action="https://formspree.io/f/mbggpzrq" method="POST" data-ajax-notify class="space-y-4">
+          <div id="form-success-banner" class="hidden p-4 mb-6 rounded-xl bg-[#39ff14]/10 border border-[#39ff14]/40 text-[#39ff14] text-sm font-semibold shadow-[0_0_15px_rgba(57,255,20,0.2)]">
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5 flex-shrink-0 text-[#39ff14]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Thank you! Your message has been sent. Natomas Sports Association will contact you shortly!</span>
+            </div>
+          </div>
+
+          <form action="https://formspree.io/f/mbggpzrq" method="POST" class="space-y-4">
+            <!-- Formspree redirection to thank you state -->
+            <input type="hidden" name="_subject" value="New Contact Inquiry - Natomas Sports Association">
+            <input type="hidden" name="_next" value="https://natomassportsassociation.org/contact.html?submitted=true">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Your Name *</label>
