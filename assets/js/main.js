@@ -90,27 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `;
             form.reset();
+            if (!form.querySelector('.form-feedback')) {
+              form.appendChild(feedbackContainer);
+            }
+            setTimeout(() => {
+              feedbackContainer.remove();
+            }, 8000);
           } else {
-            const data = await response.json();
-            const errorMsg = data.errors ? data.errors.map(error => error.message).join(', ') : 'Oops! There was a problem submitting your form.';
-            feedbackContainer.className = 'form-feedback p-4 mt-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-400 text-sm font-semibold animate-fade-in';
-            feedbackContainer.innerHTML = `<span>${errorMsg}</span>`;
+            // If AJAX gets a 403 (e.g. reCAPTCHA required by Formspree), submit standard form directly
+            form.submit();
+            return;
           }
-
-          if (!form.querySelector('.form-feedback')) {
-            form.appendChild(feedbackContainer);
-          }
-
-          setTimeout(() => {
-            feedbackContainer.remove();
-          }, 8000);
         } catch (err) {
-          const feedbackContainer = form.querySelector('.form-feedback') || document.createElement('div');
-          feedbackContainer.className = 'form-feedback p-4 mt-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-400 text-sm font-semibold animate-fade-in';
-          feedbackContainer.innerHTML = `<span>Network error. Please try again or email us directly.</span>`;
-          if (!form.querySelector('.form-feedback')) {
-            form.appendChild(feedbackContainer);
-          }
+          form.submit();
+          return;
         } finally {
           if (submitBtn) {
             submitBtn.disabled = false;
