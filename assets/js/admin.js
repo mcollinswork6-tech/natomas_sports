@@ -1,11 +1,11 @@
 // Admin Portal Controller for Natomas Sport Association
-import { 
-  auth, 
-  db, 
-  signInWithEmailAndPassword, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  signOut, 
+import {
+  auth,
+  db,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
   onAuthStateChanged,
   collection,
   query,
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const authView = document.getElementById('auth-view');
   const dashboardView = document.getElementById('dashboard-view');
   const userDisplayEmail = document.getElementById('user-display-email');
-  
+
   // DOM Elements - Auth
   const loginForm = document.getElementById('login-form');
   const loginBtn = document.getElementById('login-btn');
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       authView.classList.remove('hidden');
       registrations = [];
       filteredRegistrations = [];
+    }
   });
 
   // -------------------------------------------------------------
@@ -148,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Google Sign In
   // -------------------------------------------------------------
   if (googleLoginBtn) {
-    googleLoginBtn.addEventListener('click', async () => {
+    googleLoginBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
       loginError.classList.add('hidden');
       const provider = new GoogleAuthProvider();
       try {
@@ -180,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function initRealtimeRegistrations() {
     try {
       const q = query(collection(db, 'tryout_registrations'), orderBy('submittedAt', 'desc'));
-      
+
       unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
         registrations = [];
         snapshot.forEach((docSnapshot) => {
@@ -597,6 +599,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'This coach account has been deactivated.';
       case 'auth/popup-closed-by-user':
         return 'Google Sign-in popup was closed before completing.';
+      case 'auth/unauthorized-domain':
+        return 'This domain (natomassportsassociation.org) is not authorized in Firebase yet. In Firebase Console, go to Authentication > Settings > Authorized Domains, and add natomassportsassociation.org.';
+      case 'auth/operation-not-allowed':
+        return 'Google sign-in is not enabled in your Firebase Authentication providers. Please enable Google in Firebase Console > Authentication > Sign-in method.';
       default:
         return defaultMsg || 'Authentication failed. Please try again.';
     }
