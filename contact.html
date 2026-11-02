@@ -134,26 +134,26 @@
             <p class="text-slate-400 text-xs">We typically respond within 24–48 hours.</p>
           </div>
 
-          <form data-ajax-notify class="space-y-4">
+          <form action="https://formspree.io/f/mbggpzrq" method="POST" data-ajax-notify class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Your Name *</label>
-                <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+                <input type="text" name="name" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Email Address *</label>
-                <input type="email" required placeholder="name@email.com" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+                <input type="email" name="email" required placeholder="name@email.com" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
               </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Phone Number</label>
-                <input type="tel" placeholder="(916) 555-0199" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+                <input type="tel" name="phone" placeholder="(916) 555-0199" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Inquiry Subject *</label>
-                <select required class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
+                <select name="subject" required class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]">
                   <option value="baseball-tryouts">Travel Baseball Tryouts</option>
                   <option value="private-eval">Request Private Evaluation</option>
                   <option value="sponsorship">Business Sponsorship / Donation</option>
@@ -166,7 +166,7 @@
 
             <div>
               <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Message *</label>
-              <textarea required rows="4" placeholder="How can we help you?" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]"></textarea>
+              <textarea name="message" required rows="4" placeholder="How can we help you?" class="w-full px-4 py-2.5 rounded-xl bg-[#141820] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#39ff14]"></textarea>
             </div>
 
             <button type="submit" class="btn-neon-green w-full py-3.5 rounded-xl font-black uppercase tracking-wider text-xs">
