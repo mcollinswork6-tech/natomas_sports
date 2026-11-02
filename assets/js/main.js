@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
       successBanner.classList.remove('hidden');
       successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    // Clear any form inputs if browser autofilled from history
+    const contactForm = document.querySelector('form[action*="formspree.io"]');
+    if (contactForm) {
+      contactForm.reset();
+    }
+    // Clean up the URL in the address bar without reloading
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 
   // 1. Mobile Menu Toggle
