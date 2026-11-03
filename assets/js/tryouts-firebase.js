@@ -19,13 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Collect values
-    const playerName = document.getElementById('playerName')?.value.trim();
+    const playerFirstName = document.getElementById('playerFirstName')?.value.trim() || '';
+    const playerLastName = document.getElementById('playerLastName')?.value.trim() || '';
+    const playerName = `${playerFirstName} ${playerLastName}`.trim();
+
     const dob = document.getElementById('dob')?.value.trim();
     const division = document.getElementById('division')?.value.trim();
     const positions = document.getElementById('positions')?.value.trim() || 'N/A';
     const batsThrows = document.getElementById('batsThrows')?.value.trim() || 'R/R';
     const experience = document.getElementById('experience')?.value.trim() || 'None specified';
-    const parentName = document.getElementById('parentName')?.value.trim();
+
+    const parentFirstName = document.getElementById('parentFirstName')?.value.trim() || '';
+    const parentLastName = document.getElementById('parentLastName')?.value.trim() || '';
+    const parentName = `${parentFirstName} ${parentLastName}`.trim();
+
     const phone = document.getElementById('phone')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
     const zipCode = document.getElementById('zipCode')?.value.trim();
@@ -33,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const waiverAccepted = document.getElementById('waiver')?.checked === true;
 
     // Client-side validation checks
-    if (!playerName || !dob || !division || !parentName || !phone || !email || !zipCode) {
+    if (!playerFirstName || !playerLastName || !dob || !division || !parentFirstName || !parentLastName || !phone || !email || !zipCode) {
       showAlert('Please fill in all required fields marked with an asterisk (*).', 'error');
       return;
     }
