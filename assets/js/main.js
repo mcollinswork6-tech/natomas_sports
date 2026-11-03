@@ -1,4 +1,32 @@
 // Natomas Sport Association Interactive Scripts - Official Brand Identity
+
+// Clean extensionless URLs: automatically strip .html from address bar
+(function handleCleanUrls() {
+  if (window.location.protocol !== 'file:') {
+    const path = window.location.pathname;
+    if (path.endsWith('.html')) {
+      let cleanPath = path.slice(0, -5);
+      if (cleanPath.endsWith('/index')) {
+        cleanPath = cleanPath.slice(0, -6) || '/';
+      }
+      const cleanUrl = cleanPath + window.location.search + window.location.hash;
+      window.history.replaceState(null, '', cleanUrl);
+    }
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href) return;
+        if (href === '/') {
+          a.setAttribute('href', 'index.html');
+        } else if (href.startsWith('/') && !href.startsWith('//') && !href.includes('.')) {
+          const parts = href.slice(1).split('#');
+          a.setAttribute('href', parts[0] + '.html' + (parts[1] ? '#' + parts[1] : ''));
+        }
+      });
+    });
+  }
+})();
 document.addEventListener('DOMContentLoaded', () => {
   // Check if page was redirected after successful form submission
   const urlParams = new URLSearchParams(window.location.search);
