@@ -1,4 +1,4 @@
-// Natomas Sports Association Interactive Scripts - Neon Cyber Athletic Theme
+// Natomas Sport Association Interactive Scripts - Official Brand Identity
 document.addEventListener('DOMContentLoaded', () => {
   // Check if page was redirected after successful form submission
   const urlParams = new URLSearchParams(window.location.search);
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <svg class="w-5 h-5 flex-shrink-0 text-[#39ff14]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span>Thank you! Your message has been sent. Natomas Sports Association will contact you shortly!</span>
+                <span>Thank you! Your message has been sent. Natomas Sport Association will contact you shortly!</span>
               </div>
             `;
             form.reset();

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us | Natomas Sports Association | Sacramento, CA</title>
-  <meta name="description" content="Learn about Natomas Sport Association, our mission, coaching leadership, community values, and business sponsorship opportunities in Natomas, Sacramento.">
+  <title>About Us | Natomas Sport Association | Sacramento, CA</title>
+  <meta name="description" content="Learn about Natomas Sport Association, our mission, coaching standards, community values, and competitive pathways for youth athletes in Natomas, Sacramento.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -12,20 +12,50 @@
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            heading: ['Montserrat', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
           colors: {
-            neon: {
-              green: '#39ff14',
-              lime: '#4ade80',
-              cyan: '#00e5ff',
-              sky: '#38bdf8',
-              pink: '#ff007f',
-              magenta: '#ec4899',
+            navy: {
+              DEFAULT: '#17243B',
+              50: '#f0f5fa',
+              100: '#dce6f2',
+              200: '#bccfe5',
+              300: '#94b2d4',
+              400: '#648fbe',
+              500: '#4372a7',
+              600: '#32598b',
+              700: '#274670',
+              800: '#1f304f',
+              900: '#17243B',
+              950: '#0b111c',
             },
-            dark: {
-              950: '#060709',
-              900: '#0d0f14',
-              800: '#141820',
-              700: '#1e2430',
+            charcoal: {
+              DEFAULT: '#111317',
+              700: '#232730',
+              800: '#1a1d24',
+              850: '#15171d',
+              900: '#111317',
+              950: '#0b0c0e',
+            },
+            ice: {
+              DEFAULT: '#67DDF2',
+              light: '#bbf2fc',
+              hover: '#52d0e7',
+              dark: '#23a8c2',
+            },
+            lime: {
+              DEFAULT: '#B7F52A',
+              light: '#d2f96e',
+              hover: '#a6e81e',
+              dark: '#85be0b',
+            },
+            pink: {
+              DEFAULT: '#F02AA8',
+              light: '#fa45b8',
+              hover: '#d81691',
+              dark: '#b50a74',
             }
           }
         }
@@ -34,18 +64,21 @@
   </script>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-[#060709] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#39ff14] selection:text-black relative">
+<body class="bg-[#111317] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-[#B7F52A] selection:text-[#111317] relative">
 
-  <!-- TOP ALERT BANNER -->
-  <div class="bg-gradient-to-r from-[#ff007f] via-[#00e5ff] to-[#39ff14] text-slate-950 font-black text-xs md:text-sm py-2 px-4 text-center tracking-wide">
-    <div class="max-w-7xl mx-auto flex items-center justify-center space-x-2">
-      <span class="inline-block px-2.5 py-0.5 bg-black text-[#39ff14] rounded-full text-xs font-black uppercase tracking-wider">Community</span>
-      <span class="font-extrabold text-black">Empowering Sacramento Youth • Natomas Sports Association</span>
+  <!-- TOP ALERT BANNER (Midnight Navy with Ice Blue & Lime Accents) -->
+  <div class="bg-[#17243B] border-b border-[#67DDF2]/30 text-slate-100 text-xs md:text-sm py-2 px-4 text-center tracking-wide">
+    <div class="max-w-7xl mx-auto flex items-center justify-center flex-wrap gap-2">
+      <span class="inline-block px-2.5 py-0.5 bg-[#B7F52A] text-[#111317] rounded-full text-xs font-black uppercase tracking-wider">Tryouts</span>
+      <span class="font-bold text-white">2025–2026 Natomas Travel Baseball Evaluations Now Open!</span>
+      <a href="tryouts.html" class="text-[#67DDF2] hover:text-[#B7F52A] underline font-black inline-flex items-center ml-1 transition-colors">
+        Register Today &rarr;
+      </a>
     </div>
   </div>
 
   <!-- NAVIGATION BAR -->
-  <header id="main-nav" class="sticky top-0 z-50 bg-[#060709] border-b border-slate-800/80 transition-all duration-200">
+  <header id="main-nav" class="sticky top-0 z-50 bg-[#111317]/95 backdrop-blur border-b border-slate-800/80 transition-all duration-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
@@ -62,23 +95,23 @@
         </a>
 
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
-          <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Home</a>
-          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Travel Baseball</a>
+          <a href="index.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Home</a>
+          <a href="travel-baseball.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Travel Baseball</a>
           <!-- Hidden temporarily: Sports & Programs -->
-          <a href="programs.html" class="hidden px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
-          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Tryouts</a>
-          <a href="about.html" class="px-3 py-2 text-sm font-bold text-[#39ff14] border-b-2 border-[#39ff14]">About Us</a>
-          <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#00e5ff] transition-colors">Contact</a>
+          <a href="programs.html" class="hidden px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
+          <a href="tryouts.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Tryouts</a>
+          <a href="about.html" class="px-3 py-2 text-sm font-bold text-[#67DDF2] border-b-2 border-[#67DDF2]">About Us</a>
+          <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-slate-300 hover:text-[#67DDF2] transition-colors">Contact</a>
         </nav>
 
         <div class="hidden md:flex items-center space-x-4">
-          <a href="tryouts.html" class="btn-neon-green px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black">
-            Join a Team
+          <a href="tryouts.html" class="btn-brand-pink px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-black shadow-lg">
+            11U Tryouts
           </a>
         </div>
 
         <div class="flex md:hidden">
-          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#39ff14] focus:outline-none p-2 rounded-lg bg-[#141820]" aria-label="Toggle Navigation">
+          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-[#67DDF2] focus:outline-none p-2 rounded-lg bg-[#17243B]" aria-label="Toggle Navigation">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
@@ -89,108 +122,108 @@
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#0d0f14] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
-      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Home</a>
-      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Travel Baseball</a>
+    <div id="mobile-menu" class="hidden md:hidden bg-[#111317] border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
+      <a href="index.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Home</a>
+      <a href="travel-baseball.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Travel Baseball</a>
       <!-- Hidden temporarily: Sports & Programs -->
-      <a href="programs.html" class="hidden block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
-      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Tryouts</a>
-      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#39ff14] bg-[#141820]">About Us</a>
-      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#141820] hover:text-[#00e5ff]">Contact</a>
+      <a href="programs.html" class="hidden block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]" style="display: none !important;" aria-hidden="true">Sports &amp; Programs</a>
+      <a href="tryouts.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Tryouts</a>
+      <a href="about.html" class="block px-3 py-2.5 rounded-xl text-base font-bold text-[#67DDF2] bg-[#17243B]">About Us</a>
+      <a href="contact.html" class="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-200 hover:bg-[#17243B] hover:text-[#67DDF2]">Contact</a>
       <div class="pt-3">
-        <a href="tryouts.html" class="block text-center btn-neon-green py-3 rounded-xl text-xs uppercase tracking-wider font-black">
-          Register for Tryouts
+        <a href="tryouts.html" class="block text-center btn-brand-pink py-3 rounded-xl text-xs uppercase tracking-wider font-black shadow-lg">
+          Register for 11U Tryouts
         </a>
       </div>
     </div>
   </header>
 
   <!-- HERO -->
-  <section class="relative bg-neon-mesh py-16 lg:py-20 border-b border-slate-800/80">
-    <div class="absolute inset-0 hero-neon-overlay pointer-events-none"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-      <span class="inline-block px-3.5 py-1.5 bg-[#141820] text-[#39ff14] border border-[#39ff14]/40 rounded-full text-xs font-black uppercase tracking-wider mb-4 shadow-[0_0_12px_rgba(57,255,20,0.2)]">
-        Our Roots & Mission
+  <section class="relative bg-brand-mesh py-16 lg:py-24 border-b border-slate-800/80">
+    <div class="absolute inset-0 hero-brand-overlay pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <span class="inline-block px-3.5 py-1.5 bg-[#17243B] text-[#67DDF2] border border-[#67DDF2]/40 rounded-full text-xs font-black uppercase tracking-wider shadow-[0_0_12px_rgba(103,221,242,0.2)]">
+        Our Roots &amp; Mission
       </span>
-      <h1 class="font-heading text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
-        About Natomas Sports Association
+      <h1 class="font-heading text-4xl sm:text-5xl font-black text-white leading-tight">
+        About Natomas Sport Association
       </h1>
-      <p class="text-lg text-slate-300 leading-relaxed">
-        Building high-caliber youth athletic programs that keep Sacramento talent thriving right here in Natomas.
+      <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+        Building high-caliber youth athletic pathways that keep Sacramento talent thriving right here in Natomas.
       </p>
     </div>
   </section>
 
   <!-- MISSION & VALUES -->
-  <section class="py-20 bg-[#060709] border-b border-slate-800/80">
+  <section class="py-20 bg-[#111317] border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
         <div class="lg:col-span-6 space-y-6">
-          <p class="text-[#39ff14] font-black uppercase tracking-widest text-xs">Why We Were Founded</p>
+          <p class="text-[#B7F52A] font-black uppercase tracking-widest text-xs">Why We Were Founded</p>
           <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">
             Keeping Elite Athletic Pathways Close To Home
           </h2>
           <p class="text-slate-300 text-sm leading-relaxed">
-            For years, Natomas families seeking competitive travel sports had to spend hours commuting to Roseville, Rocklin, or Elk Grove. The <strong>Natomas Sports Association</strong> was established to give local families a premier home right here.
+            For years, Natomas families seeking competitive travel sports had to spend hours commuting to Roseville, Rocklin, or Elk Grove. The <strong>Natomas Sport Association</strong> was established to give local families a premier competitive home right here in North Natomas.
           </p>
           <p class="text-slate-300 text-sm leading-relaxed">
-            We utilize Natomas’s world-class public parks and regional fields to offer competitive travel baseball teams and year-round multi-sport training. We combine high-level coaching with intense energy and high character standards.
+            We utilize Natomas’s world-class public parks and regional fields to offer competitive travel baseball teams and disciplined player development. We combine high-level coaching with intense energy, high character standards, and adult-modeled respect.
           </p>
 
-          <div class="grid grid-cols-2 gap-4 pt-2">
-            <div class="p-4 bg-[#0d0f14] border border-slate-800 rounded-2xl">
-              <h4 class="font-black text-[#39ff14] text-base mb-1">Our Mission</h4>
-              <p class="text-slate-400 text-xs">To develop physically resilient, mentally tough, and coachable youth athletes through competitive sport.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-5 bg-[#17243B] border border-[#67DDF2]/20 rounded-2xl shadow-sm">
+              <h4 class="font-black text-[#67DDF2] text-base mb-1">Our Mission</h4>
+              <p class="text-slate-300 text-xs leading-relaxed">To develop physically resilient, mentally tough, and coachable youth athletes through competitive sport.</p>
             </div>
-            <div class="p-4 bg-[#0d0f14] border border-slate-800 rounded-2xl">
-              <h4 class="font-black text-[#00e5ff] text-base mb-1">Our Community</h4>
-              <p class="text-slate-400 text-xs">Proudly serving North Natomas, South Natomas, Westlake, Valley Oak, and surrounding Sacramento neighborhoods.</p>
+            <div class="p-5 bg-[#17243B] border border-[#B7F52A]/20 rounded-2xl shadow-sm">
+              <h4 class="font-black text-[#B7F52A] text-base mb-1">Our Community</h4>
+              <p class="text-slate-300 text-xs leading-relaxed">Proudly serving North Natomas, South Natomas, Westlake, Valley Oak, and surrounding Sacramento neighborhoods.</p>
             </div>
           </div>
         </div>
 
         <div class="lg:col-span-6 flex justify-center">
-          <div class="bg-[#0d0f14] border border-[#39ff14]/30 rounded-3xl p-8 max-w-md w-full shadow-[0_0_30px_rgba(57,255,20,0.15)] space-y-6">
+          <div class="bg-[#17243B] border border-[#67DDF2]/30 rounded-3xl p-8 max-w-md w-full shadow-[0_0_30px_rgba(103,221,242,0.15)] space-y-6">
             <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Crest" class="h-24 w-auto mx-auto rounded-2xl border border-[#67DDF2]/40 shadow-[0_0_20px_rgba(103,221,242,0.25)] block">
-            <h3 class="font-heading text-xl font-black text-white text-center border-b border-slate-800 pb-3">The Association Standards</h3>
+            <h3 class="font-heading text-xl font-black text-white text-center border-b border-slate-700 pb-3">The Association Standards</h3>
             
             <div class="space-y-4 text-sm">
               <div class="flex items-start space-x-3">
-                <span class="text-[#39ff14] font-black">1.</span>
+                <span class="w-6 h-6 rounded-full bg-[#B7F52A] text-[#111317] font-black text-xs flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
                 <div>
-                  <strong class="text-white">Effort & Focus:</strong>
-                  <p class="text-slate-400 text-xs">Control what you can control: your energy, preparation, and attitude.</p>
+                  <strong class="text-white">Effort &amp; Focus:</strong>
+                  <p class="text-slate-300 text-xs mt-0.5">Control what you can control: your energy, preparation, hustle, and body language.</p>
                 </div>
               </div>
 
               <div class="flex items-start space-x-3">
-                <span class="text-[#00e5ff] font-black">2.</span>
+                <span class="w-6 h-6 rounded-full bg-[#67DDF2] text-[#111317] font-black text-xs flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
                 <div>
-                  <strong class="text-white">Respect & Integrity:</strong>
-                  <p class="text-slate-400 text-xs">Honor your teammates, opponents, coaches, and game officials.</p>
+                  <strong class="text-white">Respect &amp; Integrity:</strong>
+                  <p class="text-slate-300 text-xs mt-0.5">Honor your teammates, opponents, coaches, and game officials with class.</p>
                 </div>
               </div>
 
               <div class="flex items-start space-x-3">
-                <span class="text-[#ff007f] font-black">3.</span>
+                <span class="w-6 h-6 rounded-full bg-[#F02AA8] text-white font-black text-xs flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
                 <div>
                   <strong class="text-white">Continuous Growth:</strong>
-                  <p class="text-slate-400 text-xs">Strikeouts and errors are feedback. We embrace challenges to get better every practice.</p>
+                  <p class="text-slate-300 text-xs mt-0.5">Strikeouts and errors are feedback. We embrace challenges to get better every practice.</p>
                 </div>
               </div>
 
               <div class="flex items-start space-x-3">
-                <span class="text-[#39ff14] font-black">4.</span>
+                <span class="w-6 h-6 rounded-full bg-white text-[#111317] font-black text-xs flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
                 <div>
                   <strong class="text-white">Community Pride:</strong>
-                  <p class="text-slate-400 text-xs">We represent the Natomas community with pride everywhere we travel.</p>
+                  <p class="text-slate-300 text-xs mt-0.5">We represent the Natomas community with pride on every tournament diamond.</p>
                 </div>
               </div>
             </div>
 
-            <div class="pt-2 text-center">
-              <span class="text-xs text-slate-500 font-mono">Domain: natomassportsassociation.org</span>
+            <div class="pt-2 text-center border-t border-slate-700/60">
+              <span class="text-xs text-slate-400 font-mono">Domain: natomassportsassociation.org</span>
             </div>
           </div>
         </div>
@@ -203,61 +236,61 @@
   <section id="sponsors" class="py-20 bg-[#0d0f14] border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-        <span class="text-[#ff007f] font-black uppercase tracking-widest text-xs">Community Support</span>
+        <span class="text-[#67DDF2] font-black uppercase tracking-widest text-xs">Community Support</span>
         <h2 class="font-heading text-3xl sm:text-4xl font-black text-white">Partner With Natomas Youth Sports</h2>
         <p class="text-slate-400 text-sm">
-          Sponsorships directly fund tournament registration fees, equipment, team safety gear, and player scholarships for local families in financial need.
+          Sponsorships directly fund tournament entry fees, equipment, team safety gear, and player scholarships for local families in financial need.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <!-- Tier 1 -->
-        <div class="bg-[#060709] border border-slate-800 hover:border-[#39ff14] p-8 rounded-3xl flex flex-col justify-between transition">
+        <div class="bg-[#17243B] border border-slate-700 hover:border-[#B7F52A] p-8 rounded-3xl flex flex-col justify-between transition shadow-lg">
           <div class="space-y-4">
             <h3 class="text-xl font-bold text-white">Dugout Sponsor</h3>
-            <p class="text-3xl font-black text-[#39ff14]">$250 <span class="text-xs font-normal text-slate-400">/ season</span></p>
-            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
-              <li>✓ Business logo featured on association website sponsor carousel</li>
+            <p class="text-3xl font-black text-[#B7F52A]">$250 <span class="text-xs font-normal text-slate-400">/ season</span></p>
+            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700 pt-4">
+              <li>✓ Business logo featured on association website sponsor directory</li>
               <li>✓ Social media sponsor shout-out</li>
               <li>✓ Certificate of Community Appreciation</li>
             </ul>
           </div>
           <div class="pt-6">
-            <a href="contact.html?subject=DugoutSponsor" class="block w-full py-2.5 text-center bg-[#141820] hover:bg-[#1e2430] text-[#39ff14] font-black text-xs uppercase tracking-wider rounded-xl border border-slate-700 hover:border-[#39ff14] transition">
+            <a href="contact.html?subject=DugoutSponsor" class="block w-full py-3 text-center bg-[#111317] hover:bg-[#1a1d24] text-[#B7F52A] font-black text-xs uppercase tracking-wider rounded-xl border border-slate-700 hover:border-[#B7F52A] transition">
               Become a Sponsor
             </a>
           </div>
         </div>
 
-        <!-- Tier 2 -->
-        <div class="bg-[#060709] border-2 border-[#00e5ff] p-8 rounded-3xl flex flex-col justify-between shadow-[0_0_25px_rgba(0,229,255,0.2)] relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00e5ff] text-black px-3 py-0.5 rounded-full text-xs font-black uppercase">
+        <!-- Tier 2 (Featured) -->
+        <div class="bg-[#17243B] border-2 border-[#67DDF2] p-8 rounded-3xl flex flex-col justify-between shadow-[0_0_25px_rgba(103,221,242,0.2)] relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#67DDF2] text-[#111317] px-3.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
             Best Value
           </div>
           <div class="space-y-4 pt-2">
             <h3 class="text-xl font-bold text-white">All-Star Partner</h3>
-            <p class="text-3xl font-black text-[#00e5ff]">$600 <span class="text-xs font-normal text-slate-400">/ season</span></p>
-            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+            <p class="text-3xl font-black text-[#67DDF2]">$600 <span class="text-xs font-normal text-slate-400">/ season</span></p>
+            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700 pt-4">
               <li>✓ Company logo on custom team dugout tournament banners</li>
-              <li>✓ Premium logo link on association homepage and tournament communications</li>
+              <li>✓ Premium logo link on association homepage &amp; communications</li>
               <li>✓ 3x Social media business spotlights during tournament weekends</li>
               <li>✓ Official team plaque for your storefront / office</li>
             </ul>
           </div>
           <div class="pt-6">
-            <a href="contact.html?subject=AllStarPartner" class="block w-full py-2.5 text-center btn-neon-cyan text-xs uppercase tracking-wider rounded-xl font-black">
+            <a href="contact.html?subject=AllStarPartner" class="block w-full py-3 text-center btn-brand-ice text-xs uppercase tracking-wider rounded-xl font-black shadow-md">
               Become an All-Star Partner
             </a>
           </div>
         </div>
 
         <!-- Tier 3 -->
-        <div class="bg-[#060709] border border-slate-800 hover:border-[#ff007f] p-8 rounded-3xl flex flex-col justify-between transition">
+        <div class="bg-[#17243B] border border-slate-700 hover:border-[#F02AA8] p-8 rounded-3xl flex flex-col justify-between transition shadow-lg">
           <div class="space-y-4">
             <h3 class="text-xl font-bold text-white">Grand Slam Title Sponsor</h3>
-            <p class="text-3xl font-black text-[#ff007f]">$1,200+ <span class="text-xs font-normal text-slate-400">/ year</span></p>
-            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+            <p class="text-3xl font-black text-[#F02AA8]">$1,200+ <span class="text-xs font-normal text-slate-400">/ year</span></p>
+            <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-700 pt-4">
               <li>✓ Logo patch placement on team jerseys / practice gear</li>
               <li>✓ Title placement on all team tournament communications</li>
               <li>✓ Full-page feature on association sponsor directory</li>
@@ -265,7 +298,7 @@
             </ul>
           </div>
           <div class="pt-6">
-            <a href="contact.html?subject=GrandSlamSponsor" class="block w-full py-2.5 text-center btn-neon-pink text-xs uppercase tracking-wider rounded-xl font-black">
+            <a href="contact.html?subject=GrandSlamSponsor" class="block w-full py-3 text-center btn-brand-pink text-xs uppercase tracking-wider rounded-xl font-black shadow-md">
               Partner With Us
             </a>
           </div>
@@ -276,18 +309,20 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-[#060709] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
+  <footer class="bg-[#0b0c0e] text-slate-400 text-sm pt-12 pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <img src="assets/images/logo-dark.png" alt="Natomas Sport Association" class="h-8 w-auto rounded-lg border border-[#67DDF2]/40 flex-shrink-0 block">
-        <span class="font-heading text-sm font-bold text-white">Natomas Sports Association</span>
+        <img src="assets/images/logo-dark.png" alt="Natomas Sport Association Logo" class="h-8 w-auto rounded-lg border border-[#67DDF2]/40 flex-shrink-0 block">
+        <span class="font-heading text-sm font-bold text-white">Natomas Sport Association</span>
       </div>
-      <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sports Association. Official Domain: natomassportsassociation.org</p>
+      <p class="text-xs text-slate-500">&copy; <span class="current-year">2026</span> Natomas Sport Association. Official Domain: natomassportsassociation.org</p>
       <div class="flex space-x-4 text-xs">
         <a href="index.html" class="hover:text-white">Home</a>
         <a href="travel-baseball.html" class="hover:text-white">Travel Baseball</a>
-        <a href="tryouts.html" class="text-[#39ff14] font-black hover:underline">Tryouts</a>
+        <a href="tryouts.html" class="hover:text-white">11U Tryouts</a>
+        <a href="about.html" class="hover:text-white">About Us</a>
         <a href="contact.html" class="hover:text-white">Contact</a>
+        <a href="admin.html" class="text-slate-500 hover:text-[#67DDF2] transition-colors font-medium">Coach Portal</a>
       </div>
     </div>
   </footer>
