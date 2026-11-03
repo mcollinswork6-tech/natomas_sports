@@ -1,0 +1,63 @@
+{
+  "organization": {
+    "name": "Natomas Sport Association",
+    "domain": "natomassportsassociation.org",
+    "colors": {
+      "charcoal": {
+        "hex": "#111317",
+        "rgb": "rgb(17, 19, 23)",
+        "role": "Primary background and surface"
+      },
+      "navy": {
+        "hex": "#17243B",
+        "rgb": "rgb(23, 36, 59)",
+        "role": "Midnight Navy foundation, top banner, card background"
+      },
+      "ice": {
+        "hex": "#67DDF2",
+        "rgb": "rgb(103, 221, 242)",
+        "role": "Primary organization accent, links, borders, focus rings"
+      },
+      "lime": {
+        "hex": "#B7F52A",
+        "rgb": "rgb(183, 245, 42)",
+        "role": "Secondary accent, call to action buttons, active indicator"
+      },
+      "white": {
+        "hex": "#FFFFFF",
+        "rgb": "rgb(255, 255, 255)",
+        "role": "Primary headings, high contrast text"
+      }
+    }
+  },
+  "team": {
+    "name": "Bad Hops 11U Travel Baseball",
+    "slogan": "Tough On The Field. Grounded Off The Field. Better Together.",
+    "colors": {
+      "pink": {
+        "hex": "#F02AA8",
+        "rgb": "rgb(240, 42, 168)",
+        "role": "Primary team identity, badges, buttons, highlights"
+      },
+      "lime": {
+        "hex": "#B7F52A",
+        "rgb": "rgb(183, 245, 42)",
+        "role": "Secondary energy accent, checkmarks, stats"
+      },
+      "ice": {
+        "hex": "#67DDF2",
+        "rgb": "rgb(103, 221, 242)",
+        "role": "Facility indicators, secondary borders"
+      },
+      "black": {
+        "hex": "#151515",
+        "rgb": "rgb(21, 21, 21)",
+        "role": "Card backgrounds, section alternation"
+      }
+    }
+  },
+  "meta_tags": {
+    "image_path": "assets/images/nsa-logo-light.png",
+    "full_image_url": "https://natomassportsassociation.org/assets/images/nsa-logo-light.png"
+  }
+}
