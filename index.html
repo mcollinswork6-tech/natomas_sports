@@ -32,6 +32,15 @@
   <meta name="twitter:image" content="https://natomassportsassociation.org/assets/images/nsa-logo-light.png">
 
   <!-- Tailwind CSS CDN -->
+  <script>
+    (function() {
+      const origWarn = console.warn;
+      console.warn = function(...args) {
+        if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+        origWarn.apply(console, args);
+      };
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {

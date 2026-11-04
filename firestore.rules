@@ -56,21 +56,22 @@ service cloud.firestore {
     function isSuperAdmin() {
       return isAuthenticated() &&
              'email' in request.auth.token &&
-             request.auth.token.email == 'mcollinswork6@gmail.com';
+             request.auth.token.email.lower() == 'mcollinswork6@gmail.com';
     }
 
     // Check if user is an explicitly authorized coach or administrative personnel
     // Restricts access ONLY to:
     // 1. Primary super admin (mcollinswork6@gmail.com)
-    // 2. Custom claims ('admin' == true)
+    // 2. Custom claims ('admin' == true or 'coach' == true)
     // 3. Authorized staff email whitelist
     // 4. Authorized staff roster document lookup in Firestore (by UID or email)
     function isAdmin() {
       return isAuthenticated() && (
         isSuperAdmin() ||
         ('admin' in request.auth.token && request.auth.token.admin == true) ||
+        ('coach' in request.auth.token && request.auth.token.coach == true) ||
         ('email' in request.auth.token && (
-          request.auth.token.email in [
+          request.auth.token.email.lower() in [
             'mcollinswork6@gmail.com',
             'admin@natomassportsassociation.org',
             'coaches@natomassportsassociation.org',
@@ -78,7 +79,7 @@ service cloud.firestore {
           ]
         )) ||
         exists(/databases/$(database)/documents/authorized_staff/$(request.auth.uid)) ||
-        ('email' in request.auth.token && exists(/databases/$(database)/documents/authorized_staff/$(request.auth.token.email)))
+        ('email' in request.auth.token && exists(/databases/$(database)/documents/authorized_staff/$(request.auth.token.email.lower())))
       );
     }
 
@@ -189,12 +190,11 @@ service cloud.firestore {
     }
 
     // Validator for UPDATE: Enforces immutable submission metadata and valid admin workflow
+    // Protects registration integrity while permitting coaches to change status and notes
     function isValidRegistrationUpdate(data) {
-      return isValidRegistrationSchema(data) &&
-             areImmutableFieldsUnchanged(['submittedAt', 'waiverAccepted']) &&
-             data.submittedAt == resource.data.submittedAt &&
-             isValidOptionalString('status', 1, 30) &&
-             (!('status' in data) || data.status in ['new', 'reviewed', 'contacted', 'accepted', 'declined', 'waitlist', 'archived']);
+      return areImmutableFieldsUnchanged(['submittedAt', 'waiverAccepted']) &&
+             (!('status' in data) || (data.status is string && data.status in ['new', 'reviewed', 'contacted', 'confirmed', 'accepted', 'declined', 'waitlist', 'archived'])) &&
+             (!('adminNotes' in data) || (data.adminNotes is string && data.adminNotes.size() <= 2000));
     }
 
     // ===============================================================
@@ -212,7 +212,7 @@ service cloud.firestore {
       // Staff members can read their own authorization status, or authorized admins can view the roster
       allow read: if isAuthenticated() && (
         request.auth.uid == staffId ||
-        ('email' in request.auth.token && request.auth.token.email == staffId) ||
+        ('email' in request.auth.token && request.auth.token.email.lower() == staffId.lower()) ||
         isAdmin()
       );
       // Only the primary super admin can provision, modify, or revoke authorized staff records

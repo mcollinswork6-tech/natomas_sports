@@ -27,8 +27,10 @@ import {
 
 // Pre-authorized Staff & Coach Email Whitelist
 export const AUTHORIZED_COACH_EMAILS = [
-  'mcollinswork6@gmail.com'
-  // Additional coach or staff emails can be added here
+  'mcollinswork6@gmail.com',
+  'admin@natomassportsassociation.org',
+  'coaches@natomassportsassociation.org',
+  'badhops@natomassportsassociation.org'
 ];
 
 // Authorization Verification Helper
