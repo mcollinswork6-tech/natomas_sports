@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('search-input');
   const filterDivision = document.getElementById('filter-division');
   const filterStatus = document.getElementById('filter-status');
+  const filterEligibility = document.getElementById('filter-eligibility');
   const exportCsvBtn = document.getElementById('export-csv-btn');
   const tableBody = document.getElementById('registrations-tbody');
 
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const stat11u = document.getElementById('stat-11u');
   const statNew = document.getElementById('stat-new');
   const statConfirmed = document.getElementById('stat-confirmed');
+  const statIneligible = document.getElementById('stat-ineligible');
 
   // DOM Elements - Modal
   const playerModal = document.getElementById('player-modal');
@@ -55,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalPlayerName = document.getElementById('modal-player-name');
   const modalDocId = document.getElementById('modal-doc-id');
   const modalDivisionBadge = document.getElementById('modal-division-badge');
+  const modalEligibilityBadge = document.getElementById('modal-eligibility-badge');
   const modalStatusBadge = document.getElementById('modal-status-badge');
   const modalDob = document.getElementById('modal-dob');
   const modalPositions = document.getElementById('modal-positions');
@@ -71,6 +74,127 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalStatusSelect = document.getElementById('modal-status-select');
   const modalSaveNotesBtn = document.getElementById('modal-save-notes-btn');
   const saveNotesFeedback = document.getElementById('save-notes-feedback');
+
+  // -------------------------------------------------------------
+  // USSSA 11U Age & Eligibility Checker
+  // Season year cutoff: April 30 of the competition season
+  // For the 2026/2027 season cycle (cutoff April 30, 2027):
+  // - Born May 1, 2015 – April 30, 2016: 11U Eligible (Standard)
+  // - Born on or after May 1, 2016: Younger (10U/9U - Eligible to play up)
+  // - Born May 1, 2014 – April 30, 2015: 12 on May 1 (Grade Exception ONLY if in 5th grade)
+  // - Born prior to May 1, 2014: Too Old (Over Max Age Cap / 13+)
+  // -------------------------------------------------------------
+  function checkUsssa11uEligibility(dobString, seasonYear = 2027) {
+    if (!dobString || typeof dobString !== 'string') {
+      return {
+        status: 'unknown',
+        badgeHtml: '<span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">DOB Missing</span>',
+        message: 'No date of birth provided',
+        ageOnCutoff: null,
+        isOverAge: false
+      };
+    }
+
+    const trimmed = dobString.trim();
+    // Parse formats like YYYY-MM-DD or MM/DD/YYYY
+    let birthDate = null;
+    if (trimmed.includes('-')) {
+      const parts = trimmed.split('-');
+      if (parts.length === 3) {
+        birthDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      }
+    } else if (trimmed.includes('/')) {
+      const parts = trimmed.split('/');
+      if (parts.length === 3) {
+        birthDate = new Date(parseInt(parts[2], 10), parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
+      }
+    }
+
+    if (!birthDate || isNaN(birthDate.getTime())) {
+      return {
+        status: 'unknown',
+        badgeHtml: `<span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">Invalid DOB</span>`,
+        message: `Could not parse date (${escapeHtml(trimmed)})`,
+        ageOnCutoff: null,
+        isOverAge: false
+      };
+    }
+
+    // USSSA cutoff is April 30 of season year
+    const cutoffDate = new Date(seasonYear, 3, 30); // April 30 (month index 3)
+
+    // Calculate age as of April 30 cutoff
+    let age = cutoffDate.getFullYear() - birthDate.getFullYear();
+    const m = cutoffDate.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && cutoffDate.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    // Strict USSSA Thresholds:
+    // Normal 11U: born May 1, 2015 to April 30, 2016 -> age 11 on April 30, 2027
+    const standardMinDob = new Date(seasonYear - 12, 4, 1); // May 1, 2015
+    const standardMaxDob = new Date(seasonYear - 11, 3, 30); // April 30, 2016
+    const olderCapMinDob = new Date(seasonYear - 13, 4, 1); // May 1, 2014
+
+    if (birthDate < olderCapMinDob) {
+      // Turns 13 prior to season cutoff -> Strictly Ineligible / Over Maximum Age Cap
+      return {
+        status: 'too-old',
+        isOverAge: true,
+        ageOnCutoff: age,
+        badgeHtml: `
+          <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-950/80 text-red-300 border border-red-500/60 shadow-[0_0_10px_rgba(239,68,68,0.35)]" title="Turns ${age} before April 30, ${seasonYear}. Exceeds 11U maximum age cap.">
+            <span>⚠️</span>
+            <span>TOO OLD (${age}yo)</span>
+          </span>
+        `,
+        message: `Too Old for 11U: Player turns ${age} before cutoff (April 30, ${seasonYear}). Exceeds maximum age limit.`
+      };
+    } else if (birthDate < standardMinDob) {
+      // Turns 12 prior to May 1 (Born May 1, 2014 to April 30, 2015)
+      // Allowed ONLY under Grade Exception (5th grade) - max 3 per roster
+      return {
+        status: 'grade-exception',
+        isOverAge: true,
+        ageOnCutoff: age,
+        badgeHtml: `
+          <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-950/80 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]" title="Turns 12 before May 1, ${seasonYear}. Eligible ONLY if currently in 5th grade (Grade Exception). Max 3 per team.">
+            <span>⚠️</span>
+            <span>GRADE EXCEPTION (${age}yo)</span>
+          </span>
+        `,
+        message: `Age Flag: Turns 12 before May 1. Eligible for 11U ONLY if currently in 5th grade (max 3 grade exceptions allowed on roster).`
+      };
+    } else if (birthDate > standardMaxDob) {
+      // Younger player (10U or 9U eligible playing up)
+      return {
+        status: 'playing-up',
+        isOverAge: false,
+        ageOnCutoff: age,
+        badgeHtml: `
+          <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-950/70 text-blue-300 border border-blue-500/40" title="Player is ${age} on April 30, ${seasonYear} (Playing Up)">
+            <span>⭐</span>
+            <span>PLAYING UP (${age}U)</span>
+          </span>
+        `,
+        message: `Playing Up: Player is ${age} years old as of April 30, ${seasonYear} and is eligible to play up in 11U.`
+      };
+    } else {
+      // Standard 11U Age Eligible
+      return {
+        status: 'eligible',
+        isOverAge: false,
+        ageOnCutoff: age,
+        badgeHtml: `
+          <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-950/70 text-[#B7F52A] border border-[#B7F52A]/40 shadow-[0_0_10px_rgba(183,245,42,0.2)]" title="USSSA 11U Age Eligible (Cutoff April 30, ${seasonYear})">
+            <span>✓</span>
+            <span>11U ELIGIBLE</span>
+          </span>
+        `,
+        message: `USSSA 11U Eligible: Born within standard birth window (May 1, ${seasonYear - 12} – April 30, ${seasonYear - 11}).`
+      };
+    }
+  }
 
   // -------------------------------------------------------------
   // 1. Firebase Authentication State Listener
@@ -218,11 +342,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const count11u = registrations.filter(r => (r.division || '').includes('11U')).length;
     const countNew = registrations.filter(r => (r.status || 'new') === 'new').length;
     const countConfirmed = registrations.filter(r => r.status === 'confirmed').length;
+    const countIneligible = registrations.filter(r => {
+      const elig = checkUsssa11uEligibility(r.dob);
+      return elig.status === 'too-old' || elig.status === 'grade-exception';
+    }).length;
 
     if (statTotal) statTotal.textContent = total;
     if (stat11u) stat11u.textContent = count11u;
     if (statNew) statNew.textContent = countNew;
     if (statConfirmed) statConfirmed.textContent = countConfirmed;
+    if (statIneligible) statIneligible.textContent = countIneligible;
   }
 
   // -------------------------------------------------------------
@@ -232,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const term = (searchInput?.value || '').toLowerCase().trim();
     const divFilter = filterDivision?.value || 'all';
     const statFilter = filterStatus?.value || 'all';
+    const eligFilter = filterEligibility?.value || 'all';
 
     filteredRegistrations = registrations.filter(reg => {
       // Division check
@@ -245,6 +375,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (statFilter !== 'all') {
         const currentStat = reg.status || 'new';
         if (currentStat.toLowerCase() !== statFilter.toLowerCase()) {
+          return false;
+        }
+      }
+
+      // Eligibility check
+      if (eligFilter !== 'all') {
+        const elig = checkUsssa11uEligibility(reg.dob);
+        if (eligFilter === 'too-old' && elig.status !== 'too-old') {
+          return false;
+        }
+        if (eligFilter === 'grade-exception' && elig.status !== 'grade-exception') {
+          return false;
+        }
+        if (eligFilter === 'flagged' && elig.status !== 'too-old' && elig.status !== 'grade-exception') {
+          return false;
+        }
+        if (eligFilter === 'eligible' && elig.status !== 'eligible' && elig.status !== 'playing-up') {
           return false;
         }
       }
@@ -268,6 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (searchInput) searchInput.addEventListener('input', applyFilters);
   if (filterDivision) filterDivision.addEventListener('change', applyFilters);
   if (filterStatus) filterStatus.addEventListener('change', applyFilters);
+  if (filterEligibility) filterEligibility.addEventListener('change', applyFilters);
 
   // -------------------------------------------------------------
   // 8. Table Rendering
@@ -293,9 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedDate = formatTimestamp(reg.submittedAt);
       const statusBadge = getStatusBadge(reg.status || 'new');
       const is11u = (reg.division || '').includes('11U');
+      const usssaEligibility = checkUsssa11uEligibility(reg.dob);
+      const isOverAgeRow = usssaEligibility.status === 'too-old';
 
       return `
-        <tr class="hover:bg-[#141820]/60 transition-colors">
+        <tr class="hover:bg-[#141820]/60 transition-colors ${isOverAgeRow ? 'bg-red-950/20' : ''}">
           <!-- Player Name -->
           <td class="p-4 pl-6 font-bold text-white">
             <button type="button" class="text-left hover:text-[#67DDF2] transition-colors view-player-btn flex items-center space-x-2" data-id="${reg.id}">
@@ -313,9 +463,10 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
           </td>
 
-          <!-- DOB -->
-          <td class="p-4 text-slate-300 font-medium">
-            ${escapeHtml(reg.dob || '--')}
+          <!-- DOB & USSSA 11U Eligibility Flag -->
+          <td class="p-4">
+            <div class="text-slate-300 font-medium">${escapeHtml(reg.dob || '--')}</div>
+            <div class="mt-1">${usssaEligibility.badgeHtml}</div>
           </td>
 
           <!-- Positions & Bats/Throws -->
@@ -407,11 +558,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!reg) return;
 
     activeDocId = id;
+    const usssaEligibility = checkUsssa11uEligibility(reg.dob);
+
     if (modalPlayerName) modalPlayerName.textContent = reg.playerName || 'Unknown Player';
     if (modalDocId) modalDocId.textContent = `#${id}`;
     if (modalDivisionBadge) modalDivisionBadge.textContent = reg.division || 'Bad Hops 11U';
+    if (modalEligibilityBadge) modalEligibilityBadge.innerHTML = usssaEligibility.badgeHtml;
     if (modalStatusBadge) modalStatusBadge.textContent = (reg.status || 'new').toUpperCase();
-    if (modalDob) modalDob.textContent = reg.dob || '--';
+    if (modalDob) {
+      modalDob.innerHTML = `
+        <span>${escapeHtml(reg.dob || '--')}</span>
+        <div class="mt-1 text-[11px] text-slate-300 font-normal">${usssaEligibility.message}</div>
+      `;
+    }
     if (modalPositions) modalPositions.textContent = reg.positions || 'N/A';
     if (modalBatsThrows) modalBatsThrows.textContent = reg.batsThrows || 'R/R';
     if (modalZip) modalZip.textContent = reg.zipCode || '--';
@@ -485,6 +644,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Registration ID',
         'Player Name',
         'Date of Birth',
+        'USSSA 11U Eligibility Status',
+        'Age as of April 30 Cutoff',
         'Division',
         'Positions',
         'Bats / Throws',
@@ -500,24 +661,29 @@ document.addEventListener('DOMContentLoaded', () => {
         'Submitted Date'
       ];
 
-      const rows = registrations.map(r => [
-        r.id || '',
-        r.playerName || '',
-        r.dob || '',
-        r.division || '',
-        r.positions || '',
-        r.batsThrows || '',
-        r.experience || '',
-        r.parentName || '',
-        r.phone || '',
-        r.email || '',
-        r.zipCode || '',
-        r.notes || '',
-        r.waiverAccepted ? 'Yes' : 'No',
-        r.status || 'new',
-        r.adminNotes || '',
-        formatTimestamp(r.submittedAt)
-      ]);
+      const rows = registrations.map(r => {
+        const elig = checkUsssa11uEligibility(r.dob);
+        return [
+          r.id || '',
+          r.playerName || '',
+          r.dob || '',
+          elig.status.toUpperCase(),
+          elig.ageOnCutoff !== null ? String(elig.ageOnCutoff) : '--',
+          r.division || '',
+          r.positions || '',
+          r.batsThrows || '',
+          r.experience || '',
+          r.parentName || '',
+          r.phone || '',
+          r.email || '',
+          r.zipCode || '',
+          r.notes || '',
+          r.waiverAccepted ? 'Yes' : 'No',
+          r.status || 'new',
+          r.adminNotes || '',
+          formatTimestamp(r.submittedAt)
+        ];
+      });
 
       const csvContent = [
         headers.map(escapeCsvCell).join(','),

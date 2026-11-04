@@ -143,7 +143,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-6 flex-grow">
 
       <!-- Metrics KPI Strip -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Metric 1: Total -->
         <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registrations</div>
@@ -168,7 +168,19 @@
           </div>
         </div>
 
-        <!-- Metric 3: New / Pending -->
+        <!-- Metric 3: Age Warning / Ineligible Flag -->
+        <div class="bg-[#111317] border border-red-900/40 p-5 rounded-2xl space-y-1 relative overflow-hidden">
+          <div class="text-xs font-bold text-red-400 uppercase tracking-wider">USSSA Age Flags</div>
+          <div id="stat-ineligible" class="font-heading text-3xl font-black text-red-400">0</div>
+          <div class="text-[11px] text-red-400/80">Too Old or Grade Check</div>
+          <div class="absolute right-3 top-3 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Metric 4: New / Pending -->
         <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">New Signups</div>
           <div id="stat-new" class="font-heading text-3xl font-black text-[#B7F52A]">0</div>
@@ -180,7 +192,7 @@
           </div>
         </div>
 
-        <!-- Metric 4: Contacted / Confirmed -->
+        <!-- Metric 5: Contacted / Confirmed -->
         <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Confirmed</div>
           <div id="stat-confirmed" class="font-heading text-3xl font-black text-[#67DDF2]">0</div>
@@ -226,6 +238,16 @@
             <option value="contacted">Contacted</option>
             <option value="confirmed">Confirmed</option>
             <option value="archived">Archived</option>
+          </select>
+
+          <!-- USSSA Eligibility Filter -->
+          <select id="filter-eligibility"
+            class="px-3 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+            <option value="all">All USSSA Ages</option>
+            <option value="flagged">⚠️ All Age Flags (Too Old + Grade)</option>
+            <option value="too-old">⛔ Too Old (Ineligible)</option>
+            <option value="grade-exception">⚠️ Grade Exception Required</option>
+            <option value="eligible">✓ 11U Eligible</option>
           </select>
         </div>
 
@@ -300,8 +322,9 @@
 
       <!-- Modal Header -->
       <div class="space-y-1 pr-8">
-        <div class="flex items-center space-x-2">
+        <div class="flex flex-wrap items-center gap-2">
           <span id="modal-division-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#F02AA8] text-white">Bad Hops 11U</span>
+          <span id="modal-eligibility-badge"></span>
           <span id="modal-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#67DDF2]/20 text-[#67DDF2] border border-[#67DDF2]/40">New</span>
         </div>
         <h2 id="modal-player-name" class="font-heading text-2xl font-black text-white">Player Full Name</h2>
