@@ -4,6 +4,8 @@ import {
   db,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -270,19 +272,67 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // -------------------------------------------------------------
-  // 3. Google Sign In
+  // 3. Google Sign In (with Popup & Redirect Fallback)
   // -------------------------------------------------------------
+  // Listen for redirect sign-in completion when returning to portal
+  getRedirectResult(auth).then((result) => {
+    if (result && result.user) {
+      console.log('Redirect sign-in completed successfully for:', result.user.email);
+    }
+  }).catch((err) => {
+    console.warn('Redirect result check note:', err);
+    if (loginError && err.code && err.code !== 'auth/null-user') {
+      loginError.textContent = getFriendlyAuthError(err.code, err.message);
+      loginError.classList.remove('hidden');
+    }
+  });
+
   if (googleLoginBtn) {
     googleLoginBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       loginError.classList.add('hidden');
       const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      const originalBtnHtml = googleLoginBtn.innerHTML;
+      googleLoginBtn.disabled = true;
+
       try {
         await signInWithPopup(auth, provider);
       } catch (err) {
-        console.error('Google Sign-in error:', err);
-        loginError.textContent = getFriendlyAuthError(err.code, err.message);
-        loginError.classList.remove('hidden');
+        console.warn('Google popup sign-in encountered an issue:', err);
+
+        // If popup was blocked, closed prematurely, or interrupted by Cross-Origin-Opener-Policy (COOP)
+        const isPopupBlockedOrCancelled = 
+          err.code === 'auth/popup-blocked' ||
+          err.code === 'auth/popup-closed-by-user' ||
+          err.code === 'auth/cancelled-popup-request' ||
+          (err.message && err.message.toLowerCase().includes('cross-origin-opener-policy'));
+
+        if (isPopupBlockedOrCancelled) {
+          try {
+            googleLoginBtn.innerHTML = `
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg> Redirecting to Google...
+            `;
+            await signInWithRedirect(auth, provider);
+            return;
+          } catch (redirectErr) {
+            console.error('Redirect sign-in failed:', redirectErr);
+            loginError.textContent = getFriendlyAuthError(redirectErr.code, redirectErr.message);
+            loginError.classList.remove('hidden');
+          }
+        } else {
+          loginError.textContent = getFriendlyAuthError(err.code, err.message);
+          loginError.classList.remove('hidden');
+        }
+      } finally {
+        if (!auth.currentUser) {
+          googleLoginBtn.disabled = false;
+          googleLoginBtn.innerHTML = originalBtnHtml;
+        }
       }
     });
   }
