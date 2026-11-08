@@ -29,38 +29,8 @@
   <meta name="twitter:description" content="Coaching and staff administration portal for reviewing Bad Hops 11U tryout evaluations and athlete registrations.">
   <meta name="twitter:image" content="https://natomassportsassociation.org/assets/images/bad-hops-logo-main.png">
 
-  <!-- Tailwind CSS CDN -->
-  <script>
-    (function() {
-      const origWarn = console.warn;
-      console.warn = function(...args) {
-        if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
-        origWarn.apply(console, args);
-      };
-    })();
-  </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            heading: ['Montserrat', 'system-ui', 'sans-serif'],
-            sans: ['Inter', 'system-ui', 'sans-serif']
-          },
-          colors: {
-            brand: {
-              charcoal: '#111317',
-              navy: '#17243B',
-              pink: '#F02AA8',
-              ice: '#67DDF2',
-              lime: '#B7F52A',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Tailwind CSS (Compiled Production Build) -->
+  <link rel="stylesheet" href="assets/css/tailwind.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 

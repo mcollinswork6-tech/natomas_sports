@@ -1,0 +1,11 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Tailwind standalone binary (downloaded via build-css.sh)
+tailwindcss
+
+# Temporary or editor files
+*.log
+.vscode/
+.idea/
