@@ -73,6 +73,7 @@ service cloud.firestore {
         ('email' in request.auth.token && (
           request.auth.token.email.lower() in [
             'mcollinswork6@gmail.com',
+            'headcoach.badhops@gmail.com',
             'admin@natomassportsassociation.org',
             'coaches@natomassportsassociation.org',
             'badhops@natomassportsassociation.org'

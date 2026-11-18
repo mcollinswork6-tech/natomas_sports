@@ -30,6 +30,7 @@ import {
 // Pre-authorized Staff & Coach Email Whitelist
 export const AUTHORIZED_COACH_EMAILS = [
   'mcollinswork6@gmail.com',
+  'headcoach.badhops@gmail.com',
   'admin@natomassportsassociation.org',
   'coaches@natomassportsassociation.org',
   'badhops@natomassportsassociation.org'

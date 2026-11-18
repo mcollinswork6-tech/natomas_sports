@@ -257,13 +257,20 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-2 flex-wrap gap-2">
+          <button type="button" id="bulk-email-btn"
+            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#67DDF2] to-[#38bdf8] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all shadow-[0_0_12px_rgba(103,221,242,0.3)]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <span>Email Roster</span>
+          </button>
           <button type="button" id="export-csv-btn"
             class="px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            <span>Export CSV Roster</span>
+            <span>Export CSV</span>
           </button>
         </div>
 
@@ -377,9 +384,12 @@
             <a id="modal-call-link" href="#" class="px-3.5 py-2 rounded-xl bg-[#B7F52A] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1 hover:bg-[#a6e81e] transition-colors">
               <span>Call</span>
             </a>
-            <a id="modal-email-link" href="#" class="px-3.5 py-2 rounded-xl bg-[#67DDF2] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1 hover:bg-[#52d0e7] transition-colors">
+            <button type="button" id="modal-email-btn" class="px-3.5 py-2 rounded-xl bg-[#67DDF2] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1.5 hover:bg-[#52d0e7] transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
               <span>Email</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -419,6 +429,127 @@
           <button type="button" id="modal-save-notes-btn"
             class="px-4 py-2 rounded-xl bg-[#B7F52A] hover:bg-[#a6e81e] text-[#111317] font-black uppercase text-xs tracking-wider transition-colors">
             Save Changes
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 4. EMAIL COMPOSER MODAL                   -->
+  <!-- ========================================== -->
+  <div id="email-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#111317] border border-slate-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-5 shadow-2xl relative">
+      
+      <!-- Close Button -->
+      <button type="button" id="email-modal-close-btn" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Email Modal Header -->
+      <div class="space-y-1 pr-8">
+        <div class="flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#67DDF2]/20 text-[#67DDF2] border border-[#67DDF2]/40">
+            Coach Communications
+          </span>
+          <span id="email-mode-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#B7F52A]/20 text-[#B7F52A] border border-[#B7F52A]/40">
+            Single Athlete
+          </span>
+        </div>
+        <h2 id="email-modal-title" class="font-heading text-2xl font-black text-white">Compose Email</h2>
+        <p class="text-xs text-slate-400">
+          Sending from: <span id="email-sender-display" class="font-mono text-[#67DDF2]">headcoach.badhops@gmail.com</span>
+        </p>
+      </div>
+
+      <!-- Recipient Info Banner -->
+      <div class="bg-[#17243B]/60 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Recipients:</span>
+          <span id="email-recipient-count" class="text-slate-400 text-[11px] font-mono">1 recipient</span>
+        </div>
+        <div id="email-recipient-preview" class="text-white font-bold break-words max-h-20 overflow-y-auto text-xs">
+          --
+        </div>
+      </div>
+
+      <!-- Template Selector -->
+      <div class="space-y-1.5">
+        <label for="email-template-select" class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+          Quick Message Template
+        </label>
+        <select id="email-template-select"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#67DDF2]">
+          <option value="tryout-details">Tryout Details & Logistics (North Natomas Park Field 2)</option>
+          <option value="tryout-confirmed">Registration & Schedule Confirmation</option>
+          <option value="evaluation-followup">Evaluation Follow-Up & Next Steps</option>
+          <option value="private-eval">Private Evaluation Scheduling</option>
+          <option value="custom">Custom Email (Blank)</option>
+        </select>
+      </div>
+
+      <!-- Subject Line -->
+      <div class="space-y-1.5">
+        <label for="email-subject-input" class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+          Subject Line
+        </label>
+        <input type="text" id="email-subject-input"
+          class="w-full px-4 py-2.5 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs placeholder-slate-500 font-semibold focus:outline-none focus:ring-2 focus:ring-[#67DDF2]"
+          placeholder="Email subject line...">
+      </div>
+
+      <!-- Message Body -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <label for="email-body-input" class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+            Message Body
+          </label>
+          <span class="text-[10px] text-slate-500">Variables like {PlayerName} and {ParentName} are auto-filled</span>
+        </div>
+        <textarea id="email-body-input" rows="8"
+          class="w-full px-4 py-3 rounded-xl bg-[#17243B] border border-slate-700 text-white text-xs placeholder-slate-500 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#67DDF2]"></textarea>
+      </div>
+
+      <!-- Auto-Status & Note Options (when emailing single athlete) -->
+      <div id="email-single-options" class="flex items-center space-x-2 pt-1 text-xs">
+        <input type="checkbox" id="email-auto-update-status" checked
+          class="rounded bg-[#17243B] border-slate-700 text-[#B7F52A] focus:ring-[#B7F52A]">
+        <label for="email-auto-update-status" class="text-slate-300">
+          Mark player status as <strong class="text-[#67DDF2]">"Contacted"</strong> and log email in evaluation notes
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <!-- Copy to Clipboard -->
+        <button type="button" id="email-copy-btn"
+          class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors border border-slate-700 inline-flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+          </svg>
+          <span id="email-copy-btn-text">Copy Message</span>
+        </button>
+
+        <div class="flex items-center space-x-2 flex-wrap sm:flex-nowrap gap-2">
+          <!-- Open in System Mail App -->
+          <a id="email-open-mail-link" href="#" target="_blank"
+            class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center space-x-2 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <span>Mail App</span>
+          </a>
+
+          <!-- Send with Gmail (Primary) -->
+          <button type="button" id="email-send-gmail-btn"
+            class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider inline-flex items-center justify-center space-x-2 transition-all shadow-[0_0_15px_rgba(183,245,42,0.3)]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+            </svg>
+            <span>Send via Gmail</span>
           </button>
         </div>
       </div>

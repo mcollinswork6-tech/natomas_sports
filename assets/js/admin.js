@@ -71,6 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalEmail = document.getElementById('modal-email');
   const modalCallLink = document.getElementById('modal-call-link');
   const modalEmailLink = document.getElementById('modal-email-link');
+  const modalEmailBtn = document.getElementById('modal-email-btn');
+  const bulkEmailBtn = document.getElementById('bulk-email-btn');
+
+  // DOM Elements - Email Composer Modal
+  const emailModal = document.getElementById('email-modal');
+  const emailModalCloseBtn = document.getElementById('email-modal-close-btn');
+  const emailModalTitle = document.getElementById('email-modal-title');
+  const emailModeBadge = document.getElementById('email-mode-badge');
+  const emailSenderDisplay = document.getElementById('email-sender-display');
+  const emailRecipientCount = document.getElementById('email-recipient-count');
+  const emailRecipientPreview = document.getElementById('email-recipient-preview');
+  const emailTemplateSelect = document.getElementById('email-template-select');
+  const emailSubjectInput = document.getElementById('email-subject-input');
+  const emailBodyInput = document.getElementById('email-body-input');
+  const emailSingleOptions = document.getElementById('email-single-options');
+  const emailAutoUpdateStatus = document.getElementById('email-auto-update-status');
+  const emailCopyBtn = document.getElementById('email-copy-btn');
+  const emailCopyBtnText = document.getElementById('email-copy-btn-text');
+  const emailOpenMailLink = document.getElementById('email-open-mail-link');
+  const emailSendGmailBtn = document.getElementById('email-send-gmail-btn');
   const modalNotes = document.getElementById('modal-notes');
   const modalAdminNotes = document.getElementById('modal-admin-notes');
   const modalStatusSelect = document.getElementById('modal-status-select');
@@ -551,8 +571,14 @@ document.addEventListener('DOMContentLoaded', () => {
           </td>
 
           <!-- Actions -->
-          <td class="p-4 pr-6 text-right space-x-2">
-            <button type="button" class="view-player-btn px-3 py-1.5 rounded-lg bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/30 text-[#67DDF2] font-bold text-xs transition-colors" data-id="${reg.id}">
+          <td class="p-4 pr-6 text-right space-x-1.5 whitespace-nowrap">
+            <button type="button" class="email-player-btn px-2.5 py-1.5 rounded-lg bg-[#67DDF2]/10 hover:bg-[#67DDF2]/20 border border-[#67DDF2]/40 text-[#67DDF2] font-bold text-xs inline-flex items-center space-x-1 transition-colors" data-id="${reg.id}" title="Email Family">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+              <span>Email</span>
+            </button>
+            <button type="button" class="view-player-btn px-3 py-1.5 rounded-lg bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/30 text-white font-bold text-xs transition-colors" data-id="${reg.id}">
               Details
             </button>
             <button type="button" class="delete-reg-btn p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors" title="Delete Registration" data-id="${reg.id}">
@@ -568,6 +594,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach event listeners to row buttons
     tableBody.querySelectorAll('.view-player-btn').forEach(btn => {
       btn.addEventListener('click', () => openModal(btn.dataset.id));
+    });
+
+    tableBody.querySelectorAll('.email-player-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = registrations.find(r => r.id === btn.dataset.id);
+        if (target) openSingleEmailModal(target);
+      });
     });
 
     tableBody.querySelectorAll('.status-quick-select').forEach(select => {
@@ -630,6 +663,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalEmail) modalEmail.textContent = reg.email || '--';
     if (modalCallLink) modalCallLink.href = `tel:${reg.phone || ''}`;
     if (modalEmailLink) modalEmailLink.href = `mailto:${reg.email || ''}`;
+    if (modalEmailBtn) {
+      modalEmailBtn.onclick = () => {
+        closeModal();
+        openSingleEmailModal(reg);
+      };
+    }
     if (modalNotes) modalNotes.textContent = reg.notes || 'None provided';
     if (modalAdminNotes) modalAdminNotes.value = reg.adminNotes || '';
     if (modalStatusSelect) modalStatusSelect.value = reg.status || 'new';
@@ -748,6 +787,278 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 10. Coach Email Composer System
+  // -------------------------------------------------------------
+  let currentEmailContext = null;
+
+  const EMAIL_TEMPLATES = {
+    'tryout-details': {
+      subject: 'Bad Hops 11U Baseball — Tryout Details & Schedule (North Natomas Field 2)',
+      body: `Hi {ParentName},
+
+Thank you for registering {PlayerName} for the Bad Hops 11U Travel Baseball evaluations with Natomas Sport Association!
+
+Here are the key details for your upcoming evaluation:
+• Location: North Natomas Regional Park (Field 2) — 2601 New Market Dr, Sacramento, CA
+• Age Division: {Division}
+• Equipment Needed: Baseball glove, cleats, bat, batting helmet, baseball pants, and plenty of water.
+• Arrival: Please arrive 15 minutes before your scheduled slot to check in at the field desk and warm up.
+
+If you have any questions or schedule conflicts prior to evaluations, please reply directly to this email or reach out to our coaching staff.
+
+We're excited to see {PlayerName} out on the field!
+
+Coach Collins & Bad Hops Coaching Staff
+Natomas Sport Association
+https://natomassportsassociation.org`
+    },
+    'tryout-confirmed': {
+      subject: 'Bad Hops 11U — Tryout Registration Confirmed',
+      body: `Hi {ParentName},
+
+This is a confirmation from the Bad Hops coaching staff that {PlayerName}'s tryout registration is confirmed!
+
+Please ensure your player is dressed in baseball attire and ready 15 minutes prior to start time at North Natomas Regional Park (Field 2).
+
+If you have any questions or need to make changes to your schedule, reply directly to this email.
+
+Best regards,
+Bad Hops 11U Coaching Staff
+Natomas Sport Association`
+    },
+    'evaluation-followup': {
+      subject: 'Bad Hops 11U — Evaluation Follow-Up & Next Steps',
+      body: `Hi {ParentName},
+
+Thank you for bringing {PlayerName} out to evaluations with Bad Hops 11U and Natomas Sport Association. Our coaches were thrilled to see the hustle, attitude, and talent on display.
+
+Our coaching staff is currently finalizing roster evaluations and will be reaching out regarding team placement and next steps for the upcoming 2027 season.
+
+Thank you again for being part of our Natomas youth sports community!
+
+Best regards,
+Bad Hops 11U Coaching Staff
+Natomas Sport Association`
+    },
+    'private-eval': {
+      subject: 'Bad Hops 11U — Private Evaluation Request',
+      body: `Hi {ParentName},
+
+We received your request for a private evaluation for {PlayerName} for the Bad Hops 11U team.
+
+Our coaching staff conducts private workouts at North Natomas Regional Park. Please reply with 2-3 dates and times that work best for your family this week so we can coordinate with our coaching schedule.
+
+Best regards,
+Bad Hops 11U Coaching Staff
+Natomas Sport Association`
+    },
+    'custom': {
+      subject: '',
+      body: ''
+    }
+  };
+
+  function openSingleEmailModal(reg) {
+    if (!reg || !reg.email) {
+      alert('This athlete does not have an email address on file.');
+      return;
+    }
+    currentEmailContext = { type: 'single', reg };
+
+    if (emailModalTitle) emailModalTitle.textContent = `Email ${reg.playerName || 'Family'}`;
+    if (emailModeBadge) {
+      emailModeBadge.textContent = 'Single Athlete';
+      emailModeBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#B7F52A]/20 text-[#B7F52A] border border-[#B7F52A]/40';
+    }
+    if (emailRecipientCount) emailRecipientCount.textContent = '1 family';
+    if (emailRecipientPreview) {
+      emailRecipientPreview.innerHTML = `<span class="text-white">${escapeHtml(reg.parentName || 'Parent')}</span> &lt;<span class="text-[#67DDF2]">${escapeHtml(reg.email)}</span>&gt; <span class="text-slate-400 font-normal">(Athlete: ${escapeHtml(reg.playerName || 'Player')})</span>`;
+    }
+    if (emailSenderDisplay) {
+      emailSenderDisplay.textContent = auth.currentUser?.email || 'headcoach.badhops@gmail.com';
+    }
+    if (emailSingleOptions) emailSingleOptions.classList.remove('hidden');
+    if (emailTemplateSelect) emailTemplateSelect.value = 'tryout-details';
+
+    applyEmailTemplate('tryout-details');
+    if (emailModal) emailModal.classList.remove('hidden');
+  }
+
+  function openBulkEmailModal() {
+    const list = (filteredRegistrations.length ? filteredRegistrations : registrations).filter(r => r.email && r.email.trim());
+    if (!list.length) {
+      alert('No registrations with valid email addresses found to send to.');
+      return;
+    }
+    currentEmailContext = { type: 'bulk', list };
+
+    if (emailModalTitle) emailModalTitle.textContent = 'Email Roster (Bulk)';
+    if (emailModeBadge) {
+      emailModeBadge.textContent = `Bulk Roster (${list.length} Families)`;
+      emailModeBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#67DDF2]/20 text-[#67DDF2] border border-[#67DDF2]/40';
+    }
+    if (emailRecipientCount) emailRecipientCount.textContent = `${list.length} families (BCC)`;
+    if (emailRecipientPreview) {
+      const sample = list.slice(0, 5).map(r => r.email).join(', ');
+      emailRecipientPreview.textContent = list.length > 5 ? `${sample} ... and ${list.length - 5} more` : sample;
+    }
+    if (emailSenderDisplay) {
+      emailSenderDisplay.textContent = auth.currentUser?.email || 'headcoach.badhops@gmail.com';
+    }
+    if (emailSingleOptions) emailSingleOptions.classList.add('hidden');
+    if (emailTemplateSelect) emailTemplateSelect.value = 'tryout-details';
+
+    applyEmailTemplate('tryout-details');
+    if (emailModal) emailModal.classList.remove('hidden');
+  }
+
+  function closeEmailModal() {
+    currentEmailContext = null;
+    if (emailModal) emailModal.classList.add('hidden');
+  }
+
+  function applyEmailTemplate(templateKey) {
+    const template = EMAIL_TEMPLATES[templateKey] || EMAIL_TEMPLATES['custom'];
+    if (!currentEmailContext) return;
+
+    let parentName = 'Family';
+    let playerName = 'your player';
+    let division = 'Bad Hops 11U';
+
+    if (currentEmailContext.type === 'single') {
+      const reg = currentEmailContext.reg;
+      parentName = reg.parentName || 'Family';
+      playerName = reg.playerName || 'Athlete';
+      division = reg.division || 'Bad Hops 11U';
+    } else {
+      parentName = 'Bad Hops Families';
+      playerName = 'your athlete';
+      division = filterDivision?.value !== 'all' ? filterDivision.value : 'Bad Hops 11U';
+    }
+
+    const sub = (template.subject || '')
+      .replace(/{PlayerName}/g, playerName)
+      .replace(/{ParentName}/g, parentName)
+      .replace(/{Division}/g, division);
+
+    const body = (template.body || '')
+      .replace(/{PlayerName}/g, playerName)
+      .replace(/{ParentName}/g, parentName)
+      .replace(/{Division}/g, division);
+
+    if (emailSubjectInput) emailSubjectInput.value = sub;
+    if (emailBodyInput) emailBodyInput.value = body;
+    updateEmailLinks();
+  }
+
+  function updateEmailLinks() {
+    if (!currentEmailContext) return null;
+    const subject = emailSubjectInput?.value.trim() || '';
+    const body = emailBodyInput?.value.trim() || '';
+
+    let to = '';
+    let bcc = '';
+
+    if (currentEmailContext.type === 'single') {
+      to = currentEmailContext.reg.email || '';
+    } else {
+      bcc = currentEmailContext.list.map(r => r.email).filter(Boolean).join(',');
+    }
+
+    // Build standard mailto URL
+    const queryParts = [];
+    if (bcc) queryParts.push(`bcc=${encodeURIComponent(bcc)}`);
+    if (subject) queryParts.push(`subject=${encodeURIComponent(subject)}`);
+    if (body) queryParts.push(`body=${encodeURIComponent(body)}`);
+    const mailtoUrl = `mailto:${encodeURIComponent(to)}${queryParts.length ? '?' + queryParts.join('&') : ''}`;
+    if (emailOpenMailLink) emailOpenMailLink.href = mailtoUrl;
+
+    return { to, bcc, subject, body };
+  }
+
+  // Event Listeners for Email Composer
+  if (emailTemplateSelect) {
+    emailTemplateSelect.addEventListener('change', () => {
+      applyEmailTemplate(emailTemplateSelect.value);
+    });
+  }
+
+  if (emailSubjectInput) emailSubjectInput.addEventListener('input', updateEmailLinks);
+  if (emailBodyInput) emailBodyInput.addEventListener('input', updateEmailLinks);
+
+  if (emailModalCloseBtn) emailModalCloseBtn.addEventListener('click', closeEmailModal);
+  if (emailModal) {
+    emailModal.addEventListener('click', (e) => {
+      if (e.target === emailModal) closeEmailModal();
+    });
+  }
+
+  if (bulkEmailBtn) {
+    bulkEmailBtn.addEventListener('click', openBulkEmailModal);
+  }
+
+  // Send via Gmail Button
+  if (emailSendGmailBtn) {
+    emailSendGmailBtn.addEventListener('click', async () => {
+      const data = updateEmailLinks();
+      if (!data) return;
+
+      let gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1';
+      if (data.to) gmailUrl += `&to=${encodeURIComponent(data.to)}`;
+      if (data.bcc) gmailUrl += `&bcc=${encodeURIComponent(data.bcc)}`;
+      if (data.subject) gmailUrl += `&su=${encodeURIComponent(data.subject)}`;
+      if (data.body) gmailUrl += `&body=${encodeURIComponent(data.body)}`;
+
+      // Open Gmail in a new tab
+      window.open(gmailUrl, '_blank');
+
+      // Auto-update single registration in Firestore if enabled
+      if (currentEmailContext?.type === 'single' && emailAutoUpdateStatus?.checked) {
+        const reg = currentEmailContext.reg;
+        try {
+          const coachEmail = auth.currentUser?.email || 'headcoach.badhops@gmail.com';
+          const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          const newNoteEntry = `[${today}] Emailed "${data.subject}" by ${coachEmail}`;
+          const updatedNotes = reg.adminNotes ? `${reg.adminNotes}\n${newNoteEntry}` : newNoteEntry;
+
+          await updateDoc(doc(db, 'tryout_registrations', reg.id), {
+            status: 'contacted',
+            adminNotes: updatedNotes
+          });
+        } catch (err) {
+          console.warn('Could not auto-update registration status in Firestore:', err);
+        }
+      }
+
+      closeEmailModal();
+    });
+  }
+
+  // Copy Message to Clipboard
+  if (emailCopyBtn) {
+    emailCopyBtn.addEventListener('click', async () => {
+      const subject = emailSubjectInput?.value.trim() || '';
+      const body = emailBodyInput?.value.trim() || '';
+      let textToCopy = `Subject: ${subject}\n\n${body}`;
+
+      if (currentEmailContext?.type === 'bulk') {
+        const emails = currentEmailContext.list.map(r => r.email).filter(Boolean).join(', ');
+        textToCopy = `Recipients (BCC):\n${emails}\n\nSubject: ${subject}\n\n${body}`;
+      }
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        if (emailCopyBtnText) emailCopyBtnText.textContent = 'Copied to Clipboard!';
+        setTimeout(() => {
+          if (emailCopyBtnText) emailCopyBtnText.textContent = 'Copy Message';
+        }, 2500);
+      } catch (err) {
+        alert('Could not copy to clipboard: ' + err.message);
+      }
     });
   }
 
