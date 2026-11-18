@@ -147,8 +147,30 @@
     <!-- Dashboard Content Area -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-6 flex-grow">
 
-      <!-- Metrics KPI Strip -->
-      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <!-- Navigation Tabs: Registrations vs Master Evaluation Matrix -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-4">
+        <div class="flex items-center space-x-2">
+          <button type="button" id="tab-btn-registrations"
+            class="px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#17243B] text-[#67DDF2] border border-[#67DDF2]/40 shadow-[0_0_12px_rgba(103,221,242,0.2)]">
+            📋 Tryout Registrations
+          </button>
+          <button type="button" id="tab-btn-evaluations"
+            class="px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#111317] text-slate-400 hover:text-white border border-slate-800">
+            ⚾ Bad Hops 11U Evaluation Matrix (Excel)
+          </button>
+        </div>
+        <div class="flex items-center space-x-3 text-xs">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-[#B7F52A]/10 text-[#B7F52A] border border-[#B7F52A]/30">
+            Field 2 • Nov 21, 2026
+          </span>
+        </div>
+      </div>
+
+      <!-- VIEW 1: REGISTRATIONS -->
+      <div id="view-registrations" class="space-y-6">
+
+        <!-- Metrics KPI Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Metric 1: Total -->
         <div class="bg-[#111317] border border-slate-800 p-5 rounded-2xl space-y-1 relative overflow-hidden">
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registrations</div>
@@ -259,11 +281,11 @@
         <!-- Action Buttons -->
         <div class="flex items-center space-x-2 flex-wrap gap-2">
           <button type="button" id="bulk-email-btn"
-            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#67DDF2] to-[#38bdf8] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all shadow-[0_0_12px_rgba(103,221,242,0.3)]">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all shadow-[0_0_12px_rgba(183,245,42,0.3)]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
             </svg>
-            <span>Email Roster</span>
+            <span>Gmail Roster (Bulk)</span>
           </button>
           <button type="button" id="export-csv-btn"
             class="px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors">
@@ -309,6 +331,288 @@
           </table>
         </div>
       </div>
+
+      </div> <!-- End #view-registrations -->
+
+      <!-- ======================================================== -->
+      <!-- VIEW 2: BAD HOPS 11U EVALUATION MATRIX & STATIONS        -->
+      <!-- ======================================================== -->
+      <div id="view-evaluations" class="hidden space-y-6">
+
+        <!-- Top Evaluation Header & Toolbar -->
+        <div class="bg-[#111317] border border-slate-800 p-6 rounded-3xl space-y-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#B7F52A]/20 text-[#B7F52A] border border-[#B7F52A]/40">
+                  Tryout Evaluation Matrix
+                </span>
+                <span class="text-xs text-slate-400">Nov 21, 2026 • North Natomas Regional Park (Field 2)</span>
+              </div>
+              <h2 class="font-heading text-2xl font-black text-white mt-1">BAD HOPS 11U — MASTER EVALUATION SUMMARY</h2>
+              <p class="text-xs text-slate-400">All registered athletes auto-populate below. Scores entered across stations auto-calculate totals and composite tiers in real-time.</p>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-2 flex-wrap gap-2">
+              <button type="button" id="eval-sync-athletes-btn"
+                class="px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider inline-flex items-center space-x-2 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                <span>Sync Registered Athletes</span>
+              </button>
+              
+              <button type="button" id="eval-export-csv-btn"
+                class="px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#B7F52A]/40 text-[#B7F52A] text-xs font-bold uppercase tracking-wider inline-flex items-center space-x-2 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>Export Excel (.CSV)</span>
+              </button>
+
+              <button type="button" id="eval-save-btn"
+                class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider inline-flex items-center space-x-2 transition-all shadow-[0_0_12px_rgba(183,245,42,0.3)]">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span id="eval-save-btn-text">Save Scores</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cutoff Rules & Legend Strip -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-slate-800 text-xs">
+            <div class="p-3 rounded-xl bg-[#17243B]/60 border border-slate-800">
+              <span class="text-[#B7F52A] font-bold uppercase tracking-wider text-[11px] block">Position Cutoffs (Max 40 Pts):</span>
+              <div class="mt-1 text-slate-300 space-y-0.5 text-[11px]">
+                <div><span class="text-[#B7F52A] font-bold">32–40 pts:</span> Core Lock (Up-the-middle / Top of order)</div>
+                <div><span class="text-[#67DDF2] font-bold">25–31 pts:</span> Travel Roster Contributor</div>
+                <div><span class="text-slate-400 font-bold">&lt;25 pts:</span> Winter Academy / Rec</div>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl bg-[#17243B]/60 border border-slate-800">
+              <span class="text-[#67DDF2] font-bold uppercase tracking-wider text-[11px] block">Pitcher / Catcher Cutoffs (Max 55 Pts):</span>
+              <div class="mt-1 text-slate-300 space-y-0.5 text-[11px]">
+                <div><span class="text-[#B7F52A] font-bold">44–55 pts:</span> Core Pitcher/Catcher Lock</div>
+                <div><span class="text-[#67DDF2] font-bold">36–43 pts:</span> Travel Roster P/C</div>
+                <div><span class="text-slate-400 font-bold">&lt;36 pts:</span> Developmental P/C</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station Sub-Tabs Navigation -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-2 border-b border-slate-800 scrollbar-none">
+          <button type="button" class="eval-station-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all bg-[#67DDF2] text-[#111317] shadow-[0_0_10px_rgba(103,221,242,0.3)]" data-station="master">
+            📊 Master Summary
+          </button>
+          <button type="button" class="eval-station-tab px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all bg-[#17243B] text-slate-300 hover:text-white" data-station="hitting">
+            🏏 Hitting &amp; Bunting (Cage)
+          </button>
+          <button type="button" class="eval-station-tab px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all bg-[#17243B] text-slate-300 hover:text-white" data-station="defense">
+            🧤 Infield &amp; IQ (Defense)
+          </button>
+          <button type="button" class="eval-station-tab px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all bg-[#17243B] text-slate-300 hover:text-white" data-station="pitching">
+            🎯 Pitching (Bullpen)
+          </button>
+          <button type="button" class="eval-station-tab px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all bg-[#17243B] text-slate-300 hover:text-white" data-station="catching">
+            🛡️ Catching (Blocking &amp; Arm)
+          </button>
+        </div>
+
+        <!-- Station 1: Master Summary Sheet -->
+        <div id="station-panel-master" class="station-panel space-y-4">
+          <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#17243B]/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-3 pl-5 w-20">Jersey #</th>
+                    <th class="p-3">Player Name</th>
+                    <th class="p-3">Primary Pos</th>
+                    <th class="p-3 text-center text-[#67DDF2]">Hitting<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center text-[#67DDF2]">Field &amp; IQ<br><span class="text-[10px] text-slate-500 font-normal">Max 25</span></th>
+                    <th class="p-3 text-center text-[#F02AA8]">Pitching<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center text-[#F02AA8]">Catching<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center text-[#B7F52A]">POS TOTAL<br><span class="text-[10px] text-slate-500 font-normal">Max 40</span></th>
+                    <th class="p-3 text-center">Pos Tier</th>
+                    <th class="p-3 text-center text-[#B7F52A]">P/C COMBINED<br><span class="text-[10px] text-slate-500 font-normal">Max 55</span></th>
+                    <th class="p-3 pr-5">Coach Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-master-tbody" class="divide-y divide-slate-800/60">
+                </tbody>
+                <tfoot>
+                  <tr id="eval-master-avg-row" class="bg-[#17243B]/90 font-black border-t-2 border-slate-700 text-white">
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station 2: Hitting & Bunting (Batting Cage) -->
+        <div id="station-panel-hitting" class="station-panel hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-[#17243B]/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-[#67DDF2] uppercase tracking-wider block">12-Pitch Cage Round</span>
+              <span class="text-slate-300 text-[11px]">3 Bunt Attempts (Sac/Drag) + 4 Front-Toss Swings + 5 Machine/Live-Arm Swings</span>
+            </div>
+            <div class="text-[11px] text-slate-400 bg-[#111317] p-2.5 rounded-xl border border-slate-800">
+              <strong class="text-white">Rubric (1-5):</strong> 1 = Weak/stabs • 3 = Travel avg (60%+ barrels, direct path) • 5 = Elite (explosive, gap-to-gap)
+            </div>
+          </div>
+
+          <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#17243B]/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-3 pl-5 w-20">Jersey #</th>
+                    <th class="p-3">Player Name</th>
+                    <th class="p-3 w-20">Bats</th>
+                    <th class="p-3 text-center">Bunting<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Swing Mech<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Hitting Ability<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center text-[#67DDF2]">HITTING TOT<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center">Hitting Tier</th>
+                    <th class="p-3 pr-5">Cage Coach Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-hitting-tbody" class="divide-y divide-slate-800/60">
+                </tbody>
+                <tfoot>
+                  <tr id="eval-hitting-avg-row" class="bg-[#17243B]/90 font-black border-t-2 border-slate-700 text-white">
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station 3: Infield, Defense, Base Running & IQ -->
+        <div id="station-panel-defense" class="station-panel hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-[#17243B]/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-[#67DDF2] uppercase tracking-wider block">Infield &amp; Athleticism Station</span>
+              <span class="text-slate-300 text-[11px]">5 Ground Balls (2 straight, 2 forehand/backhand, 1 slow roller) + 4 Fly Balls + Timed Bases + 3 Situational 50/70 IQ Prompts</span>
+            </div>
+            <div class="text-[11px] text-slate-400 bg-[#111317] p-2.5 rounded-xl border border-slate-800">
+              <strong class="text-white">IQ Rubric (1-5):</strong> 1 = Freezes • 3 = Knows force/cutoffs • 5 = Anticipates pre-pitch
+            </div>
+          </div>
+
+          <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#17243B]/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-3 pl-5 w-20">Jersey #</th>
+                    <th class="p-3">Player Name</th>
+                    <th class="p-3">Primary Pos</th>
+                    <th class="p-3 text-center">GB &amp; Footwork<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Pop Flies<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Throw (Move)<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Base Running<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Baseball IQ<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center text-[#67DDF2]">FIELD &amp; IQ TOT<br><span class="text-[10px] text-slate-500 font-normal">Max 25</span></th>
+                    <th class="p-3 text-center">Defense Tier</th>
+                    <th class="p-3 pr-5">Field Coach Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-defense-tbody" class="divide-y divide-slate-800/60">
+                </tbody>
+                <tfoot>
+                  <tr id="eval-defense-avg-row" class="bg-[#17243B]/90 font-black border-t-2 border-slate-700 text-white">
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station 4: Pitching (Bullpen) -->
+        <div id="station-panel-pitching" class="station-panel hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-[#17243B]/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-[#F02AA8] uppercase tracking-wider block">10-Pitch Bullpen (50-Ft Mound)</span>
+              <span class="text-slate-300 text-[11px]">6 Fastballs + 4 Secondary/Off-Speed Pitches (Enter scores for tested pitchers)</span>
+            </div>
+            <div class="text-[11px] text-slate-400 bg-[#111317] p-2.5 rounded-xl border border-slate-800">
+              <strong class="text-white">Velo Benchmarks:</strong> 1 = &lt;46 mph • 3 = 48–53 mph (Travel Avg) • 5 = 55+ mph (Elite 11U)
+            </div>
+          </div>
+
+          <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#17243B]/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-3 pl-5 w-20">Jersey #</th>
+                    <th class="p-3">Player Name</th>
+                    <th class="p-3 w-20">Throws</th>
+                    <th class="p-3 text-center">FB Velo<br><span class="text-[10px] text-slate-500 font-normal">MPH</span></th>
+                    <th class="p-3 text-center">Speed Score<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Accuracy<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Add. Pitches<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center text-[#F02AA8]">PITCHING TOT<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center">Pitching Tier</th>
+                    <th class="p-3 pr-5">Pitching Coach Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-pitching-tbody" class="divide-y divide-slate-800/60">
+                </tbody>
+                <tfoot>
+                  <tr id="eval-pitching-avg-row" class="bg-[#17243B]/90 font-black border-t-2 border-slate-700 text-white">
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station 5: Catching (Blocking, Framing & Arm) -->
+        <div id="station-panel-catching" class="station-panel hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-[#17243B]/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-bold text-[#F02AA8] uppercase tracking-wider block">Catchers Evaluation</span>
+              <span class="text-slate-300 text-[11px]">5 Dirt Blocks + 5 Borderline Frames + 3 Pop-Time Throws to 2B (70-ft Bases)</span>
+            </div>
+            <div class="text-[11px] text-slate-400 bg-[#111317] p-2.5 rounded-xl border border-slate-800">
+              <strong class="text-white">Pop-Time:</strong> 1 = &gt;2.60s • 3 = 2.30–2.50s (Travel Avg) • 5 = &lt;2.25s (Elite 11U)
+            </div>
+          </div>
+
+          <div class="bg-[#111317] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#17243B]/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-3 pl-5 w-20">Jersey #</th>
+                    <th class="p-3">Player Name</th>
+                    <th class="p-3 w-20">Throws</th>
+                    <th class="p-3 text-center">Pop Time<br><span class="text-[10px] text-slate-500 font-normal">Sec</span></th>
+                    <th class="p-3 text-center">Blocking/Mvt<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Framing<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center">Arm Strength<br><span class="text-[10px] text-slate-500 font-normal">1-5</span></th>
+                    <th class="p-3 text-center text-[#F02AA8]">CATCHING TOT<br><span class="text-[10px] text-slate-500 font-normal">Max 15</span></th>
+                    <th class="p-3 text-center">Catching Tier</th>
+                    <th class="p-3 pr-5">Catching Coach Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-catching-tbody" class="divide-y divide-slate-800/60">
+                </tbody>
+                <tfoot>
+                  <tr id="eval-catching-avg-row" class="bg-[#17243B]/90 font-black border-t-2 border-slate-700 text-white">
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End #view-evaluations -->
 
     </main>
 
@@ -384,11 +688,11 @@
             <a id="modal-call-link" href="#" class="px-3.5 py-2 rounded-xl bg-[#B7F52A] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1 hover:bg-[#a6e81e] transition-colors">
               <span>Call</span>
             </a>
-            <button type="button" id="modal-email-btn" class="px-3.5 py-2 rounded-xl bg-[#67DDF2] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1.5 hover:bg-[#52d0e7] transition-colors">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            <button type="button" id="modal-email-btn" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] text-[#111317] font-black uppercase text-xs tracking-wider inline-flex items-center space-x-1.5 hover:opacity-95 transition-all shadow-[0_0_12px_rgba(183,245,42,0.25)]">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
               </svg>
-              <span>Email</span>
+              <span>Gmail Family</span>
             </button>
           </div>
         </div>
@@ -534,22 +838,13 @@
         </button>
 
         <div class="flex items-center space-x-2 flex-wrap sm:flex-nowrap gap-2">
-          <!-- Open in System Mail App -->
-          <a id="email-open-mail-link" href="#" target="_blank"
-            class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/40 text-[#67DDF2] text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center space-x-2 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-            <span>Mail App</span>
-          </a>
-
-          <!-- Send with Gmail (Primary) -->
+          <!-- Send with Gmail (Direct & Primary) -->
           <button type="button" id="email-send-gmail-btn"
-            class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider inline-flex items-center justify-center space-x-2 transition-all shadow-[0_0_15px_rgba(183,245,42,0.3)]">
+            class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#B7F52A] to-[#67DDF2] hover:opacity-95 text-[#111317] text-xs font-black uppercase tracking-wider inline-flex items-center justify-center space-x-2 transition-all shadow-[0_0_15px_rgba(183,245,42,0.3)]">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
             </svg>
-            <span>Send via Gmail</span>
+            <span>Open in Gmail &amp; Send</span>
           </button>
         </div>
       </div>

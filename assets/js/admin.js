@@ -14,8 +14,11 @@ import {
   orderBy,
   onSnapshot,
   doc,
+  getDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
+  serverTimestamp,
   isAuthorizedStaff
 } from './firebase-config.js';
 
@@ -89,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailAutoUpdateStatus = document.getElementById('email-auto-update-status');
   const emailCopyBtn = document.getElementById('email-copy-btn');
   const emailCopyBtnText = document.getElementById('email-copy-btn-text');
-  const emailOpenMailLink = document.getElementById('email-open-mail-link');
   const emailSendGmailBtn = document.getElementById('email-send-gmail-btn');
   const modalNotes = document.getElementById('modal-notes');
   const modalAdminNotes = document.getElementById('modal-admin-notes');
@@ -388,6 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         applyFilters();
         updateMetrics();
+        syncEvaluationRoster();
       }, (error) => {
         console.error('Firestore listener error:', error);
         tableBody.innerHTML = `
@@ -551,7 +554,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="flex items-center space-x-2 mt-0.5">
               <a href="tel:${escapeHtml(reg.phone || '')}" class="text-[11px] text-[#B7F52A] hover:underline">${escapeHtml(reg.phone || '--')}</a>
               <span class="text-slate-600">•</span>
-              <a href="mailto:${escapeHtml(reg.email || '')}" class="text-[11px] text-[#67DDF2] hover:underline">${escapeHtml(reg.email || '--')}</a>
+              <button type="button" class="quick-gmail-btn text-[11px] text-[#67DDF2] hover:text-[#B7F52A] hover:underline transition-colors font-mono inline-flex items-center space-x-1" data-id="${reg.id}" title="Compose in Gmail">
+                <span>${escapeHtml(reg.email || '--')}</span>
+              </button>
             </div>
           </td>
 
@@ -572,11 +577,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <!-- Actions -->
           <td class="p-4 pr-6 text-right space-x-1.5 whitespace-nowrap">
-            <button type="button" class="email-player-btn px-2.5 py-1.5 rounded-lg bg-[#67DDF2]/10 hover:bg-[#67DDF2]/20 border border-[#67DDF2]/40 text-[#67DDF2] font-bold text-xs inline-flex items-center space-x-1 transition-colors" data-id="${reg.id}" title="Email Family">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            <button type="button" class="email-player-btn px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-[#B7F52A]/10 to-[#67DDF2]/10 hover:from-[#B7F52A]/20 hover:to-[#67DDF2]/20 border border-[#67DDF2]/40 text-[#67DDF2] font-bold text-xs inline-flex items-center space-x-1.5 transition-all" data-id="${reg.id}" title="Compose in Gmail">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
               </svg>
-              <span>Email</span>
+              <span>Gmail</span>
             </button>
             <button type="button" class="view-player-btn px-3 py-1.5 rounded-lg bg-[#17243B] hover:bg-[#202f4a] border border-[#67DDF2]/30 text-white font-bold text-xs transition-colors" data-id="${reg.id}">
               Details
@@ -597,6 +602,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     tableBody.querySelectorAll('.email-player-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = registrations.find(r => r.id === btn.dataset.id);
+        if (target) openSingleEmailModal(target);
+      });
+    });
+
+    tableBody.querySelectorAll('.quick-gmail-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const target = registrations.find(r => r.id === btn.dataset.id);
         if (target) openSingleEmailModal(target);
@@ -969,14 +981,6 @@ Natomas Sport Association`
       bcc = currentEmailContext.list.map(r => r.email).filter(Boolean).join(',');
     }
 
-    // Build standard mailto URL
-    const queryParts = [];
-    if (bcc) queryParts.push(`bcc=${encodeURIComponent(bcc)}`);
-    if (subject) queryParts.push(`subject=${encodeURIComponent(subject)}`);
-    if (body) queryParts.push(`body=${encodeURIComponent(body)}`);
-    const mailtoUrl = `mailto:${encodeURIComponent(to)}${queryParts.length ? '?' + queryParts.join('&') : ''}`;
-    if (emailOpenMailLink) emailOpenMailLink.href = mailtoUrl;
-
     return { to, bcc, subject, body };
   }
 
@@ -1001,19 +1005,23 @@ Natomas Sport Association`
     bulkEmailBtn.addEventListener('click', openBulkEmailModal);
   }
 
-  // Send via Gmail Button
+  // Send via Gmail Button (Opens directly in Gmail with pre-selected coach account)
   if (emailSendGmailBtn) {
     emailSendGmailBtn.addEventListener('click', async () => {
       const data = updateEmailLinks();
       if (!data) return;
 
+      const coachEmail = auth.currentUser?.email || 'headcoach.badhops@gmail.com';
       let gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1';
+      if (coachEmail) {
+        gmailUrl += `&authuser=${encodeURIComponent(coachEmail)}`;
+      }
       if (data.to) gmailUrl += `&to=${encodeURIComponent(data.to)}`;
       if (data.bcc) gmailUrl += `&bcc=${encodeURIComponent(data.bcc)}`;
       if (data.subject) gmailUrl += `&su=${encodeURIComponent(data.subject)}`;
       if (data.body) gmailUrl += `&body=${encodeURIComponent(data.body)}`;
 
-      // Open Gmail in a new tab
+      // Open Gmail in a new tab directly
       window.open(gmailUrl, '_blank');
 
       // Auto-update single registration in Firestore if enabled
@@ -1059,6 +1067,978 @@ Natomas Sport Association`
       } catch (err) {
         alert('Could not copy to clipboard: ' + err.message);
       }
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 11. Bad Hops 11U Master Evaluation Matrix System
+  // -------------------------------------------------------------
+  const tabBtnRegistrations = document.getElementById('tab-btn-registrations');
+  const tabBtnEvaluations = document.getElementById('tab-btn-evaluations');
+  const viewRegistrations = document.getElementById('view-registrations');
+  const viewEvaluations = document.getElementById('view-evaluations');
+
+  const evalSyncAthletesBtn = document.getElementById('eval-sync-athletes-btn');
+  const evalExportCsvBtn = document.getElementById('eval-export-csv-btn');
+  const evalSaveBtn = document.getElementById('eval-save-btn');
+  const evalSaveBtnText = document.getElementById('eval-save-btn-text');
+
+  const evalStationTabs = document.querySelectorAll('.eval-station-tab');
+  const stationPanels = document.querySelectorAll('.station-panel');
+
+  const evalMasterTbody = document.getElementById('eval-master-tbody');
+  const evalHittingTbody = document.getElementById('eval-hitting-tbody');
+  const evalDefenseTbody = document.getElementById('eval-defense-tbody');
+  const evalPitchingTbody = document.getElementById('eval-pitching-tbody');
+  const evalCatchingTbody = document.getElementById('eval-catching-tbody');
+
+  const evalMasterAvgRow = document.getElementById('eval-master-avg-row');
+  const evalHittingAvgRow = document.getElementById('eval-hitting-avg-row');
+  const evalDefenseAvgRow = document.getElementById('eval-defense-avg-row');
+  const evalPitchingAvgRow = document.getElementById('eval-pitching-avg-row');
+  const evalCatchingAvgRow = document.getElementById('eval-catching-avg-row');
+
+  let evaluationRoster = [];
+
+  // Toggle between Registrations View and Evaluation Matrix View
+  if (tabBtnRegistrations && tabBtnEvaluations && viewRegistrations && viewEvaluations) {
+    tabBtnRegistrations.addEventListener('click', () => {
+      viewRegistrations.classList.remove('hidden');
+      viewEvaluations.classList.add('hidden');
+
+      tabBtnRegistrations.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#17243B] text-[#67DDF2] border border-[#67DDF2]/40 shadow-[0_0_12px_rgba(103,221,242,0.2)]';
+      tabBtnEvaluations.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#111317] text-slate-400 hover:text-white border border-slate-800';
+    });
+
+    tabBtnEvaluations.addEventListener('click', () => {
+      viewRegistrations.classList.add('hidden');
+      viewEvaluations.classList.remove('hidden');
+
+      tabBtnEvaluations.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#17243B] text-[#B7F52A] border border-[#B7F52A]/40 shadow-[0_0_12px_rgba(183,245,42,0.2)]';
+      tabBtnRegistrations.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider transition-all bg-[#111317] text-slate-400 hover:text-white border border-slate-800';
+
+      if (!evaluationRoster.length) {
+        syncEvaluationRoster();
+      }
+    });
+  }
+
+  // Station Sub-Tabs switching
+  evalStationTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const station = tab.dataset.station;
+
+      evalStationTabs.forEach(t => {
+        t.className = 'eval-station-tab px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all bg-[#17243B] text-slate-300 hover:text-white';
+      });
+      tab.className = 'eval-station-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all bg-[#67DDF2] text-[#111317] shadow-[0_0_10px_rgba(103,221,242,0.3)]';
+
+      stationPanels.forEach(p => p.classList.add('hidden'));
+      const activePanel = document.getElementById(`station-panel-${station}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+    });
+  });
+
+  // Calculation helpers
+  function calcHittingTotal(p) {
+    return (Number(p.bunting) || 0) + (Number(p.swingMech) || 0) + (Number(p.hittingAbility) || 0);
+  }
+
+  function getHittingTier(score) {
+    if (score >= 12) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-green-950 text-[#B7F52A] border border-[#B7F52A]/40">Elite Hitter</span>';
+    if (score >= 9) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Travel Avg</span>';
+    if (score > 0) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Developing</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  function calcDefenseTotal(p) {
+    return (Number(p.gbFootwork) || 0) + (Number(p.popFlies) || 0) + (Number(p.throwMove) || 0) + (Number(p.baseRunning) || 0) + (Number(p.baseballIq) || 0);
+  }
+
+  function getDefenseTier(score) {
+    if (score >= 20) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-green-950 text-[#B7F52A] border border-[#B7F52A]/40">Elite Defender</span>';
+    if (score >= 15) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Solid Travel</span>';
+    if (score > 0) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Developing</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  function calcPitchingTotal(p) {
+    return (Number(p.speedScore) || 0) + (Number(p.accuracy) || 0) + (Number(p.addPitches) || 0);
+  }
+
+  function getPitchingTier(score) {
+    if (score >= 12) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-950 text-[#F02AA8] border border-[#F02AA8]/40">Rotation Ace</span>';
+    if (score >= 9) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Travel Bullpen</span>';
+    if (score > 0) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Developing</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  function calcCatchingTotal(p) {
+    return (Number(p.blockingMvt) || 0) + (Number(p.framing) || 0) + (Number(p.armStrength) || 0);
+  }
+
+  function getCatchingTier(score) {
+    if (score >= 12) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-950 text-[#F02AA8] border border-[#F02AA8]/40">Core Catcher</span>';
+    if (score >= 9) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Travel Backup</span>';
+    if (score > 0) return '<span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Developing</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  function calcPosTotal(p) {
+    return calcHittingTotal(p) + calcDefenseTotal(p);
+  }
+
+  function getPosTier(posTotal) {
+    if (posTotal >= 32) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-green-950 text-[#B7F52A] border border-[#B7F52A]/40 shadow-[0_0_8px_rgba(183,245,42,0.2)]">Core Lock</span>';
+    if (posTotal >= 25) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Contributor</span>';
+    if (posTotal > 0) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Rec / Academy</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  function calcPcCombined(p) {
+    const pcBonus = Math.max(calcPitchingTotal(p), calcCatchingTotal(p));
+    return calcPosTotal(p) + pcBonus;
+  }
+
+  function getPcTier(pcScore) {
+    if (pcScore >= 44) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-950 text-[#F02AA8] border border-[#F02AA8]/40 shadow-[0_0_8px_rgba(240,42,168,0.2)]">Core P/C Lock</span>';
+    if (pcScore >= 36) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-950 text-[#67DDF2] border border-[#67DDF2]/40">Travel P/C</span>';
+    if (pcScore > 0) return '<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">Dev P/C</span>';
+    return '<span class="text-slate-600 text-[10px]">--</span>';
+  }
+
+  // Create athlete evaluation record
+  function createEvalRecord(reg, index) {
+    const batsThrowsParts = (reg.batsThrows || 'R/R').split('/');
+    return {
+      id: reg.id || `eval_${index + 1}`,
+      jersey: index + 1,
+      playerName: reg.playerName || 'Unknown Player',
+      primaryPos: reg.positions || 'Utility',
+      bats: (batsThrowsParts[0] || 'R').toUpperCase().trim(),
+      throws: (batsThrowsParts[1] || 'R').toUpperCase().trim(),
+      bunting: 0,
+      swingMech: 0,
+      hittingAbility: 0,
+      cageNotes: '',
+      gbFootwork: 0,
+      popFlies: 0,
+      throwMove: 0,
+      baseRunning: 0,
+      baseballIq: 0,
+      fieldNotes: '',
+      fbVelo: '',
+      speedScore: 0,
+      accuracy: 0,
+      addPitches: 0,
+      pitchingNotes: '',
+      popTime: '',
+      blockingMvt: 0,
+      framing: 0,
+      armStrength: 0,
+      catchingNotes: '',
+      masterNotes: ''
+    };
+  }
+
+  // Synchronize athletes from Registrations
+  async function syncEvaluationRoster() {
+    if (!registrations || !registrations.length) return;
+
+    let savedData = {};
+    // Check Firestore first
+    try {
+      const evalDoc = await getDoc(doc(db, 'tryout_evaluations', 'nov21_2026'));
+      if (evalDoc.exists() && Array.isArray(evalDoc.data().athletes)) {
+        evalDoc.data().athletes.forEach(a => {
+          if (a.id) savedData[a.id] = a;
+          if (a.playerName) savedData[a.playerName.toLowerCase()] = a;
+        });
+      }
+    } catch (e) {
+      console.warn('Firestore eval load:', e);
+    }
+
+    // Also check localStorage
+    try {
+      const local = JSON.parse(localStorage.getItem('badhops_tryout_eval_2026') || '{}');
+      if (Array.isArray(local)) {
+        local.forEach(a => {
+          if (a.id && !savedData[a.id]) savedData[a.id] = a;
+          if (a.playerName && !savedData[a.playerName.toLowerCase()]) savedData[a.playerName.toLowerCase()] = a;
+        });
+      }
+    } catch (e) {
+      console.warn('Local storage eval load:', e);
+    }
+
+    const updated = [];
+    registrations.forEach((reg, idx) => {
+      const key = reg.id;
+      const nameKey = (reg.playerName || '').toLowerCase();
+      const existing = savedData[key] || savedData[nameKey] || evaluationRoster.find(e => e.id === reg.id || e.playerName.toLowerCase() === nameKey);
+
+      const record = createEvalRecord(reg, idx);
+      if (existing) {
+        record.jersey = existing.jersey !== undefined ? existing.jersey : (idx + 1);
+        record.primaryPos = existing.primaryPos || record.primaryPos;
+        record.bats = existing.bats || record.bats;
+        record.throws = existing.throws || record.throws;
+
+        record.bunting = Number(existing.bunting) || 0;
+        record.swingMech = Number(existing.swingMech) || 0;
+        record.hittingAbility = Number(existing.hittingAbility) || 0;
+        record.cageNotes = existing.cageNotes || '';
+
+        record.gbFootwork = Number(existing.gbFootwork) || 0;
+        record.popFlies = Number(existing.popFlies) || 0;
+        record.throwMove = Number(existing.throwMove) || 0;
+        record.baseRunning = Number(existing.baseRunning) || 0;
+        record.baseballIq = Number(existing.baseballIq) || 0;
+        record.fieldNotes = existing.fieldNotes || '';
+
+        record.fbVelo = existing.fbVelo || '';
+        record.speedScore = Number(existing.speedScore) || 0;
+        record.accuracy = Number(existing.accuracy) || 0;
+        record.addPitches = Number(existing.addPitches) || 0;
+        record.pitchingNotes = existing.pitchingNotes || '';
+
+        record.popTime = existing.popTime || '';
+        record.blockingMvt = Number(existing.blockingMvt) || 0;
+        record.framing = Number(existing.framing) || 0;
+        record.armStrength = Number(existing.armStrength) || 0;
+        record.catchingNotes = existing.catchingNotes || '';
+
+        record.masterNotes = existing.masterNotes || '';
+      }
+      updated.push(record);
+    });
+
+    evaluationRoster = updated;
+    renderAllEvaluationTables();
+  }
+
+  // Render All Evaluation Tables
+  function renderAllEvaluationTables() {
+    renderMasterTable();
+    renderHittingTable();
+    renderDefenseTable();
+    renderPitchingTable();
+    renderCatchingTable();
+  }
+
+  // Render Master Summary Table
+  function renderMasterTable() {
+    if (!evalMasterTbody) return;
+    if (!evaluationRoster.length) {
+      evalMasterTbody.innerHTML = `<tr><td colspan="11" class="text-center py-8 text-slate-500">No athletes registered yet. Athletes will appear here automatically once signups are received.</td></tr>`;
+      return;
+    }
+
+    evalMasterTbody.innerHTML = evaluationRoster.map(p => {
+      const hit = calcHittingTotal(p);
+      const def = calcDefenseTotal(p);
+      const pit = calcPitchingTotal(p);
+      const cat = calcCatchingTotal(p);
+      const pos = hit + def;
+      const pc = calcPcCombined(p);
+
+      return `
+        <tr class="hover:bg-slate-800/40 transition-colors" data-id="${p.id}">
+          <td class="p-3 pl-5">
+            <input type="number" min="0" max="99" value="${p.jersey}" data-field="jersey"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white font-mono font-bold text-center focus:ring-1 focus:ring-[#67DDF2] focus:outline-none">
+          </td>
+          <td class="p-3 font-bold text-white whitespace-nowrap">
+            ${escapeHtml(p.playerName)}
+          </td>
+          <td class="p-3">
+            <input type="text" value="${escapeHtml(p.primaryPos)}" data-field="primaryPos"
+              class="eval-input w-24 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-slate-200 text-center font-bold text-xs focus:ring-1 focus:ring-[#67DDF2] focus:outline-none">
+          </td>
+          <td class="p-3 text-center font-bold text-[#67DDF2] cell-hitting-tot text-sm">${hit || '--'}</td>
+          <td class="p-3 text-center font-bold text-[#67DDF2] cell-defense-tot text-sm">${def || '--'}</td>
+          <td class="p-3 text-center font-bold text-[#F02AA8] cell-pitching-tot text-sm">${pit || '--'}</td>
+          <td class="p-3 text-center font-bold text-[#F02AA8] cell-catching-tot text-sm">${cat || '--'}</td>
+          <td class="p-3 text-center font-black text-[#B7F52A] cell-pos-tot text-sm">${pos || '--'}</td>
+          <td class="p-3 text-center cell-pos-tier">${getPosTier(pos)}</td>
+          <td class="p-3 text-center cell-pc-combined">
+            <span class="font-black text-[#B7F52A] text-sm">${pc || '--'}</span>
+            <div class="mt-0.5">${getPcTier(pc)}</div>
+          </td>
+          <td class="p-3 pr-5">
+            <input type="text" value="${escapeHtml(p.masterNotes)}" placeholder="Evaluation remarks..." data-field="masterNotes"
+              class="eval-input w-full min-w-[140px] px-2.5 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:ring-1 focus:ring-[#67DDF2] focus:outline-none">
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    updateMasterAverages();
+  }
+
+  function updateMasterAverages() {
+    if (!evalMasterAvgRow) return;
+    const count = evaluationRoster.length;
+    if (!count) { evalMasterAvgRow.innerHTML = ''; return; }
+    const totHit = evaluationRoster.reduce((sum, p) => sum + calcHittingTotal(p), 0);
+    const totDef = evaluationRoster.reduce((sum, p) => sum + calcDefenseTotal(p), 0);
+    const totPit = evaluationRoster.reduce((sum, p) => sum + calcPitchingTotal(p), 0);
+    const totCat = evaluationRoster.reduce((sum, p) => sum + calcCatchingTotal(p), 0);
+    const totPos = evaluationRoster.reduce((sum, p) => sum + calcPosTotal(p), 0);
+    const totPc = evaluationRoster.reduce((sum, p) => sum + calcPcCombined(p), 0);
+
+    evalMasterAvgRow.innerHTML = `
+      <td class="p-3 pl-5" colspan="3">TRYOUT GROUP AVERAGE</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totHit / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totDef / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totPit / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totCat / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#B7F52A] font-black">${(totPos / count).toFixed(1)}</td>
+      <td class="p-3 text-center"></td>
+      <td class="p-3 text-center text-[#B7F52A] font-black">${(totPc / count).toFixed(1)}</td>
+      <td class="p-3 pr-5"></td>
+    `;
+  }
+
+  // Render Hitting Table
+  function renderHittingTable() {
+    if (!evalHittingTbody) return;
+    if (!evaluationRoster.length) {
+      evalHittingTbody.innerHTML = `<tr><td colspan="9" class="text-center py-8 text-slate-500">No athletes loaded.</td></tr>`;
+      return;
+    }
+
+    evalHittingTbody.innerHTML = evaluationRoster.map(p => {
+      const tot = calcHittingTotal(p);
+      return `
+        <tr class="hover:bg-slate-800/40 transition-colors" data-id="${p.id}">
+          <td class="p-3 pl-5 font-mono font-bold text-white">#${p.jersey}</td>
+          <td class="p-3 font-bold text-white whitespace-nowrap">${escapeHtml(p.playerName)}</td>
+          <td class="p-3">
+            <select data-field="bats" class="eval-input px-2 py-1 rounded bg-[#17243B] border border-slate-700 text-[#B7F52A] font-bold text-xs">
+              <option value="R" ${p.bats === 'R' ? 'selected' : ''}>R</option>
+              <option value="L" ${p.bats === 'L' ? 'selected' : ''}>L</option>
+              <option value="S" ${p.bats === 'S' ? 'selected' : ''}>S</option>
+            </select>
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.bunting || ''}" data-field="bunting" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.swingMech || ''}" data-field="swingMech" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.hittingAbility || ''}" data-field="hittingAbility" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center font-black text-[#67DDF2] text-sm cell-hitting-tot">${tot || '--'}</td>
+          <td class="p-3 text-center cell-hitting-tier">${getHittingTier(tot)}</td>
+          <td class="p-3 pr-5">
+            <input type="text" value="${escapeHtml(p.cageNotes)}" placeholder="Cage remarks..." data-field="cageNotes"
+              class="eval-input w-full min-w-[140px] px-2.5 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    updateHittingAverages();
+  }
+
+  function updateHittingAverages() {
+    if (!evalHittingAvgRow) return;
+    const count = evaluationRoster.length;
+    if (!count) { evalHittingAvgRow.innerHTML = ''; return; }
+    const totBunt = evaluationRoster.reduce((sum, p) => sum + (Number(p.bunting) || 0), 0);
+    const totSwing = evaluationRoster.reduce((sum, p) => sum + (Number(p.swingMech) || 0), 0);
+    const totHitAb = evaluationRoster.reduce((sum, p) => sum + (Number(p.hittingAbility) || 0), 0);
+    const totHit = evaluationRoster.reduce((sum, p) => sum + calcHittingTotal(p), 0);
+
+    evalHittingAvgRow.innerHTML = `
+      <td class="p-3 pl-5" colspan="3">HITTING GROUP AVERAGE</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totBunt / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totSwing / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totHitAb / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2] font-black">${(totHit / count).toFixed(1)}</td>
+      <td class="p-3 text-center" colspan="2"></td>
+    `;
+  }
+
+  // Render Defense Table
+  function renderDefenseTable() {
+    if (!evalDefenseTbody) return;
+    if (!evaluationRoster.length) {
+      evalDefenseTbody.innerHTML = `<tr><td colspan="11" class="text-center py-8 text-slate-500">No athletes loaded.</td></tr>`;
+      return;
+    }
+
+    evalDefenseTbody.innerHTML = evaluationRoster.map(p => {
+      const tot = calcDefenseTotal(p);
+      return `
+        <tr class="hover:bg-slate-800/40 transition-colors" data-id="${p.id}">
+          <td class="p-3 pl-5 font-mono font-bold text-white">#${p.jersey}</td>
+          <td class="p-3 font-bold text-white whitespace-nowrap">${escapeHtml(p.playerName)}</td>
+          <td class="p-3 text-slate-300 font-bold">${escapeHtml(p.primaryPos)}</td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.gbFootwork || ''}" data-field="gbFootwork" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.popFlies || ''}" data-field="popFlies" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.throwMove || ''}" data-field="throwMove" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.baseRunning || ''}" data-field="baseRunning" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.baseballIq || ''}" data-field="baseballIq" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+          <td class="p-3 text-center font-black text-[#67DDF2] text-sm cell-defense-tot">${tot || '--'}</td>
+          <td class="p-3 text-center cell-defense-tier">${getDefenseTier(tot)}</td>
+          <td class="p-3 pr-5">
+            <input type="text" value="${escapeHtml(p.fieldNotes)}" placeholder="Fielding remarks..." data-field="fieldNotes"
+              class="eval-input w-full min-w-[140px] px-2.5 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:ring-1 focus:ring-[#67DDF2]">
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    updateDefenseAverages();
+  }
+
+  function updateDefenseAverages() {
+    if (!evalDefenseAvgRow) return;
+    const count = evaluationRoster.length;
+    if (!count) { evalDefenseAvgRow.innerHTML = ''; return; }
+    const totGb = evaluationRoster.reduce((sum, p) => sum + (Number(p.gbFootwork) || 0), 0);
+    const totPop = evaluationRoster.reduce((sum, p) => sum + (Number(p.popFlies) || 0), 0);
+    const totThr = evaluationRoster.reduce((sum, p) => sum + (Number(p.throwMove) || 0), 0);
+    const totBase = evaluationRoster.reduce((sum, p) => sum + (Number(p.baseRunning) || 0), 0);
+    const totIq = evaluationRoster.reduce((sum, p) => sum + (Number(p.baseballIq) || 0), 0);
+    const totDef = evaluationRoster.reduce((sum, p) => sum + calcDefenseTotal(p), 0);
+
+    evalDefenseAvgRow.innerHTML = `
+      <td class="p-3 pl-5" colspan="3">INFIELD & IQ GROUP AVERAGE</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totGb / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totPop / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totThr / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totBase / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2]">${(totIq / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#67DDF2] font-black">${(totDef / count).toFixed(1)}</td>
+      <td class="p-3 text-center" colspan="2"></td>
+    `;
+  }
+
+  // Render Pitching Table
+  function renderPitchingTable() {
+    if (!evalPitchingTbody) return;
+    if (!evaluationRoster.length) {
+      evalPitchingTbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-500">No athletes loaded.</td></tr>`;
+      return;
+    }
+
+    evalPitchingTbody.innerHTML = evaluationRoster.map(p => {
+      const tot = calcPitchingTotal(p);
+      return `
+        <tr class="hover:bg-slate-800/40 transition-colors" data-id="${p.id}">
+          <td class="p-3 pl-5 font-mono font-bold text-white">#${p.jersey}</td>
+          <td class="p-3 font-bold text-white whitespace-nowrap">${escapeHtml(p.playerName)}</td>
+          <td class="p-3">
+            <select data-field="throws" class="eval-input px-2 py-1 rounded bg-[#17243B] border border-slate-700 text-[#F02AA8] font-bold text-xs">
+              <option value="R" ${p.throws === 'R' ? 'selected' : ''}>R</option>
+              <option value="L" ${p.throws === 'L' ? 'selected' : ''}>L</option>
+            </select>
+          </td>
+          <td class="p-3 text-center">
+            <input type="text" value="${escapeHtml(p.fbVelo)}" data-field="fbVelo" placeholder="mph"
+              class="eval-input w-16 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.speedScore || ''}" data-field="speedScore" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.accuracy || ''}" data-field="accuracy" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.addPitches || ''}" data-field="addPitches" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center font-black text-[#F02AA8] text-sm cell-pitching-tot">${tot || '--'}</td>
+          <td class="p-3 text-center cell-pitching-tier">${getPitchingTier(tot)}</td>
+          <td class="p-3 pr-5">
+            <input type="text" value="${escapeHtml(p.pitchingNotes)}" placeholder="Arm action / strike %..." data-field="pitchingNotes"
+              class="eval-input w-full min-w-[140px] px-2.5 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:ring-1 focus:ring-[#F02AA8] focus:outline-none">
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    updatePitchingAverages();
+  }
+
+  function updatePitchingAverages() {
+    if (!evalPitchingAvgRow) return;
+    const count = evaluationRoster.length;
+    if (!count) { evalPitchingAvgRow.innerHTML = ''; return; }
+    const totSpeed = evaluationRoster.reduce((sum, p) => sum + (Number(p.speedScore) || 0), 0);
+    const totAcc = evaluationRoster.reduce((sum, p) => sum + (Number(p.accuracy) || 0), 0);
+    const totAddP = evaluationRoster.reduce((sum, p) => sum + (Number(p.addPitches) || 0), 0);
+    const totPit = evaluationRoster.reduce((sum, p) => sum + calcPitchingTotal(p), 0);
+
+    evalPitchingAvgRow.innerHTML = `
+      <td class="p-3 pl-5" colspan="4">PITCHING GROUP AVERAGE</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totSpeed / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totAcc / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totAddP / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8] font-black">${(totPit / count).toFixed(1)}</td>
+      <td class="p-3 text-center" colspan="2"></td>
+    `;
+  }
+
+  // Render Catching Table
+  function renderCatchingTable() {
+    if (!evalCatchingTbody) return;
+    if (!evaluationRoster.length) {
+      evalCatchingTbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-500">No athletes loaded.</td></tr>`;
+      return;
+    }
+
+    evalCatchingTbody.innerHTML = evaluationRoster.map(p => {
+      const tot = calcCatchingTotal(p);
+      return `
+        <tr class="hover:bg-slate-800/40 transition-colors" data-id="${p.id}">
+          <td class="p-3 pl-5 font-mono font-bold text-white">#${p.jersey}</td>
+          <td class="p-3 font-bold text-white whitespace-nowrap">${escapeHtml(p.playerName)}</td>
+          <td class="p-3">
+            <select data-field="throws" class="eval-input px-2 py-1 rounded bg-[#17243B] border border-slate-700 text-[#F02AA8] font-bold text-xs">
+              <option value="R" ${p.throws === 'R' ? 'selected' : ''}>R</option>
+              <option value="L" ${p.throws === 'L' ? 'selected' : ''}>L</option>
+            </select>
+          </td>
+          <td class="p-3 text-center">
+            <input type="text" value="${escapeHtml(p.popTime)}" data-field="popTime" placeholder="2.35"
+              class="eval-input w-16 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.blockingMvt || ''}" data-field="blockingMvt" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.framing || ''}" data-field="framing" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center">
+            <input type="number" min="0" max="5" value="${p.armStrength || ''}" data-field="armStrength" placeholder="1-5"
+              class="eval-input w-14 px-2 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-center font-bold text-white text-xs focus:ring-1 focus:ring-[#F02AA8]">
+          </td>
+          <td class="p-3 text-center font-black text-[#F02AA8] text-sm cell-catching-tot">${tot || '--'}</td>
+          <td class="p-3 text-center cell-catching-tier">${getCatchingTier(tot)}</td>
+          <td class="p-3 pr-5">
+            <input type="text" value="${escapeHtml(p.catchingNotes)}" placeholder="Pop / stance / transfer..." data-field="catchingNotes"
+              class="eval-input w-full min-w-[140px] px-2.5 py-1 rounded-lg bg-[#17243B] border border-slate-700 text-white placeholder-slate-500 text-xs focus:ring-1 focus:ring-[#F02AA8] focus:outline-none">
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    updateCatchingAverages();
+  }
+
+  function updateCatchingAverages() {
+    if (!evalCatchingAvgRow) return;
+    const count = evaluationRoster.length;
+    if (!count) { evalCatchingAvgRow.innerHTML = ''; return; }
+    const totBlk = evaluationRoster.reduce((sum, p) => sum + (Number(p.blockingMvt) || 0), 0);
+    const totFrm = evaluationRoster.reduce((sum, p) => sum + (Number(p.framing) || 0), 0);
+    const totArm = evaluationRoster.reduce((sum, p) => sum + (Number(p.armStrength) || 0), 0);
+    const totCat = evaluationRoster.reduce((sum, p) => sum + calcCatchingTotal(p), 0);
+
+    evalCatchingAvgRow.innerHTML = `
+      <td class="p-3 pl-5" colspan="4">CATCHING GROUP AVERAGE</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totBlk / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totFrm / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8]">${(totArm / count).toFixed(1)}</td>
+      <td class="p-3 text-center text-[#F02AA8] font-black">${(totCat / count).toFixed(1)}</td>
+      <td class="p-3 text-center" colspan="2"></td>
+    `;
+  }
+
+  // Handle Live Score and Data Changes
+  function setupLiveEvaluationInputs() {
+    const bodies = [evalMasterTbody, evalHittingTbody, evalDefenseTbody, evalPitchingTbody, evalCatchingTbody];
+
+    bodies.forEach(tbody => {
+      if (!tbody) return;
+
+      tbody.addEventListener('input', (e) => {
+        const input = e.target;
+        if (!input.classList.contains('eval-input')) return;
+
+        const row = input.closest('tr');
+        if (!row) return;
+
+        const id = row.dataset.id;
+        const field = input.dataset.field;
+        const player = evaluationRoster.find(p => p.id === id);
+        if (!player) return;
+
+        let val = input.value;
+        if (input.type === 'number') {
+          val = val === '' ? 0 : Number(val);
+        }
+        player[field] = val;
+
+        // Autosave to localStorage
+        try {
+          localStorage.setItem('badhops_tryout_eval_2026', JSON.stringify(evaluationRoster));
+        } catch (err) {
+          console.warn('Autosave error:', err);
+        }
+
+        // Dynamically update this row's totals & tiers in current view
+        const hit = calcHittingTotal(player);
+        const def = calcDefenseTotal(player);
+        const pit = calcPitchingTotal(player);
+        const cat = calcCatchingTotal(player);
+        const pos = hit + def;
+        const pc = calcPcCombined(player);
+
+        const rowHitTot = row.querySelector('.cell-hitting-tot');
+        if (rowHitTot) rowHitTot.textContent = hit || '--';
+        const rowHitTier = row.querySelector('.cell-hitting-tier');
+        if (rowHitTier) rowHitTier.innerHTML = getHittingTier(hit);
+
+        const rowDefTot = row.querySelector('.cell-defense-tot');
+        if (rowDefTot) rowDefTot.textContent = def || '--';
+        const rowDefTier = row.querySelector('.cell-defense-tier');
+        if (rowDefTier) rowDefTier.innerHTML = getDefenseTier(def);
+
+        const rowPitTot = row.querySelector('.cell-pitching-tot');
+        if (rowPitTot) rowPitTot.textContent = pit || '--';
+        const rowPitTier = row.querySelector('.cell-pitching-tier');
+        if (rowPitTier) rowPitTier.innerHTML = getPitchingTier(pit);
+
+        const rowCatTot = row.querySelector('.cell-catching-tot');
+        if (rowCatTot) rowCatTot.textContent = cat || '--';
+        const rowCatTier = row.querySelector('.cell-catching-tier');
+        if (rowCatTier) rowCatTier.innerHTML = getCatchingTier(cat);
+
+        const rowPosTot = row.querySelector('.cell-pos-tot');
+        if (rowPosTot) rowPosTot.textContent = pos || '--';
+        const rowPosTier = row.querySelector('.cell-pos-tier');
+        if (rowPosTier) rowPosTier.innerHTML = getPosTier(pos);
+
+        const rowPcCombined = row.querySelector('.cell-pc-combined');
+        if (rowPcCombined) {
+          rowPcCombined.innerHTML = `<span class="font-black text-[#B7F52A] text-sm">${pc || '--'}</span><div class="mt-0.5">${getPcTier(pc)}</div>`;
+        }
+
+        // Also update Master row if not currently on master
+        if (tbody !== evalMasterTbody && evalMasterTbody) {
+          const masterRow = evalMasterTbody.querySelector(`tr[data-id="${id}"]`);
+          if (masterRow) {
+            const mHit = masterRow.querySelector('.cell-hitting-tot');
+            if (mHit) mHit.textContent = hit || '--';
+            const mDef = masterRow.querySelector('.cell-defense-tot');
+            if (mDef) mDef.textContent = def || '--';
+            const mPit = masterRow.querySelector('.cell-pitching-tot');
+            if (mPit) mPit.textContent = pit || '--';
+            const mCat = masterRow.querySelector('.cell-catching-tot');
+            if (mCat) mCat.textContent = cat || '--';
+            const mPos = masterRow.querySelector('.cell-pos-tot');
+            if (mPos) mPos.textContent = pos || '--';
+            const mPosTier = masterRow.querySelector('.cell-pos-tier');
+            if (mPosTier) mPosTier.innerHTML = getPosTier(pos);
+            const mPc = masterRow.querySelector('.cell-pc-combined');
+            if (mPc) mPc.innerHTML = `<span class="font-black text-[#B7F52A] text-sm">${pc || '--'}</span><div class="mt-0.5">${getPcTier(pc)}</div>`;
+          }
+        }
+
+        // Update current station average rows
+        updateMasterAverages();
+        updateHittingAverages();
+        updateDefenseAverages();
+        updatePitchingAverages();
+        updateCatchingAverages();
+      });
+    });
+  }
+
+  setupLiveEvaluationInputs();
+
+  // Sync Athletes Button
+  if (evalSyncAthletesBtn) {
+    evalSyncAthletesBtn.addEventListener('click', () => {
+      syncEvaluationRoster();
+      alert(`Synchronized ${evaluationRoster.length} registered athletes into the Evaluation Matrix!`);
+    });
+  }
+
+  // Save Scores Button (Cloud & Local)
+  if (evalSaveBtn) {
+    evalSaveBtn.addEventListener('click', async () => {
+      evalSaveBtn.disabled = true;
+      if (evalSaveBtnText) evalSaveBtnText.textContent = 'Saving...';
+
+      try {
+        localStorage.setItem('badhops_tryout_eval_2026', JSON.stringify(evaluationRoster));
+
+        // Save to Firestore
+        await setDoc(doc(db, 'tryout_evaluations', 'nov21_2026'), {
+          athletes: evaluationRoster,
+          updatedAt: serverTimestamp(),
+          updatedBy: auth.currentUser?.email || 'Coach'
+        }, { merge: true });
+
+        if (evalSaveBtnText) evalSaveBtnText.textContent = 'Saved to Cloud!';
+        setTimeout(() => {
+          if (evalSaveBtnText) evalSaveBtnText.textContent = 'Save Scores';
+          evalSaveBtn.disabled = false;
+        }, 2500);
+      } catch (err) {
+        console.error('Error saving evaluations:', err);
+        if (evalSaveBtnText) evalSaveBtnText.textContent = 'Saved Locally!';
+        setTimeout(() => {
+          if (evalSaveBtnText) evalSaveBtnText.textContent = 'Save Scores';
+          evalSaveBtn.disabled = false;
+        }, 2500);
+      }
+    });
+  }
+
+  // Generate Excel / CSV Content Matching User's Template
+  function generateEvaluationMatrixCsv() {
+    const lines = [];
+
+    // 1. MASTER EVALUATION SUMMARY
+    lines.push('BAD HOPS 11U — MASTER EVALUATION SUMMARY,,,,,,,,,,');
+    lines.push('"Date: Nov 21, 2026   |   Location: North Natomas Regional Park (Field 2)   |   Enter Roster Here — Station Tabs Auto-Sync",,,,,,,,,,');
+    lines.push(',,,,,,,,,,');
+    lines.push('PLAYER ROSTER,,,STATION SCORES (AUTO-PULLED),,,,COMPOSITE TOTALS & ROSTER TIER,,,');
+    lines.push('Jersey #,Player Name,Primary Pos,"Hitting\n(Max 15)","Field & IQ\n(Max 25)","Pitching\n(Max 15)","Catching\n(Max 15)","POS TOTAL\n(Max 40)",Pos Tier,"P/C COMBINED\n(Max 55)",Coach Notes');
+
+    let totHit = 0, totDef = 0, totPit = 0, totCat = 0, totPos = 0, totPc = 0, count = evaluationRoster.length;
+
+    evaluationRoster.forEach(p => {
+      const hit = calcHittingTotal(p);
+      const def = calcDefenseTotal(p);
+      const pit = calcPitchingTotal(p);
+      const cat = calcCatchingTotal(p);
+      const pos = hit + def;
+      const pc = calcPcCombined(p);
+      const posTierText = pos >= 32 ? 'Core Lock' : (pos >= 25 ? 'Travel Contributor' : (pos > 0 ? 'Rec / Academy' : ''));
+
+      totHit += hit; totDef += def; totPit += pit; totCat += cat; totPos += pos; totPc += pc;
+
+      lines.push([
+        escapeCsvCell(p.jersey),
+        escapeCsvCell(p.playerName),
+        escapeCsvCell(p.primaryPos),
+        hit || '',
+        def || '',
+        pit || '',
+        cat || '',
+        pos || '',
+        escapeCsvCell(posTierText),
+        pc || '',
+        escapeCsvCell(p.masterNotes)
+      ].join(','));
+    });
+
+    const avgHit = count ? (totHit / count).toFixed(1) : '0.0';
+    const avgDef = count ? (totDef / count).toFixed(1) : '0.0';
+    const avgPit = count ? (totPit / count).toFixed(1) : '0.0';
+    const avgCat = count ? (totCat / count).toFixed(1) : '0.0';
+    const avgPos = count ? (totPos / count).toFixed(1) : '0.0';
+    const avgPc = count ? (totPc / count).toFixed(1) : '0.0';
+
+    lines.push(`TRYOUT GROUP AVERAGE,,,${avgHit},${avgDef},${avgPit},${avgCat},${avgPos},,${avgPc},`);
+    lines.push(',,,,,,,,,,');
+    lines.push('HOW IT WORKS:,,"Enter Jersey #, Name, and Primary Pos on this Master Summary tab. All 4 station sheets auto-populate player names and feed scores back here.",,,,,,,,');
+    lines.push('POSITION CUTOFFS:,,32–40 pts = Core Lock (Up-the-middle / Top of order)   |   25–31 pts = Travel Roster Contributor   |   <25 pts = Winter Academy / Rec,,,,,,,,');
+    lines.push('P/C CUTOFFS:,,44–55 pts = Core Pitcher/Catcher Lock   |   36–43 pts = Travel Roster P/C   |   <36 pts = Developmental P/C,,,,,,,,');
+
+    // 2. HITTING & BUNTING
+    lines.push('BAD HOPS 11U — HITTING & BUNTING EVALUATION (BATTING CAGE),,,,,,,,');
+    lines.push('12-Pitch Cage Round: 3 Bunt Attempts (Sac/Drag) + 4 Front-Toss Swings + 5 Machine/Live-Arm Swings,,,,,,,,');
+    lines.push(',,,,,,,,');
+    lines.push('PLAYER INFO,,,CAGE EVALUATION METRICS (15 PTS MAX),,,,STATION SUMMARY,');
+    lines.push('Jersey #,Player Name,"Bats\n(R/L/S)","Bunting\n(1-5)","Swing Mech\n(1-5)","Hitting Ability\n(1-5)","HITTING TOT\n(Max 15)",Hitting Tier,Cage Coach Notes');
+
+    let totBunt = 0, totSwing = 0, totHitAb = 0;
+    evaluationRoster.forEach(p => {
+      const tot = calcHittingTotal(p);
+      const tier = tot >= 12 ? 'Elite Hitter' : (tot >= 9 ? 'Travel Avg' : (tot > 0 ? 'Developing' : ''));
+      totBunt += Number(p.bunting) || 0;
+      totSwing += Number(p.swingMech) || 0;
+      totHitAb += Number(p.hittingAbility) || 0;
+
+      lines.push([
+        escapeCsvCell(p.jersey),
+        escapeCsvCell(p.playerName),
+        escapeCsvCell(p.bats),
+        p.bunting || '',
+        p.swingMech || '',
+        p.hittingAbility || '',
+        tot || '',
+        escapeCsvCell(tier),
+        escapeCsvCell(p.cageNotes)
+      ].join(','));
+    });
+
+    const avgBunt = count ? (totBunt / count).toFixed(1) : '0.0';
+    const avgSwing = count ? (totSwing / count).toFixed(1) : '0.0';
+    const avgHitAb = count ? (totHitAb / count).toFixed(1) : '0.0';
+    lines.push(`HITTING GROUP AVERAGE,,,${avgBunt},${avgSwing},${avgHitAb},${avgHit},,`);
+    lines.push(',,,,,,,,');
+    lines.push('BUNTING (3 Pitches):,,"1 = Stabs/misses/pops up 2+   |   3 = Squares early, deadens 2/3 in fair territory   |   5 = Cushions down either line on command",,,,,,');
+    lines.push('SWING MECHANICS:,,"1 = Bat drag/lunging/off-balance   |   3 = Connected load, direct path, balanced finish   |   5 = Explosive hip-shoulder separation, stays inside",,,,,,');
+    lines.push('HITTING ABILITY:,,"1 = Weak pull rollovers/whiffs   |   3 = Barrels 60%+ strikes, middle-field line drives   |   5 = Hard gap-to-gap line drives, adjusts to location",,,,,,');
+
+    // 3. INFIELD, DEFENSE, BASE RUNNING & IQ
+    lines.push('"BAD HOPS 11U — INFIELD, DEFENSE, BASE RUNNING & IQ EVALUATION",,,,,,,,,,');
+    lines.push('"5 Ground Balls (2 Straight, 2 Forehand/Backhand, 1 Slow Roller) + 4 Fly Balls + Timed Bases + 3 Situational 50/70 IQ Prompts",,,,,,,,,,');
+    lines.push(',,,,,,,,,,');
+    lines.push('PLAYER INFO,,,FIELDING & ATHLETICISM (20 PTS MAX),,,,,SITUATIONAL IQ & TOTAL (25 PTS MAX),,');
+    lines.push('Jersey #,Player Name,Primary Pos,"GB & Footwork\n(1-5)","Pop Flies\n(1-5)","Throw (Move)\n(1-5)","Base Running\n(1-5)","Baseball IQ\n(1-5)","FIELD & IQ TOT\n(Max 25)",Defense Tier,Field Coach Notes');
+
+    let totGb = 0, totPop = 0, totThr = 0, totBase = 0, totIq = 0;
+    evaluationRoster.forEach(p => {
+      const tot = calcDefenseTotal(p);
+      const tier = tot >= 20 ? 'Elite Defender' : (tot >= 15 ? 'Solid Travel' : (tot > 0 ? 'Developing' : ''));
+      totGb += Number(p.gbFootwork) || 0;
+      totPop += Number(p.popFlies) || 0;
+      totThr += Number(p.throwMove) || 0;
+      totBase += Number(p.baseRunning) || 0;
+      totIq += Number(p.baseballIq) || 0;
+
+      lines.push([
+        escapeCsvCell(p.jersey),
+        escapeCsvCell(p.playerName),
+        escapeCsvCell(p.primaryPos),
+        p.gbFootwork || '',
+        p.popFlies || '',
+        p.throwMove || '',
+        p.baseRunning || '',
+        p.baseballIq || '',
+        tot || '',
+        escapeCsvCell(tier),
+        escapeCsvCell(p.fieldNotes)
+      ].join(','));
+    });
+
+    const avgGb = count ? (totGb / count).toFixed(1) : '0.0';
+    const avgPop = count ? (totPop / count).toFixed(1) : '0.0';
+    const avgThr = count ? (totThr / count).toFixed(1) : '0.0';
+    const avgBase = count ? (totBase / count).toFixed(1) : '0.0';
+    const avgIq = count ? (totIq / count).toFixed(1) : '0.0';
+    lines.push(`INFIELD & IQ GROUP AVERAGE,,,${avgGb},${avgPop},${avgThr},${avgBase},${avgIq},${avgDef},,`);
+    lines.push(',,,,,,,,,,');
+    lines.push('GB & POP FLIES:,,"GB: 1 = Flat-footed/deep | 3 = Right-left through ball, soft hands | 5 = Prep step, fields on run.   Pop Fly: 3 = Drop-step, two hands above shoulder.",,,,,,,,');
+    lines.push('THROW & BASES:,,"Throw: 3 = Quick exchange, 4-seam grip, chest-high on run | 5 = Multi-slot carry.   Bases: 3 = Explosive 1st 3 steps, tight turns, 70-ft secondary lead.",,,,,,,,');
+    lines.push('BASEBALL IQ (50/70):,,"Test 3 live/verbal scenarios (e.g., R1 1-out GB to SS; Bases loaded 2-outs; cutoff alignment). 1 = Freezes | 3 = Knows force/cutoffs | 5 = Anticipates pre-pitch.",,,,,,,,');
+
+    // 4. PITCHING
+    lines.push('BAD HOPS 11U — PITCHING EVALUATION (10-PITCH BULLPEN),,,,,,,,,');
+    lines.push('6 Fastballs + 4 Secondary/Off-Speed Pitches (50-ft Mound)   |   Enter Jersey # for Pitchers Testing,,,,,,,,,');
+    lines.push(',,,,,,,,,');
+    lines.push('PITCHER INFO,,,BULLPEN METRICS (15 PTS MAX),,,,,PITCHING SUMMARY,');
+    lines.push('Jersey #,Player Name,"Throws\n(R/L)","FB Velo\n(MPH)","Speed Score\n(1-5)","Accuracy\n(1-5)","Add. Pitches\n(1-5)","PITCHING TOT\n(Max 15)",Pitching Tier,Pitching Coach Notes (Arm Action / Strike % / Secondary)');
+
+    let totSpeed = 0, totAcc = 0, totAddP = 0;
+    evaluationRoster.forEach(p => {
+      const tot = calcPitchingTotal(p);
+      const tier = tot >= 12 ? 'Rotation Ace' : (tot >= 9 ? 'Travel Bullpen' : (tot > 0 ? 'Developing' : ''));
+      totSpeed += Number(p.speedScore) || 0;
+      totAcc += Number(p.accuracy) || 0;
+      totAddP += Number(p.addPitches) || 0;
+
+      lines.push([
+        escapeCsvCell(p.jersey),
+        escapeCsvCell(p.playerName),
+        escapeCsvCell(p.throws),
+        escapeCsvCell(p.fbVelo),
+        p.speedScore || '',
+        p.accuracy || '',
+        p.addPitches || '',
+        tot || '',
+        escapeCsvCell(tier),
+        escapeCsvCell(p.pitchingNotes)
+      ].join(','));
+    });
+
+    const avgSpeed = count ? (totSpeed / count).toFixed(1) : '0.0';
+    const avgAcc = count ? (totAcc / count).toFixed(1) : '0.0';
+    const avgAddP = count ? (totAddP / count).toFixed(1) : '0.0';
+    lines.push(`PITCHING GROUP AVERAGE,,,,${avgSpeed},${avgAcc},${avgAddP},${avgPit},,`);
+    lines.push(',,,,,,,,,');
+    lines.push('SPEED (VELOCITY):,,1 = <46 mph (arm-only)   |   3 (Travel Avg) = 48–53 mph (uses lower half)   |   5 (Elite 11U) = 55+ mph (clean kinetic chain & hip drive),,,,,,,');
+    lines.push('ACCURACY (COMMAND):,,"1 = <40% strikes (erratic misses)   |   3 (Travel Avg) = 55–65% strikes around zone   |   5 (Elite 11U) = 70%+ strikes, works down & hits corners",,,,,,,');
+    lines.push('ADDITIONAL PITCHES:,,"1 = Fastball only (or unsafe/uncontrolled breaking ball)   |   3 = Reliable changeup w/ arm-speed deception   |   5 = Plus CH or safe, commanded CB/SL",,,,,,,');
+
+    // 5. CATCHING
+    lines.push('"BAD HOPS 11U — CATCHING EVALUATION (BLOCKING, FRAMING & ARM)",,,,,,,,,');
+    lines.push('5 Dirt Blocks + 5 Borderline Frames + 3 Pop-Time Throws to 2B (70-ft Bases)   |   Enter Jersey # for Catchers Testing,,,,,,,,,');
+    lines.push(',,,,,,,,,');
+    lines.push('CATCHER INFO,,,CATCHING METRICS (15 PTS MAX),,,,,CATCHING SUMMARY,');
+    lines.push('Jersey #,Player Name,"Throws\n(R/L)","Pop Time\n(Sec)","Blocking/Mvt\n(1-5)","Framing\n(1-5)","Arm Strength\n(1-5)","CATCHING TOT\n(Max 15)",Catching Tier,Catching Coach Notes (Stance / Exchange / Footwork)');
+
+    let totBlk = 0, totFrm = 0, totArm = 0;
+    evaluationRoster.forEach(p => {
+      const tot = calcCatchingTotal(p);
+      const tier = tot >= 12 ? 'Core Catcher' : (tot >= 9 ? 'Travel Backup' : (tot > 0 ? 'Developing' : ''));
+      totBlk += Number(p.blockingMvt) || 0;
+      totFrm += Number(p.framing) || 0;
+      totArm += Number(p.armStrength) || 0;
+
+      lines.push([
+        escapeCsvCell(p.jersey),
+        escapeCsvCell(p.playerName),
+        escapeCsvCell(p.throws),
+        escapeCsvCell(p.popTime),
+        p.blockingMvt || '',
+        p.framing || '',
+        p.armStrength || '',
+        tot || '',
+        escapeCsvCell(tier),
+        escapeCsvCell(p.catchingNotes)
+      ].join(','));
+    });
+
+    const avgBlk = count ? (totBlk / count).toFixed(1) : '0.0';
+    const avgFrm = count ? (totFrm / count).toFixed(1) : '0.0';
+    const avgArm = count ? (totArm / count).toFixed(1) : '0.0';
+    lines.push(`CATCHING GROUP AVERAGE,,,,${avgBlk},${avgFrm},${avgArm},${avgCat},,`);
+    lines.push(',,,,,,,,,');
+    lines.push('BLOCKING & MOVEMENT:,,"1 = Reaches w/ glove, kicks balls away   |   3 (Travel Avg) = Drops knees quickly, keeps within reach   |   5 (Elite) = Explodes laterally, smothers dead",,,,,,,');
+    lines.push('FRAMING (RECEIVING):,,"1 = Stabs/pulls borderline strikes out   |   3 (Travel Avg) = Quiet glove, sticks borderline pitches   |   5 (Elite) = Smooth bottom-up presentation, quiet body",,,,,,,');
+    lines.push('ARM STRENGTH (70-FT):,,"1 = Rainbow throws, >2.60s pop time   |   3 (Travel Avg) = Clean transfer, accurate to 2B (~2.30–2.50s pop)   |   5 (Elite) = Firm line-drive carry (<2.25s pop)",,,,,,,');
+
+    return lines.join('\r\n');
+  }
+
+  // Export CSV Button Event
+  if (evalExportCsvBtn) {
+    evalExportCsvBtn.addEventListener('click', () => {
+      const csvData = generateEvaluationMatrixCsv();
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Bad_Hops_11U_Tryouts_Master_Evaluation_Nov21_2026.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   }
 

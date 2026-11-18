@@ -241,5 +241,10 @@ service cloud.firestore {
       // Only authorized personnel can delete registration entries.
       allow delete: if isAdmin();
     }
+
+    // Tryout Evaluation Station Scorecards & Master Matrix
+    match /tryout_evaluations/{evalId} {
+      allow read, write: if isAdmin();
+    }
   }
 }
