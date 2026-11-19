@@ -1816,18 +1816,38 @@ Natomas Sport Association`
     });
   }
 
-  // Generate Excel / CSV Content Matching User's Template
-  function generateEvaluationMatrixCsv() {
-    const lines = [];
+  // ==========================================
+  // Multi-Sheet Excel Workbook Export (.xlsx)
+  // Each station tab has its own dedicated sheet:
+  // 1. Master Summary
+  // 2. Hitting
+  // 3. Infield & IQ
+  // 4. Pitching
+  // 5. Catching
+  // ==========================================
 
-    // 1. MASTER EVALUATION SUMMARY
-    lines.push('BAD HOPS 11U — MASTER EVALUATION SUMMARY,,,,,,,,,,');
-    lines.push('"Date: Nov 21, 2026   |   Location: North Natomas Regional Park (Field 2)   |   Enter Roster Here — Station Tabs Auto-Sync",,,,,,,,,,');
-    lines.push(',,,,,,,,,,');
-    lines.push('PLAYER ROSTER,,,STATION SCORES (AUTO-PULLED),,,,COMPOSITE TOTALS & ROSTER TIER,,,');
-    lines.push('Jersey #,Player Name,Primary Pos,"Hitting\n(Max 15)","Field & IQ\n(Max 25)","Pitching\n(Max 15)","Catching\n(Max 15)","POS TOTAL\n(Max 40)",Pos Tier,"P/C COMBINED\n(Max 55)",Coach Notes');
+  function buildMasterSheetData() {
+    const rows = [];
+    rows.push(['BAD HOPS 11U — MASTER EVALUATION SUMMARY']);
+    rows.push(['Date: Nov 21, 2026   |   Location: North Natomas Regional Park (Field 2)   |   Station Tabs Auto-Sync to Master']);
+    rows.push([]);
+    rows.push(['PLAYER ROSTER', '', '', 'STATION SCORES (AUTO-PULLED)', '', '', '', 'COMPOSITE TOTALS & ROSTER TIER', '', '', '']);
+    rows.push([
+      'Jersey #',
+      'Player Name',
+      'Primary Pos',
+      'Hitting (Max 15)',
+      'Field & IQ (Max 25)',
+      'Pitching (Max 15)',
+      'Catching (Max 15)',
+      'POS TOTAL (Max 40)',
+      'Pos Tier',
+      'P/C COMBINED (Max 55)',
+      'Coach Notes'
+    ]);
 
-    let totHit = 0, totDef = 0, totPit = 0, totCat = 0, totPos = 0, totPc = 0, count = evaluationRoster.length;
+    let totHit = 0, totDef = 0, totPit = 0, totCat = 0, totPos = 0, totPc = 0;
+    const count = evaluationRoster.length;
 
     evaluationRoster.forEach(p => {
       const hit = calcHittingTotal(p);
@@ -1840,208 +1860,448 @@ Natomas Sport Association`
 
       totHit += hit; totDef += def; totPit += pit; totCat += cat; totPos += pos; totPc += pc;
 
-      lines.push([
-        escapeCsvCell(p.jersey),
-        escapeCsvCell(p.playerName),
-        escapeCsvCell(p.primaryPos),
-        hit || '',
-        def || '',
-        pit || '',
-        cat || '',
-        pos || '',
-        escapeCsvCell(posTierText),
-        pc || '',
-        escapeCsvCell(p.masterNotes)
-      ].join(','));
+      rows.push([
+        p.jersey || '',
+        p.playerName || '',
+        p.primaryPos || '',
+        hit || 0,
+        def || 0,
+        pit || 0,
+        cat || 0,
+        pos || 0,
+        posTierText,
+        pc || 0,
+        p.masterNotes || ''
+      ]);
     });
 
-    const avgHit = count ? (totHit / count).toFixed(1) : '0.0';
-    const avgDef = count ? (totDef / count).toFixed(1) : '0.0';
-    const avgPit = count ? (totPit / count).toFixed(1) : '0.0';
-    const avgCat = count ? (totCat / count).toFixed(1) : '0.0';
-    const avgPos = count ? (totPos / count).toFixed(1) : '0.0';
-    const avgPc = count ? (totPc / count).toFixed(1) : '0.0';
+    const avgHit = count ? Number((totHit / count).toFixed(1)) : 0;
+    const avgDef = count ? Number((totDef / count).toFixed(1)) : 0;
+    const avgPit = count ? Number((totPit / count).toFixed(1)) : 0;
+    const avgCat = count ? Number((totCat / count).toFixed(1)) : 0;
+    const avgPos = count ? Number((totPos / count).toFixed(1)) : 0;
+    const avgPc = count ? Number((totPc / count).toFixed(1)) : 0;
 
-    lines.push(`TRYOUT GROUP AVERAGE,,,${avgHit},${avgDef},${avgPit},${avgCat},${avgPos},,${avgPc},`);
-    lines.push(',,,,,,,,,,');
-    lines.push('HOW IT WORKS:,,"Enter Jersey #, Name, and Primary Pos on this Master Summary tab. All 4 station sheets auto-populate player names and feed scores back here.",,,,,,,,');
-    lines.push('POSITION CUTOFFS:,,32–40 pts = Core Lock (Up-the-middle / Top of order)   |   25–31 pts = Travel Roster Contributor   |   <25 pts = Winter Academy / Rec,,,,,,,,');
-    lines.push('P/C CUTOFFS:,,44–55 pts = Core Pitcher/Catcher Lock   |   36–43 pts = Travel Roster P/C   |   <36 pts = Developmental P/C,,,,,,,,');
+    rows.push([
+      'TRYOUT GROUP AVERAGE', '', '',
+      avgHit, avgDef, avgPit, avgCat, avgPos, '', avgPc, ''
+    ]);
+    rows.push([]);
+    rows.push(['HOW IT WORKS:', '', 'Jersey #, Name, and Pos sync across all station sheets. Station tabs auto-calculate and feed scores into Master Summary.']);
+    rows.push(['POSITION CUTOFFS:', '', '32–40 pts = Core Lock (Up-the-middle / Top of order)   |   25–31 pts = Travel Roster Contributor   |   <25 pts = Winter Academy / Rec']);
+    rows.push(['P/C CUTOFFS:', '', '44–55 pts = Core Pitcher/Catcher Lock   |   36–43 pts = Travel Roster P/C   |   <36 pts = Developmental P/C']);
 
-    // 2. HITTING & BUNTING
-    lines.push('BAD HOPS 11U — HITTING & BUNTING EVALUATION (BATTING CAGE),,,,,,,,');
-    lines.push('12-Pitch Cage Round: 3 Bunt Attempts (Sac/Drag) + 4 Front-Toss Swings + 5 Machine/Live-Arm Swings,,,,,,,,');
-    lines.push(',,,,,,,,');
-    lines.push('PLAYER INFO,,,CAGE EVALUATION METRICS (15 PTS MAX),,,,STATION SUMMARY,');
-    lines.push('Jersey #,Player Name,"Bats\n(R/L/S)","Bunting\n(1-5)","Swing Mech\n(1-5)","Hitting Ability\n(1-5)","HITTING TOT\n(Max 15)",Hitting Tier,Cage Coach Notes');
+    return rows;
+  }
 
-    let totBunt = 0, totSwing = 0, totHitAb = 0;
+  function buildHittingSheetData() {
+    const rows = [];
+    rows.push(['BAD HOPS 11U — HITTING & BUNTING EVALUATION (BATTING CAGE)']);
+    rows.push(['12-Pitch Cage Round: 3 Bunt Attempts (Sac/Drag) + 4 Front-Toss Swings + 5 Machine/Live-Arm Swings']);
+    rows.push([]);
+    rows.push(['PLAYER INFO', '', '', 'CAGE EVALUATION METRICS (15 PTS MAX)', '', '', 'STATION SUMMARY', '', '']);
+    rows.push([
+      'Jersey #',
+      'Player Name',
+      'Bats (R/L/S)',
+      'Bunting (1-5)',
+      'Swing Mech (1-5)',
+      'Hitting Ability (1-5)',
+      'HITTING TOT (Max 15)',
+      'Hitting Tier',
+      'Cage Coach Notes'
+    ]);
+
+    let totBunt = 0, totSwing = 0, totHitAb = 0, totHit = 0;
+    const count = evaluationRoster.length;
+
     evaluationRoster.forEach(p => {
       const tot = calcHittingTotal(p);
-      const tier = tot >= 12 ? 'Elite Hitter' : (tot >= 9 ? 'Travel Avg' : (tot > 0 ? 'Developing' : ''));
-      totBunt += Number(p.bunting) || 0;
-      totSwing += Number(p.swingMech) || 0;
-      totHitAb += Number(p.hittingAbility) || 0;
+      const tier = tot >= 12 ? 'Power / Top-Order' : (tot >= 9 ? 'Line Drive / Contact' : (tot > 0 ? 'Developing' : ''));
+      const bunt = Number(p.bunting) || 0;
+      const swing = Number(p.swingMech) || 0;
+      const hitAb = Number(p.hittingAbility) || 0;
+      totBunt += bunt;
+      totSwing += swing;
+      totHitAb += hitAb;
+      totHit += tot;
 
-      lines.push([
-        escapeCsvCell(p.jersey),
-        escapeCsvCell(p.playerName),
-        escapeCsvCell(p.bats),
-        p.bunting || '',
-        p.swingMech || '',
-        p.hittingAbility || '',
+      rows.push([
+        p.jersey || '',
+        p.playerName || '',
+        p.bats || '',
+        bunt || '',
+        swing || '',
+        hitAb || '',
         tot || '',
-        escapeCsvCell(tier),
-        escapeCsvCell(p.cageNotes)
-      ].join(','));
+        tier,
+        p.cageNotes || ''
+      ]);
     });
 
-    const avgBunt = count ? (totBunt / count).toFixed(1) : '0.0';
-    const avgSwing = count ? (totSwing / count).toFixed(1) : '0.0';
-    const avgHitAb = count ? (totHitAb / count).toFixed(1) : '0.0';
-    lines.push(`HITTING GROUP AVERAGE,,,${avgBunt},${avgSwing},${avgHitAb},${avgHit},,`);
-    lines.push(',,,,,,,,');
-    lines.push('BUNTING (3 Pitches):,,"1 = Stabs/misses/pops up 2+   |   3 = Squares early, deadens 2/3 in fair territory   |   5 = Cushions down either line on command",,,,,,');
-    lines.push('SWING MECHANICS:,,"1 = Bat drag/lunging/off-balance   |   3 = Connected load, direct path, balanced finish   |   5 = Explosive hip-shoulder separation, stays inside",,,,,,');
-    lines.push('HITTING ABILITY:,,"1 = Weak pull rollovers/whiffs   |   3 = Barrels 60%+ strikes, middle-field line drives   |   5 = Hard gap-to-gap line drives, adjusts to location",,,,,,');
+    const avgBunt = count ? Number((totBunt / count).toFixed(1)) : 0;
+    const avgSwing = count ? Number((totSwing / count).toFixed(1)) : 0;
+    const avgHitAb = count ? Number((totHitAb / count).toFixed(1)) : 0;
+    const avgHit = count ? Number((totHit / count).toFixed(1)) : 0;
 
-    // 3. INFIELD, DEFENSE, BASE RUNNING & IQ
-    lines.push('"BAD HOPS 11U — INFIELD, DEFENSE, BASE RUNNING & IQ EVALUATION",,,,,,,,,,');
-    lines.push('"5 Ground Balls (2 Straight, 2 Forehand/Backhand, 1 Slow Roller) + 4 Fly Balls + Timed Bases + 3 Situational 50/70 IQ Prompts",,,,,,,,,,');
-    lines.push(',,,,,,,,,,');
-    lines.push('PLAYER INFO,,,FIELDING & ATHLETICISM (20 PTS MAX),,,,,SITUATIONAL IQ & TOTAL (25 PTS MAX),,');
-    lines.push('Jersey #,Player Name,Primary Pos,"GB & Footwork\n(1-5)","Pop Flies\n(1-5)","Throw (Move)\n(1-5)","Base Running\n(1-5)","Baseball IQ\n(1-5)","FIELD & IQ TOT\n(Max 25)",Defense Tier,Field Coach Notes');
+    rows.push([
+      'HITTING GROUP AVERAGE', '', '',
+      avgBunt, avgSwing, avgHitAb, avgHit, '', ''
+    ]);
+    rows.push([]);
+    rows.push(['BUNTING (3 Pitches):', '', '1 = Stabs/misses/pops up 2+   |   3 = Squares early, deadens 2/3 in fair territory   |   5 = Cushions down either line on command']);
+    rows.push(['SWING MECHANICS:', '', '1 = Bat drag/lunging/off-balance   |   3 = Connected load, direct path, balanced finish   |   5 = Explosive hip-shoulder separation, stays inside']);
+    rows.push(['HITTING ABILITY:', '', '1 = Weak pull rollovers/whiffs   |   3 = Barrels 60%+ strikes, middle-field line drives   |   5 = Hard gap-to-gap line drives, adjusts to location']);
 
-    let totGb = 0, totPop = 0, totThr = 0, totBase = 0, totIq = 0;
+    return rows;
+  }
+
+  function buildInfieldSheetData() {
+    const rows = [];
+    rows.push(['BAD HOPS 11U — INFIELD, DEFENSE, BASE RUNNING & IQ EVALUATION']);
+    rows.push(['5 Ground Balls (2 Straight, 2 Forehand/Backhand, 1 Slow Roller) + 4 Fly Balls + Timed Bases + 3 Situational 50/70 IQ Prompts']);
+    rows.push([]);
+    rows.push(['PLAYER INFO', '', '', 'FIELDING & ATHLETICISM (20 PTS MAX)', '', '', '', 'SITUATIONAL IQ & TOTAL (25 PTS MAX)', '', '', '']);
+    rows.push([
+      'Jersey #',
+      'Player Name',
+      'Primary Pos',
+      'GB & Footwork (1-5)',
+      'Pop Flies (1-5)',
+      'Throw (Move) (1-5)',
+      'Base Running (1-5)',
+      'Baseball IQ (1-5)',
+      'FIELD & IQ TOT (Max 25)',
+      'Defense Tier',
+      'Field Coach Notes'
+    ]);
+
+    let totGb = 0, totPop = 0, totThr = 0, totBase = 0, totIq = 0, totDef = 0;
+    const count = evaluationRoster.length;
+
     evaluationRoster.forEach(p => {
       const tot = calcDefenseTotal(p);
-      const tier = tot >= 20 ? 'Elite Defender' : (tot >= 15 ? 'Solid Travel' : (tot > 0 ? 'Developing' : ''));
-      totGb += Number(p.gbFootwork) || 0;
-      totPop += Number(p.popFlies) || 0;
-      totThr += Number(p.throwMove) || 0;
-      totBase += Number(p.baseRunning) || 0;
-      totIq += Number(p.baseballIq) || 0;
+      const tier = tot >= 20 ? 'Elite Up-The-Middle' : (tot >= 15 ? 'Solid Travel Defender' : (tot > 0 ? 'Developing' : ''));
+      const gb = Number(p.gbFootwork) || 0;
+      const pop = Number(p.popFlies) || 0;
+      const thr = Number(p.throwMove) || 0;
+      const base = Number(p.baseRunning) || 0;
+      const iq = Number(p.baseballIq) || 0;
 
-      lines.push([
-        escapeCsvCell(p.jersey),
-        escapeCsvCell(p.playerName),
-        escapeCsvCell(p.primaryPos),
-        p.gbFootwork || '',
-        p.popFlies || '',
-        p.throwMove || '',
-        p.baseRunning || '',
-        p.baseballIq || '',
+      totGb += gb; totPop += pop; totThr += thr; totBase += base; totIq += iq; totDef += tot;
+
+      rows.push([
+        p.jersey || '',
+        p.playerName || '',
+        p.primaryPos || '',
+        gb || '',
+        pop || '',
+        thr || '',
+        base || '',
+        iq || '',
         tot || '',
-        escapeCsvCell(tier),
-        escapeCsvCell(p.fieldNotes)
-      ].join(','));
+        tier,
+        p.fieldNotes || ''
+      ]);
     });
 
-    const avgGb = count ? (totGb / count).toFixed(1) : '0.0';
-    const avgPop = count ? (totPop / count).toFixed(1) : '0.0';
-    const avgThr = count ? (totThr / count).toFixed(1) : '0.0';
-    const avgBase = count ? (totBase / count).toFixed(1) : '0.0';
-    const avgIq = count ? (totIq / count).toFixed(1) : '0.0';
-    lines.push(`INFIELD & IQ GROUP AVERAGE,,,${avgGb},${avgPop},${avgThr},${avgBase},${avgIq},${avgDef},,`);
-    lines.push(',,,,,,,,,,');
-    lines.push('GB & POP FLIES:,,"GB: 1 = Flat-footed/deep | 3 = Right-left through ball, soft hands | 5 = Prep step, fields on run.   Pop Fly: 3 = Drop-step, two hands above shoulder.",,,,,,,,');
-    lines.push('THROW & BASES:,,"Throw: 3 = Quick exchange, 4-seam grip, chest-high on run | 5 = Multi-slot carry.   Bases: 3 = Explosive 1st 3 steps, tight turns, 70-ft secondary lead.",,,,,,,,');
-    lines.push('BASEBALL IQ (50/70):,,"Test 3 live/verbal scenarios (e.g., R1 1-out GB to SS; Bases loaded 2-outs; cutoff alignment). 1 = Freezes | 3 = Knows force/cutoffs | 5 = Anticipates pre-pitch.",,,,,,,,');
+    const avgGb = count ? Number((totGb / count).toFixed(1)) : 0;
+    const avgPop = count ? Number((totPop / count).toFixed(1)) : 0;
+    const avgThr = count ? Number((totThr / count).toFixed(1)) : 0;
+    const avgBase = count ? Number((totBase / count).toFixed(1)) : 0;
+    const avgIq = count ? Number((totIq / count).toFixed(1)) : 0;
+    const avgDef = count ? Number((totDef / count).toFixed(1)) : 0;
 
-    // 4. PITCHING
-    lines.push('BAD HOPS 11U — PITCHING EVALUATION (10-PITCH BULLPEN),,,,,,,,,');
-    lines.push('6 Fastballs + 4 Secondary/Off-Speed Pitches (50-ft Mound)   |   Enter Jersey # for Pitchers Testing,,,,,,,,,');
-    lines.push(',,,,,,,,,');
-    lines.push('PITCHER INFO,,,BULLPEN METRICS (15 PTS MAX),,,,,PITCHING SUMMARY,');
-    lines.push('Jersey #,Player Name,"Throws\n(R/L)","FB Velo\n(MPH)","Speed Score\n(1-5)","Accuracy\n(1-5)","Add. Pitches\n(1-5)","PITCHING TOT\n(Max 15)",Pitching Tier,Pitching Coach Notes (Arm Action / Strike % / Secondary)');
+    rows.push([
+      'INFIELD & IQ GROUP AVERAGE', '', '',
+      avgGb, avgPop, avgThr, avgBase, avgIq, avgDef, '', ''
+    ]);
+    rows.push([]);
+    rows.push(['GB & POP FLIES:', '', 'GB: 1 = Flat-footed/deep | 3 = Right-left through ball, soft hands | 5 = Prep step, fields on run.   Pop Fly: 3 = Drop-step, two hands above shoulder.']);
+    rows.push(['THROW & BASES:', '', 'Throw: 3 = Quick exchange, 4-seam grip, chest-high on run | 5 = Multi-slot carry.   Bases: 3 = Explosive 1st 3 steps, tight turns, 70-ft secondary lead.']);
+    rows.push(['BASEBALL IQ (50/70):', '', 'Test 3 live/verbal scenarios (e.g., R1 1-out GB to SS; Bases loaded 2-outs; cutoff alignment). 1 = Freezes | 3 = Knows force/cutoffs | 5 = Anticipates pre-pitch.']);
 
-    let totSpeed = 0, totAcc = 0, totAddP = 0;
+    return rows;
+  }
+
+  function buildPitchingSheetData() {
+    const rows = [];
+    rows.push(['BAD HOPS 11U — PITCHING EVALUATION (10-PITCH BULLPEN)']);
+    rows.push(['6 Fastballs + 4 Secondary/Off-Speed Pitches (50-ft Mound)   |   Enter Jersey # for Pitchers Testing']);
+    rows.push([]);
+    rows.push(['PITCHER INFO', '', '', 'BULLPEN METRICS (15 PTS MAX)', '', '', '', 'PITCHING SUMMARY', '', '']);
+    rows.push([
+      'Jersey #',
+      'Player Name',
+      'Throws (R/L)',
+      'FB Velo (MPH)',
+      'Speed Score (1-5)',
+      'Accuracy (1-5)',
+      'Add. Pitches (1-5)',
+      'PITCHING TOT (Max 15)',
+      'Pitching Tier',
+      'Pitching Coach Notes (Arm Action / Strike % / Secondary)'
+    ]);
+
+    let totSpeed = 0, totAcc = 0, totAddP = 0, totPit = 0;
+    const count = evaluationRoster.length;
+
     evaluationRoster.forEach(p => {
       const tot = calcPitchingTotal(p);
-      const tier = tot >= 12 ? 'Rotation Ace' : (tot >= 9 ? 'Travel Bullpen' : (tot > 0 ? 'Developing' : ''));
-      totSpeed += Number(p.speedScore) || 0;
-      totAcc += Number(p.accuracy) || 0;
-      totAddP += Number(p.addPitches) || 0;
+      const tier = tot >= 12 ? 'Rotation Ace' : (tot >= 9 ? 'Reliable Strike-Thrower' : (tot > 0 ? 'Developmental Arm' : ''));
+      const spd = Number(p.speedScore) || 0;
+      const acc = Number(p.accuracy) || 0;
+      const addP = Number(p.addPitches) || 0;
 
-      lines.push([
-        escapeCsvCell(p.jersey),
-        escapeCsvCell(p.playerName),
-        escapeCsvCell(p.throws),
-        escapeCsvCell(p.fbVelo),
-        p.speedScore || '',
-        p.accuracy || '',
-        p.addPitches || '',
+      totSpeed += spd; totAcc += acc; totAddP += addP; totPit += tot;
+
+      rows.push([
+        p.jersey || '',
+        p.playerName || '',
+        p.throws || '',
+        p.fbVelo || '',
+        spd || '',
+        acc || '',
+        addP || '',
         tot || '',
-        escapeCsvCell(tier),
-        escapeCsvCell(p.pitchingNotes)
-      ].join(','));
+        tier,
+        p.pitchingNotes || ''
+      ]);
     });
 
-    const avgSpeed = count ? (totSpeed / count).toFixed(1) : '0.0';
-    const avgAcc = count ? (totAcc / count).toFixed(1) : '0.0';
-    const avgAddP = count ? (totAddP / count).toFixed(1) : '0.0';
-    lines.push(`PITCHING GROUP AVERAGE,,,,${avgSpeed},${avgAcc},${avgAddP},${avgPit},,`);
-    lines.push(',,,,,,,,,');
-    lines.push('SPEED (VELOCITY):,,1 = <46 mph (arm-only)   |   3 (Travel Avg) = 48–53 mph (uses lower half)   |   5 (Elite 11U) = 55+ mph (clean kinetic chain & hip drive),,,,,,,');
-    lines.push('ACCURACY (COMMAND):,,"1 = <40% strikes (erratic misses)   |   3 (Travel Avg) = 55–65% strikes around zone   |   5 (Elite 11U) = 70%+ strikes, works down & hits corners",,,,,,,');
-    lines.push('ADDITIONAL PITCHES:,,"1 = Fastball only (or unsafe/uncontrolled breaking ball)   |   3 = Reliable changeup w/ arm-speed deception   |   5 = Plus CH or safe, commanded CB/SL",,,,,,,');
+    const avgSpeed = count ? Number((totSpeed / count).toFixed(1)) : 0;
+    const avgAcc = count ? Number((totAcc / count).toFixed(1)) : 0;
+    const avgAddP = count ? Number((totAddP / count).toFixed(1)) : 0;
+    const avgPit = count ? Number((totPit / count).toFixed(1)) : 0;
 
-    // 5. CATCHING
-    lines.push('"BAD HOPS 11U — CATCHING EVALUATION (BLOCKING, FRAMING & ARM)",,,,,,,,,');
-    lines.push('5 Dirt Blocks + 5 Borderline Frames + 3 Pop-Time Throws to 2B (70-ft Bases)   |   Enter Jersey # for Catchers Testing,,,,,,,,,');
-    lines.push(',,,,,,,,,');
-    lines.push('CATCHER INFO,,,CATCHING METRICS (15 PTS MAX),,,,,CATCHING SUMMARY,');
-    lines.push('Jersey #,Player Name,"Throws\n(R/L)","Pop Time\n(Sec)","Blocking/Mvt\n(1-5)","Framing\n(1-5)","Arm Strength\n(1-5)","CATCHING TOT\n(Max 15)",Catching Tier,Catching Coach Notes (Stance / Exchange / Footwork)');
+    rows.push([
+      'PITCHING GROUP AVERAGE', '', '',
+      '', avgSpeed, avgAcc, avgAddP, avgPit, '', ''
+    ]);
+    rows.push([]);
+    rows.push(['SPEED (VELOCITY):', '', '1 = <46 mph (arm-only)   |   3 (Travel Avg) = 48–53 mph (uses lower half)   |   5 (Elite 11U) = 55+ mph (clean kinetic chain & hip drive)']);
+    rows.push(['ACCURACY (COMMAND):', '', '1 = <40% strikes (erratic misses)   |   3 (Travel Avg) = 55–65% strikes around zone   |   5 (Elite 11U) = 70%+ strikes, works down & hits corners']);
+    rows.push(['ADDITIONAL PITCHES:', '', '1 = Fastball only (or unsafe/uncontrolled breaking ball)   |   3 = Reliable changeup w/ arm-speed deception   |   5 = Plus CH or safe, commanded CB/SL']);
 
-    let totBlk = 0, totFrm = 0, totArm = 0;
+    return rows;
+  }
+
+  function buildCatchingSheetData() {
+    const rows = [];
+    rows.push(['BAD HOPS 11U — CATCHING EVALUATION (BLOCKING, FRAMING & ARM)']);
+    rows.push(['5 Dirt Blocks + 5 Borderline Frames + 3 Pop-Time Throws to 2B (70-ft Bases)   |   Enter Jersey # for Catchers Testing']);
+    rows.push([]);
+    rows.push(['CATCHER INFO', '', '', 'CATCHING METRICS (15 PTS MAX)', '', '', '', 'CATCHING SUMMARY', '', '']);
+    rows.push([
+      'Jersey #',
+      'Player Name',
+      'Throws (R/L)',
+      'Pop Time (Sec)',
+      'Blocking/Mvt (1-5)',
+      'Framing (1-5)',
+      'Arm Strength (1-5)',
+      'CATCHING TOT (Max 15)',
+      'Catching Tier',
+      'Catching Coach Notes (Stance / Exchange / Footwork)'
+    ]);
+
+    let totBlk = 0, totFrm = 0, totArm = 0, totCat = 0;
+    const count = evaluationRoster.length;
+
     evaluationRoster.forEach(p => {
       const tot = calcCatchingTotal(p);
       const tier = tot >= 12 ? 'Core Catcher' : (tot >= 9 ? 'Travel Backup' : (tot > 0 ? 'Developing' : ''));
-      totBlk += Number(p.blockingMvt) || 0;
-      totFrm += Number(p.framing) || 0;
-      totArm += Number(p.armStrength) || 0;
+      const blk = Number(p.blockingMvt) || 0;
+      const frm = Number(p.framing) || 0;
+      const arm = Number(p.armStrength) || 0;
 
-      lines.push([
-        escapeCsvCell(p.jersey),
-        escapeCsvCell(p.playerName),
-        escapeCsvCell(p.throws),
-        escapeCsvCell(p.popTime),
-        p.blockingMvt || '',
-        p.framing || '',
-        p.armStrength || '',
+      totBlk += blk; totFrm += frm; totArm += arm; totCat += tot;
+
+      rows.push([
+        p.jersey || '',
+        p.playerName || '',
+        p.throws || '',
+        p.popTime || '',
+        blk || '',
+        frm || '',
+        arm || '',
         tot || '',
-        escapeCsvCell(tier),
-        escapeCsvCell(p.catchingNotes)
-      ].join(','));
+        tier,
+        p.catchingNotes || ''
+      ]);
     });
 
-    const avgBlk = count ? (totBlk / count).toFixed(1) : '0.0';
-    const avgFrm = count ? (totFrm / count).toFixed(1) : '0.0';
-    const avgArm = count ? (totArm / count).toFixed(1) : '0.0';
-    lines.push(`CATCHING GROUP AVERAGE,,,,${avgBlk},${avgFrm},${avgArm},${avgCat},,`);
-    lines.push(',,,,,,,,,');
-    lines.push('BLOCKING & MOVEMENT:,,"1 = Reaches w/ glove, kicks balls away   |   3 (Travel Avg) = Drops knees quickly, keeps within reach   |   5 (Elite) = Explodes laterally, smothers dead",,,,,,,');
-    lines.push('FRAMING (RECEIVING):,,"1 = Stabs/pulls borderline strikes out   |   3 (Travel Avg) = Quiet glove, sticks borderline pitches   |   5 (Elite) = Smooth bottom-up presentation, quiet body",,,,,,,');
-    lines.push('ARM STRENGTH (70-FT):,,"1 = Rainbow throws, >2.60s pop time   |   3 (Travel Avg) = Clean transfer, accurate to 2B (~2.30–2.50s pop)   |   5 (Elite) = Firm line-drive carry (<2.25s pop)",,,,,,,');
+    const avgBlk = count ? Number((totBlk / count).toFixed(1)) : 0;
+    const avgFrm = count ? Number((totFrm / count).toFixed(1)) : 0;
+    const avgArm = count ? Number((totArm / count).toFixed(1)) : 0;
+    const avgCat = count ? Number((totCat / count).toFixed(1)) : 0;
 
-    return lines.join('\r\n');
+    rows.push([
+      'CATCHING GROUP AVERAGE', '', '',
+      '', avgBlk, avgFrm, avgArm, avgCat, '', ''
+    ]);
+    rows.push([]);
+    rows.push(['BLOCKING & MOVEMENT:', '', '1 = Reaches w/ glove, kicks balls away   |   3 (Travel Avg) = Drops knees quickly, keeps within reach   |   5 (Elite) = Explodes laterally, smothers dead']);
+    rows.push(['FRAMING (RECEIVING):', '', '1 = Stabs/pulls borderline strikes out   |   3 (Travel Avg) = Quiet glove, sticks borderline pitches   |   5 (Elite) = Smooth bottom-up presentation, quiet body']);
+    rows.push(['ARM STRENGTH (70-FT):', '', '1 = Rainbow throws, >2.60s pop time   |   3 (Travel Avg) = Clean transfer, accurate to 2B (~2.30–2.50s pop)   |   5 (Elite) = Firm line-drive carry (<2.25s pop)']);
+
+    return rows;
   }
 
-  // Export CSV Button Event
+  // Multi-Sheet Excel XML Fallback (works offline without external dependencies)
+  function generateMultiSheetExcelXml() {
+    const sheets = [
+      { name: 'Master Summary', data: buildMasterSheetData() },
+      { name: 'Hitting', data: buildHittingSheetData() },
+      { name: 'Infield & IQ', data: buildInfieldSheetData() },
+      { name: 'Pitching', data: buildPitchingSheetData() },
+      { name: 'Catching', data: buildCatchingSheetData() }
+    ];
+
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\r\n' +
+      '<?mso-application progid="Excel.Sheet"?>\r\n' +
+      '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\r\n' +
+      ' xmlns:o="urn:schemas-microsoft-com:office:office"\r\n' +
+      ' xmlns:x="urn:schemas-microsoft-com:office:excel"\r\n' +
+      ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"\r\n' +
+      ' xmlns:html="http://www.w3.org/TR/REC-html40">\r\n' +
+      ' <Styles>\r\n' +
+      '  <Style ss:ID="Default" ss:Name="Normal">\r\n' +
+      '   <Alignment ss:Vertical="Center"/>\r\n' +
+      '   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>\r\n' +
+      '  </Style>\r\n' +
+      ' </Styles>\r\n';
+
+    sheets.forEach(sh => {
+      xml += ` <Worksheet ss:Name="${escapeXmlAttr(sh.name)}">\r\n  <Table>\r\n`;
+      sh.data.forEach(row => {
+        xml += '   <Row>\r\n';
+        row.forEach(cell => {
+          if (cell === null || cell === undefined || cell === '') {
+            xml += '    <Cell><Data ss:Type="String"></Data></Cell>\r\n';
+          } else if (typeof cell === 'number' && !isNaN(cell)) {
+            xml += `    <Cell><Data ss:Type="Number">${cell}</Data></Cell>\r\n`;
+          } else {
+            xml += `    <Cell><Data ss:Type="String">${escapeXmlAttr(String(cell))}</Data></Cell>\r\n`;
+          }
+        });
+        xml += '   </Row>\r\n';
+      });
+      xml += '  </Table>\r\n </Worksheet>\r\n';
+    });
+
+    xml += '</Workbook>';
+    return xml;
+  }
+
+  function escapeXmlAttr(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  // Master Excel Export Function
+  async function exportMultiSheetEvaluationExcel() {
+    const filename = 'Bad_Hops_11U_Player_Evaluation_Scorecard_Nov21_2026';
+
+    // 1. If SheetJS (XLSX) is available or can be loaded, export authentic .xlsx
+    if (!window.XLSX) {
+      try {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+          script.onload = () => resolve();
+          script.onerror = () => {
+            const fallback = document.createElement('script');
+            fallback.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+            fallback.onload = () => resolve();
+            fallback.onerror = () => reject(new Error('SheetJS script could not load'));
+            document.head.appendChild(fallback);
+          };
+          document.head.appendChild(script);
+        });
+      } catch (e) {
+        console.warn('Could not load SheetJS from CDN, proceeding with multi-sheet XML workbook:', e);
+      }
+    }
+
+    if (window.XLSX) {
+      try {
+        const wb = window.XLSX.utils.book_new();
+
+        // 1. Master Summary sheet
+        const wsMaster = window.XLSX.utils.aoa_to_sheet(buildMasterSheetData());
+        wsMaster['!cols'] = [
+          { wch: 10 }, { wch: 24 }, { wch: 14 },
+          { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 },
+          { wch: 16 }, { wch: 20 }, { wch: 20 }, { wch: 35 }
+        ];
+        window.XLSX.utils.book_append_sheet(wb, wsMaster, 'Master Summary');
+
+        // 2. Hitting sheet
+        const wsHitting = window.XLSX.utils.aoa_to_sheet(buildHittingSheetData());
+        wsHitting['!cols'] = [
+          { wch: 10 }, { wch: 24 }, { wch: 12 },
+          { wch: 14 }, { wch: 15 }, { wch: 18 },
+          { wch: 18 }, { wch: 18 }, { wch: 35 }
+        ];
+        window.XLSX.utils.book_append_sheet(wb, wsHitting, 'Hitting');
+
+        // 3. Infield & IQ sheet
+        const wsInfield = window.XLSX.utils.aoa_to_sheet(buildInfieldSheetData());
+        wsInfield['!cols'] = [
+          { wch: 10 }, { wch: 24 }, { wch: 14 },
+          { wch: 16 }, { wch: 14 }, { wch: 16 }, { wch: 16 }, { wch: 16 },
+          { wch: 18 }, { wch: 18 }, { wch: 35 }
+        ];
+        window.XLSX.utils.book_append_sheet(wb, wsInfield, 'Infield & IQ');
+
+        // 4. Pitching sheet
+        const wsPitching = window.XLSX.utils.aoa_to_sheet(buildPitchingSheetData());
+        wsPitching['!cols'] = [
+          { wch: 10 }, { wch: 24 }, { wch: 12 },
+          { wch: 14 }, { wch: 16 }, { wch: 15 }, { wch: 16 },
+          { wch: 18 }, { wch: 18 }, { wch: 40 }
+        ];
+        window.XLSX.utils.book_append_sheet(wb, wsPitching, 'Pitching');
+
+        // 5. Catching sheet
+        const wsCatching = window.XLSX.utils.aoa_to_sheet(buildCatchingSheetData());
+        wsCatching['!cols'] = [
+          { wch: 10 }, { wch: 24 }, { wch: 12 },
+          { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 16 },
+          { wch: 18 }, { wch: 18 }, { wch: 40 }
+        ];
+        window.XLSX.utils.book_append_sheet(wb, wsCatching, 'Catching');
+
+        window.XLSX.writeFile(wb, `${filename}.xlsx`);
+        return;
+      } catch (err) {
+        console.error('SheetJS write error, fallback to multi-sheet XML workbook:', err);
+      }
+    }
+
+    // 2. Fallback: Multi-Sheet Excel XML (.xls)
+    const xmlContent = generateMultiSheetExcelXml();
+    const blob = new Blob([xmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}.xls`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // Export Excel Workbook Button Event
   if (evalExportCsvBtn) {
     evalExportCsvBtn.addEventListener('click', () => {
-      const csvData = generateEvaluationMatrixCsv();
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `Bad_Hops_11U_Tryouts_Master_Evaluation_Nov21_2026.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      exportMultiSheetEvaluationExcel();
     });
   }
-
   // Helper Functions
   function escapeCsvCell(cell) {
     const stringVal = String(cell ?? '');
